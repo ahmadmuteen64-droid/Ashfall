@@ -391,19 +391,44 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 
 [node name="Atrium" parent="LevelRoot" unique_id=1648937880 instance=ExtResource("14_u2p2s")]
 
+[node name="Floor_G0" parent="LevelRoot/Atrium" unique_id=1035255803 instance=ExtResource("12_i5mec")]
+
+[node name="Floor_G1" parent="LevelRoot/Atrium" unique_id=921206324 instance=ExtResource("12_i5mec")]
+
+[node name="Floor_G2" parent="LevelRoot/Atrium" unique_id=353265602 instance=ExtResource("12_i5mec")]
+
 [node name="Gatehouse" parent="LevelRoot" unique_id=1546615854 instance=ExtResource("15_llfdw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+
+[node name="Floor_G3" parent="LevelRoot/Gatehouse" unique_id=1194682024 instance=ExtResource("12_i5mec")]
+
+[node name="Floor_G4" parent="LevelRoot/Gatehouse" unique_id=1826437222 instance=ExtResource("12_i5mec")]
+
+[node name="Floor_G5" parent="LevelRoot/Gatehouse" unique_id=1268865989 instance=ExtResource("12_i5mec")]
 
 [node name="CascadeGardens" parent="LevelRoot" unique_id=1557595301 instance=ExtResource("16_80eyj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 3, 0)
+
+[node name="Floor_G0" parent="LevelRoot/CascadeGardens" unique_id=2032650381 instance=ExtResource("12_i5mec")]
+
+[node name="Floor_G1" parent="LevelRoot/CascadeGardens" unique_id=117729197 instance=ExtResource("12_i5mec")]
+
+[node name="Floor_G2" parent="LevelRoot/CascadeGardens" unique_id=1164772725 instance=ExtResource("12_i5mec")]
 
 [node name="VerdantCreep" parent="LevelRoot" unique_id=1210701405 instance=ExtResource("17_wlwgd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 20)
 
 [node name="LivingQuarters" parent="LevelRoot" unique_id=289127026 instance=ExtResource("18_4m2ge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 15)
 
 [node name="Aviary" parent="LevelRoot" unique_id=1513773066 instance=ExtResource("19_exqdm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 12, 10)
 
 [node name="CelestialRing" parent="LevelRoot" unique_id=1997926398 instance=ExtResource("20_713oj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 18, -5)
 
 [node name="StasisSanctum" parent="LevelRoot" unique_id=1051195920 instance=ExtResource("21_r3w6i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -25)
 
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
 
