@@ -15,9 +15,17 @@
 [ext_resource type="PackedScene" uid="uid://b56mn8u3qk2nh" path="res://kit/kit_ground_2x2.tscn" id="12_i5mec"]
 [ext_resource type="Script" uid="uid://cde2lhm66ap54" path="res://scripts/components/loop_beacon.gd" id="13_5bu78"]
 [ext_resource type="PackedScene" uid="uid://dxosr42kpgg25" path="res://scenes/ui/inventory.tscn" id="13_oaya2"]
+[ext_resource type="PackedScene" path="res://scenes/world/districts/atrium/atrium.tscn" id="14_u2p2s"]
 [ext_resource type="PackedScene" uid="uid://dyxkiaitb7plq" path="res://scenes/ui/experiment_station.tscn" id="14_wcbaq"]
+[ext_resource type="PackedScene" path="res://scenes/world/districts/gatehouse/gatehouse.tscn" id="15_llfdw"]
 [ext_resource type="Script" uid="uid://cvuh68m480ii7" path="res://scripts/systems/unlocks.gd" id="15_r1kpy"]
+[ext_resource type="PackedScene" path="res://scenes/world/districts/cascade_gardens/cascade_gardens.tscn" id="16_80eyj"]
+[ext_resource type="PackedScene" path="res://scenes/world/districts/verdant_creep/verdant_creep.tscn" id="17_wlwgd"]
+[ext_resource type="PackedScene" path="res://scenes/world/districts/living_quarters/living_quarters.tscn" id="18_4m2ge"]
 [ext_resource type="Script" uid="uid://3cuyes1yrw0l" path="res://scripts/systems/ecology.gd" id="18_pibea"]
+[ext_resource type="PackedScene" path="res://scenes/world/districts/aviary/aviary.tscn" id="19_exqdm"]
+[ext_resource type="PackedScene" path="res://scenes/world/districts/celestial_ring/celestial_ring.tscn" id="20_713oj"]
+[ext_resource type="PackedScene" path="res://scenes/world/districts/stasis_sanctum/stasis_sanctum.tscn" id="21_r3w6i"]
 
 [sub_resource type="Environment" id="Environment_7tdlr"]
 background_mode = 1
@@ -115,7 +123,7 @@ script = ExtResource("8_j0r68")
 observable_id = "shrine_test_orb"
 
 [node name="Visual" type="MeshInstance3D" parent="LevelRoot/TestInteractable" unique_id=860051186]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3121266, 0.3, 0)
 mesh = SubResource("SphereMesh_r1kpy")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/TestInteractable" unique_id=558017172]
@@ -380,6 +388,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
 [node name="Garden_G8" parent="LevelRoot/Region_Garden" unique_id=1995052875 instance=ExtResource("12_i5mec")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="Atrium" parent="LevelRoot" unique_id=1648937880 instance=ExtResource("14_u2p2s")]
+
+[node name="Gatehouse" parent="LevelRoot" unique_id=1546615854 instance=ExtResource("15_llfdw")]
+
+[node name="CascadeGardens" parent="LevelRoot" unique_id=1557595301 instance=ExtResource("16_80eyj")]
+
+[node name="VerdantCreep" parent="LevelRoot" unique_id=1210701405 instance=ExtResource("17_wlwgd")]
+
+[node name="LivingQuarters" parent="LevelRoot" unique_id=289127026 instance=ExtResource("18_4m2ge")]
+
+[node name="Aviary" parent="LevelRoot" unique_id=1513773066 instance=ExtResource("19_exqdm")]
+
+[node name="CelestialRing" parent="LevelRoot" unique_id=1997926398 instance=ExtResource("20_713oj")]
+
+[node name="StasisSanctum" parent="LevelRoot" unique_id=1051195920 instance=ExtResource("21_r3w6i")]
 
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
 
