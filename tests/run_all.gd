@@ -24,6 +24,7 @@ func _ready() -> void:
 	_loop()
 	_ring1()
 	_spatial_coherence()
+	_void_detection()
 
 	_cleanup_autoload_codex()
 
@@ -256,3 +257,33 @@ func _spatial_coherence() -> void:
 			"spatial:" + rid + " floor-dist=" + "%.1f" % floor_dist)
 		_check(reach <= _SC_SENSOR_RANGE,
 			"spatial:" + rid + " reachable=" + "%.1f" % reach)
+
+
+# --- void_detection: invariant 3 (player cannot fall out of world) ---
+# Checks that every region beacon has floor tiles beneath it.
+# Data from main.tscn: Region_Mine has 9 ground tiles, Foundry & Garden have 0.
+# THIS TEST IS EXPECTED TO FAIL until R5 adds floors to Foundry and Garden.
+
+func _void_detection() -> void:
+	# Regions with beacons and their floor-tile count
+	var regions: Array[Dictionary] = [
+		{name="Region_Mine",    floor_tiles=9,  beacon_y=0},
+		{name="Region_Foundry", floor_tiles=0,  beacon_y=4},
+		{name="Region_Garden",  floor_tiles=0,  beacon_y=10},
+	]
+
+	for r in regions:
+		var name: String = r["name"]
+		var tiles: int = r["floor_tiles"]
+		var by: float = r["beacon_y"]
+
+		if tiles == 0:
+			print("VOID_DETECTED:" + name)
+			_check(false, "void:" + name + " has 0 floor tiles (expected >=1)")
+		else:
+			_check(true, "void:" + name + " has " + str(tiles) + " floor tiles")
+
+		# Beacon must be within 3m of floor (y=0)
+		var floor_dist: float = abs(by - 0.0)
+		_check(floor_dist <= 3.0,
+			"void:" + name + " beacon floor-dist=" + "%.1f" % floor_dist)
