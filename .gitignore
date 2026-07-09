@@ -2,3 +2,6 @@
 .godot/
 /android/
 .llm/.phase
+
+# Cognee local stores (vector/graph/metadata) — rebuildable, never commit
+cognee/storage/
