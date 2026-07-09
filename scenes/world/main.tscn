@@ -122,13 +122,13 @@ mesh = SubResource("SphereMesh_r1kpy")
 shape = SubResource("SphereShape3D_i5mec")
 
 [node name="Gate_Test" parent="LevelRoot" unique_id=1247079620 instance=ExtResource("9_85j56")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 47)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 47)
 script = ExtResource("10_qip8x")
 require_knows = "resonance_basics"
 gate_id = "shrine_gate"
 
 [node name="Crystal_Resonant" type="Area3D" parent="LevelRoot" unique_id=1989163651]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -5, 32)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 32)
 script = ExtResource("7_j0r68")
 interactable_id = "crystal_resonant"
 
@@ -146,7 +146,7 @@ mesh = SubResource("BoxMesh_i5mec")
 shape = SubResource("BoxShape3D_5bu78")
 
 [node name="Crystal_Collect" type="Area3D" parent="LevelRoot" unique_id=78999405]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -5, 30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 30)
 script = ExtResource("7_j0r68")
 interact_type = 1
 interactable_id = "crystal_collect"
@@ -163,7 +163,7 @@ mesh = SubResource("BoxMesh_5bu78")
 shape = SubResource("BoxShape3D_pibea")
 
 [node name="Moss_Plaza" type="Area3D" parent="LevelRoot" unique_id=703625071]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -14)
 script = ExtResource("7_j0r68")
 interact_type = 1
 interactable_id = "moss_plaza"
@@ -180,7 +180,7 @@ mesh = SubResource("BoxMesh_pibea")
 shape = SubResource("BoxShape3D_bolr6")
 
 [node name="Vine_Forest" type="Area3D" parent="LevelRoot" unique_id=30929751]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 script = ExtResource("7_j0r68")
 interact_type = 1
 interactable_id = "vine_forest"
@@ -197,7 +197,7 @@ mesh = SubResource("CylinderMesh_bolr6")
 shape = SubResource("CylinderShape3D_hbyw3")
 
 [node name="Station_Plaza" type="Area3D" parent="LevelRoot" unique_id=242163483]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -14)
 script = ExtResource("7_j0r68")
 interact_type = 2
 interactable_id = "combine_station"
@@ -310,7 +310,7 @@ beacon_id = "MineDistrict"
 shape = SubResource("BoxShape3D_hbyw3")
 
 [node name="Region_Foundry" type="Node3D" parent="LevelRoot" unique_id=64966312]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 0, 0)
 
 [node name="Beacon_Foundry" type="Area3D" parent="LevelRoot/Region_Foundry" unique_id=1081078557]
 script = ExtResource("13_5bu78")
@@ -319,8 +319,34 @@ beacon_id = "FoundryDistrict"
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Region_Foundry/Beacon_Foundry" unique_id=1053334061]
 shape = SubResource("BoxShape3D_6gnby")
 
+[node name="Foundry_G0" parent="LevelRoot/Region_Foundry" unique_id=1079992190 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+
+[node name="Foundry_G1" parent="LevelRoot/Region_Foundry" unique_id=131674158 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Foundry_G2" parent="LevelRoot/Region_Foundry" unique_id=2015131255 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="Foundry_G3" parent="LevelRoot/Region_Foundry" unique_id=2048853388 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Foundry_G4" parent="LevelRoot/Region_Foundry" unique_id=1480423547 instance=ExtResource("12_i5mec")]
+
+[node name="Foundry_G5" parent="LevelRoot/Region_Foundry" unique_id=44504630 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Foundry_G6" parent="LevelRoot/Region_Foundry" unique_id=2062964736 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+
+[node name="Foundry_G7" parent="LevelRoot/Region_Foundry" unique_id=1240501581 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Foundry_G8" parent="LevelRoot/Region_Foundry" unique_id=2079615160 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
 [node name="Region_Garden" type="Node3D" parent="LevelRoot" unique_id=1545329170]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 70)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 70)
 
 [node name="Beacon_Garden" type="Area3D" parent="LevelRoot/Region_Garden" unique_id=2109111575]
 script = ExtResource("13_5bu78")
@@ -328,6 +354,32 @@ beacon_id = "GardenDistrict"
 
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Region_Garden/Beacon_Garden" unique_id=687289954]
 shape = SubResource("BoxShape3D_wrw41")
+
+[node name="Garden_G0" parent="LevelRoot/Region_Garden" unique_id=1551535835 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+
+[node name="Garden_G1" parent="LevelRoot/Region_Garden" unique_id=1048345925 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Garden_G2" parent="LevelRoot/Region_Garden" unique_id=494888260 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="Garden_G3" parent="LevelRoot/Region_Garden" unique_id=753679659 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Garden_G4" parent="LevelRoot/Region_Garden" unique_id=1999565189 instance=ExtResource("12_i5mec")]
+
+[node name="Garden_G5" parent="LevelRoot/Region_Garden" unique_id=1124331910 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Garden_G6" parent="LevelRoot/Region_Garden" unique_id=2019424128 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+
+[node name="Garden_G7" parent="LevelRoot/Region_Garden" unique_id=1012665551 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Garden_G8" parent="LevelRoot/Region_Garden" unique_id=1995052875 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
 

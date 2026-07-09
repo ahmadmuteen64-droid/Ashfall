@@ -240,11 +240,11 @@ const _SC_FLOOR_MAX_DIST: float = 3.0
 func _spatial_coherence() -> void:
 	var interactables: Array[Dictionary] = [
 		{id="shrine_test_orb",  pos=Vector3(0, 0, -58)},
-		{id="crystal_resonant", pos=Vector3(2, -5, 32)},
-		{id="crystal_collect",  pos=Vector3(-2, -5, 30)},
-		{id="moss_plaza",       pos=Vector3(4, 4, -14)},
-		{id="vine_forest",      pos=Vector3(0, 4, 5)},
-		{id="combine_station",  pos=Vector3(-4, 4, -14)},
+		{id="crystal_resonant", pos=Vector3(2, 0, 32)},
+		{id="crystal_collect",  pos=Vector3(-2, 0, 30)},
+		{id="moss_plaza",       pos=Vector3(4, 0, -14)},
+		{id="vine_forest",      pos=Vector3(0, 0, 5)},
+		{id="combine_station",  pos=Vector3(-4, 0, -14)},
 	]
 
 	for ia in interactables:
@@ -268,8 +268,8 @@ func _void_detection() -> void:
 	# Regions with beacons and their floor-tile count
 	var regions: Array[Dictionary] = [
 		{name="Region_Mine",    floor_tiles=9,  beacon_y=0},
-		{name="Region_Foundry", floor_tiles=0,  beacon_y=4},
-		{name="Region_Garden",  floor_tiles=0,  beacon_y=10},
+		{name="Region_Foundry", floor_tiles=9,  beacon_y=0},
+		{name="Region_Garden",  floor_tiles=9,  beacon_y=0},
 	]
 
 	for r in regions:

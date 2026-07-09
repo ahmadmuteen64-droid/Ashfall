@@ -29,11 +29,11 @@ func _ready() -> void:
 	# Format: [name, interactable_id, collider_pos, visual_local_offset]
 	var interactables: Array[Dictionary] = [
 		{name="TestInteractable",    id="shrine_test_orb", pos=Vector3(0, 0, -58),    vis=Vector3(0, 0.3, 0)},
-		{name="Crystal_Resonant",    id="crystal_resonant", pos=Vector3(2, -5, 32),    vis=Vector3(0, 0.3, 0)},
-		{name="Crystal_Collect",     id="crystal_collect",  pos=Vector3(-2, -5, 30),   vis=Vector3(0, 0.25, 0)},
-		{name="Moss_Plaza",          id="moss_plaza",       pos=Vector3(4, 4, -14),    vis=Vector3(0, 0.05, 0)},
-		{name="Vine_Forest",         id="vine_forest",      pos=Vector3(0, 4, 5),      vis=Vector3(0, 0.5, 0)},
-		{name="Station_Plaza",       id="combine_station",  pos=Vector3(-4, 4, -14),   vis=Vector3(0, 0.75, 0)},
+		{name="Crystal_Resonant",    id="crystal_resonant", pos=Vector3(2, 0, 32),    vis=Vector3(0, 0.3, 0)},
+		{name="Crystal_Collect",     id="crystal_collect",  pos=Vector3(-2, 0, 30),   vis=Vector3(0, 0.25, 0)},
+		{name="Moss_Plaza",          id="moss_plaza",       pos=Vector3(4, 0, -14),   vis=Vector3(0, 0.05, 0)},
+		{name="Vine_Forest",         id="vine_forest",      pos=Vector3(0, 0, 5),     vis=Vector3(0, 0.5, 0)},
+		{name="Station_Plaza",       id="combine_station",  pos=Vector3(-4, 0, -14),  vis=Vector3(0, 0.75, 0)},
 	]
 
 	for ia in interactables:
@@ -49,9 +49,9 @@ func _ready() -> void:
 	# ── Gates (Node3D with gate.gd script) ─────────────────────────
 	# Format: [name, gate_id, gate_transform, barrier_local_offset]
 	var gates: Array[Dictionary] = [
-		{name="Gate_Test",        gid="shrine_gate", pos=Vector3(0, 10, 47),   barrier=Vector3.ZERO},
-		{name="Gate_UnlockCache", gid="",            pos=Vector3(-4, -5, 32),   barrier=Vector3.ZERO},
-		{name="Gate_HiddenPath",  gid="",            pos=Vector3(4, 4, -10),    barrier=Vector3.ZERO},
+		{name="Gate_Test",        gid="shrine_gate", pos=Vector3(0, 0, 47),   barrier=Vector3.ZERO},
+		{name="Gate_UnlockCache", gid="",            pos=Vector3(-4, -5, 32),  barrier=Vector3.ZERO},
+		{name="Gate_HiddenPath",  gid="",            pos=Vector3(4, 4, -10),   barrier=Vector3.ZERO},
 	]
 
 	for gate in gates:
