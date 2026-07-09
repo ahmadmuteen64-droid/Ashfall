@@ -1,48 +1,69 @@
+# ecology.gd — W3: Harvest, regen, succession
 extends Node
 
-var _harvested: Dictionary = {}  # node_path -> cycles_until_regen
+var _harvested: Dictionary = {}   # species_id → cycles_until_regen
+var _population: Dictionary = {}  # species_id → int (current count)
+var _dependents: Dictionary = {} # species_id → Array[String] (species that depend on it)
+
+const REGEN_CYCLES: int = 5  # day cycles to regrow
+const MAX_POPULATION: int = 10
 
 
 func _ready() -> void:
-	var tm := get_node_or_null("/root/TimeManager")
-	if tm and tm.has_signal("time_cycled"):
-		pass  # TimeManager doesn't have this signal — we poll instead
+	_init_populations()
+
+
+func _init_populations() -> void:
+	# Load all material defs as species
+	var dir := DirAccess.open("res://data/materials/")
+	if not dir:
+		return
+	dir.list_dir_begin()
+	var fn := dir.get_next()
+	while fn != "":
+		if fn.ends_with(".tres"):
+			var mid := fn.replace(".tres", "")
+			_population[mid] = MAX_POPULATION
+		fn = dir.get_next()
 
 
 func _process(_delta: float) -> void:
-	# Check for regen: after 2 cycles, respawn harvested items
-	var to_restore: Array[String] = []
-	for path in _harvested:
-		_harvested[path] -= 1  # decrement each frame... this is rough
-		if _harvested[path] <= 0:
-			to_restore.append(path)
-	for path in to_restore:
-		_harvested.erase(path)
-		var node := get_node_or_null(path)
-		if node:
-			node.visible = true
-			node.set_process(true)
-			print("ECOLOGY_REGEN:" + path)
+	var tm := get_node_or_null("/root/TimeManager")
+	if not tm:
+		return
+	# Regenerate each day cycle
+	var phase: String = tm.get_phase()
+	if phase == "dawn":
+		for species in _harvested:
+			_harvested[species] -= 1
+			if _harvested[species] <= 0:
+				_harvested.erase(species)
+				_population[species] = mini(_population.get(species, 0) + 3, MAX_POPULATION)
+				print("ECOLOGY_REGEN:" + species)
 
 
-func mark_harvested(node_path: String) -> void:
-	_harvested[node_path] = 2  # 2 cycles to regen
-	var node := get_node_or_null(node_path)
-	if node:
-		node.visible = false
-		node.set_process(false)
-
-
-func try_plant(position: Vector3, parent: Node) -> bool:
-	var inv := get_node_or_null("/root/Inventory")
-	if not inv or not inv.has("nectar_sap") or not inv.has("pollen_dust"):
+func harvest(species_id: String, amount: int = 1) -> bool:
+	var current: int = _population.get(species_id, 0)
+	if current < amount:
 		return false
-	inv.remove("nectar_sap")
-	inv.remove("pollen_dust")
-	var plant := MeshInstance3D.new()
-	plant.name = "PlantedSeed"
-	plant.mesh = SphereMesh.new()
-	plant.position = position
-	parent.add_child(plant)
-	print("ECOLOGY_PLANTED")
+	_population[species_id] = current - amount
+	if not _harvested.has(species_id):
+		_harvested[species_id] = REGEN_CYCLES
+
+	# Over-harvest: dependents decline
+	var deps: Array = _dependents.get(species_id, [])
+	for dep in deps:
+		_population[dep] = max(0, _population.get(dep, 0) - 1)
+		print("ECOLOGY_DECLINE:" + dep + " (" + species_id + " over-harvested)")
+
 	return true
+
+
+func get_population(species_id: String) -> int:
+	return _population.get(species_id, 0)
+
+
+func register_dependency(species_id: String, dependent_id: String) -> void:
+	if not _dependents.has(species_id):
+		_dependents[species_id] = []
+	_dependents[species_id].append(dependent_id)
