@@ -34,11 +34,17 @@ ambient_light_source = 1
 ambient_light_color = Color(0.35, 0.35, 0.4, 1)
 ambient_light_energy = 0.6
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u2p2s"]
+albedo_color = Color(0.2, 0.5, 1, 1)
+
 [sub_resource type="SphereMesh" id="SphereMesh_r1kpy"]
 radius = 0.3
 height = 0.6
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_i5mec"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_llfdw"]
+albedo_color = Color(0.2, 0.5, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_i5mec"]
 size = Vector3(0.3, 0.6, 0.3)
@@ -46,17 +52,26 @@ size = Vector3(0.3, 0.6, 0.3)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5bu78"]
 size = Vector3(0.5, 0.8, 0.5)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_80eyj"]
+albedo_color = Color(0.2, 1, 0.3, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_5bu78"]
 size = Vector3(0.25, 0.5, 0.25)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pibea"]
 size = Vector3(0.4, 0.6, 0.4)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wlwgd"]
+albedo_color = Color(0.2, 0.5, 1, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_pibea"]
 size = Vector3(0.5, 0.1, 0.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bolr6"]
 size = Vector3(0.6, 0.15, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4m2ge"]
+albedo_color = Color(0.2, 0.5, 1, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_bolr6"]
 top_radius = 0.05
@@ -66,6 +81,9 @@ height = 1.0
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hbyw3"]
 height = 1.2
 radius = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_exqdm"]
+albedo_color = Color(1, 0.5, 0.1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_hbyw3"]
 size = Vector3(1, 1.5, 1)
@@ -88,25 +106,40 @@ size = Vector3(4, 0.3, 6)
 [sub_resource type="BoxMesh" id="BoxMesh_llfdw"]
 size = Vector3(4, 0.3, 6)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_713oj"]
+albedo_color = Color(1, 0.8, 0.1, 1)
+
 [sub_resource type="SphereMesh" id="SphereMesh_80eyj"]
 radius = 4.0
 height = 8.0
 radial_segments = 16
 rings = 8
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3w6i"]
+albedo_color = Color(0.3, 0.8, 0.2, 1)
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_wlwgd"]
 top_radius = 0.2
 bottom_radius = 1.0
 height = 12.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ggkmy"]
+albedo_color = Color(0.7, 0.2, 1, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_4m2ge"]
 top_radius = 5.0
 bottom_radius = 5.0
 height = 1.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_28gua"]
+albedo_color = Color(0.4, 0.7, 1, 1)
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_u2p2s"]
 bottom_radius = 1.5
 height = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3mvx"]
+albedo_color = Color(1, 0.3, 0.3, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_80eyj"]
 size = Vector3(1, 10, 1)
@@ -120,6 +153,7 @@ height = 12.0
 distance = 15.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraRig" unique_id=1943184754]
+transform = Transform3D(1, 0, 0, 0, 0.921061, 0.38941833, 0, -0.38941833, 0.921061, 0, 8, 12)
 current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2045674000]
@@ -134,7 +168,6 @@ shadow_enabled = true
 script = ExtResource("5_7tdlr")
 
 [node name="Player" parent="." unique_id=153334260 instance=ExtResource("3_tt8nk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -60)
 
 [node name="InteractionSensor" type="Area3D" parent="Player" unique_id=491842941]
 script = ExtResource("5_6r0uj")
@@ -153,6 +186,7 @@ observable_id = "shrine_test_orb"
 
 [node name="Visual" type="MeshInstance3D" parent="LevelRoot/TestInteractable" unique_id=860051186]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3121266, 0.3, 0)
+material_override = SubResource("StandardMaterial3D_u2p2s")
 mesh = SubResource("SphereMesh_r1kpy")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/TestInteractable" unique_id=558017172]
@@ -165,7 +199,7 @@ require_knows = "resonance_basics"
 gate_id = "shrine_gate"
 
 [node name="Crystal_Resonant" type="Area3D" parent="LevelRoot" unique_id=1989163651]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -4.6833773, 32)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 32)
 script = ExtResource("7_j0r68")
 interactable_id = "crystal_resonant"
 
@@ -177,13 +211,14 @@ discover_node = "resonance_basics"
 
 [node name="Visual" type="MeshInstance3D" parent="LevelRoot/Crystal_Resonant" unique_id=1440084803]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+material_override = SubResource("StandardMaterial3D_llfdw")
 mesh = SubResource("BoxMesh_i5mec")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Crystal_Resonant" unique_id=273143012]
 shape = SubResource("BoxShape3D_5bu78")
 
 [node name="Crystal_Collect" type="Area3D" parent="LevelRoot" unique_id=78999405]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -4.8387537, 30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 30)
 script = ExtResource("7_j0r68")
 interact_type = 1
 interactable_id = "crystal_collect"
@@ -194,13 +229,14 @@ observable_id = "crystal_shard"
 
 [node name="Visual" type="MeshInstance3D" parent="LevelRoot/Crystal_Collect" unique_id=344795944]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+material_override = SubResource("StandardMaterial3D_80eyj")
 mesh = SubResource("BoxMesh_5bu78")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Crystal_Collect" unique_id=2128153518]
 shape = SubResource("BoxShape3D_pibea")
 
 [node name="Moss_Plaza" type="Area3D" parent="LevelRoot" unique_id=703625071]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.0778117, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -14)
 script = ExtResource("7_j0r68")
 interact_type = 1
 interactable_id = "moss_plaza"
@@ -211,6 +247,7 @@ observable_id = "resonance_moss"
 
 [node name="Visual" type="MeshInstance3D" parent="LevelRoot/Moss_Plaza" unique_id=205931821]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+material_override = SubResource("StandardMaterial3D_wlwgd")
 mesh = SubResource("BoxMesh_pibea")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Moss_Plaza" unique_id=861937164]
@@ -228,13 +265,14 @@ observable_id = "vine_fiber"
 
 [node name="Visual" type="MeshInstance3D" parent="LevelRoot/Vine_Forest" unique_id=1854874961]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_4m2ge")
 mesh = SubResource("CylinderMesh_bolr6")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Vine_Forest" unique_id=1788589559]
 shape = SubResource("CylinderShape3D_hbyw3")
 
 [node name="Station_Plaza" type="Area3D" parent="LevelRoot" unique_id=242163483]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 3.7597628, -14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -63.910378)
 script = ExtResource("7_j0r68")
 interact_type = 2
 interactable_id = "combine_station"
@@ -245,6 +283,7 @@ observable_id = "combine_station"
 
 [node name="Visual" type="MeshInstance3D" parent="LevelRoot/Station_Plaza" unique_id=1485261968]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+material_override = SubResource("StandardMaterial3D_exqdm")
 mesh = SubResource("BoxMesh_hbyw3")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Station_Plaza" unique_id=2096824472]
@@ -252,13 +291,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41148114, 0)
 shape = SubResource("BoxShape3D_ubvmu")
 
 [node name="Gate_UnlockCache" parent="LevelRoot" unique_id=124852420 instance=ExtResource("9_85j56")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -5, 32)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 32)
 script = ExtResource("10_qip8x")
 require_flag = "unlock_resonance_lens"
 gate_id = "cache_gate"
 
 [node name="Gate_HiddenPath" parent="LevelRoot" unique_id=362980956 instance=ExtResource("9_85j56")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, -10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -10)
 script = ExtResource("10_qip8x")
 require_flag = "unlock_resonance_lens"
 gate_id = "hidden_path_gate"
@@ -384,7 +423,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 
 [node name="Region_Garden" type="Node3D" parent="LevelRoot" unique_id=1545329170]
-transform = Transform3D(1.8087635, 0, 0, 0, 0.8845478, 0.3287082, 0, -0.22188412, 1.3104054, 0, -4.30515, 61.168762)
+transform = Transform3D(1.8087635, 0, 0, 0, 0.8845478, 0.3287082, 0, -0.22188412, 1.3104054, 0, 0, 70)
 
 [node name="Beacon_Garden" type="Area3D" parent="LevelRoot/Region_Garden" unique_id=2109111575]
 script = ExtResource("13_5bu78")
@@ -481,26 +520,31 @@ transform = Transform3D(1, 0, 0, 0, 0.9553365, 0.29552022, 0, -0.29552022, 0.955
 mesh = SubResource("BoxMesh_llfdw")
 
 [node name="ShatteredDome" type="MeshInstance3D" parent="LevelRoot" unique_id=643137239]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7614098, 4, -52.76506)
+material_override = SubResource("StandardMaterial3D_713oj")
 mesh = SubResource("SphereMesh_80eyj")
 
 [node name="DomeObservable" type="Node" parent="LevelRoot/ShatteredDome" unique_id=112841531]
 script = ExtResource("8_j0r68")
 
 [node name="CourtyardTree" type="MeshInstance3D" parent="LevelRoot" unique_id=2016088008]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4)
+material_override = SubResource("StandardMaterial3D_r3w6i")
 mesh = SubResource("CylinderMesh_wlwgd")
 
 [node name="RingPlatform" type="MeshInstance3D" parent="LevelRoot" unique_id=424201300]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, -2)
+material_override = SubResource("StandardMaterial3D_ggkmy")
 mesh = SubResource("CylinderMesh_4m2ge")
 
 [node name="Landmark_Fountain" type="MeshInstance3D" parent="LevelRoot" unique_id=800627511]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
+material_override = SubResource("StandardMaterial3D_28gua")
 mesh = SubResource("CylinderMesh_u2p2s")
 
 [node name="Landmark_Obelisk" type="MeshInstance3D" parent="LevelRoot" unique_id=507936633]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 5, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
+material_override = SubResource("StandardMaterial3D_e3mvx")
 mesh = SubResource("BoxMesh_80eyj")
 
 [node name="Fill_N" parent="LevelRoot" unique_id=2056362427 instance=ExtResource("12_i5mec")]
