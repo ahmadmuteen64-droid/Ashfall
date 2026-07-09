@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://cwpr7oe7n3rg4"]
+
+[ext_resource type="PackedScene" uid="uid://b3oxm1dv1hy7m" path="res://scenes/world/ark_genesis/ark_genesis.tscn" id="1_5pptq"]
+[ext_resource type="PackedScene" uid="uid://d3yj3ltph43wr" path="res://scenes/world/ark_layout_blockout.tscn" id="2_bahlu"]
+[ext_resource type="PackedScene" uid="uid://dby1lthxlt2uw" path="res://scenes/player/player.tscn" id="2_t1m31"]
+
+[sub_resource type="Environment" id="Environment_t1m31"]
+background_color = Color(0.35, 0.5, 0.7, 1)
+ambient_light_color = Color(0.5, 0.55, 0.65, 1)
+ambient_light_energy = 1.5
+
+[node name="WorldRoot" type="Node3D" unique_id=1830646525]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1778433421]
+environment = SubResource("Environment_t1m31")
+
+[node name="SunLight" type="DirectionalLight3D" parent="." unique_id=1463678992]
+transform = Transform3D(0.9553365, -0.16686326, 0.24390337, 0, 0.82533556, 0.5646425, -0.29552022, -0.5394235, 0.78847325, 0, 0, 0)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="SharedSystems" type="Node3D" parent="." unique_id=770991669]
+
+[node name="Islands" type="Node3D" parent="." unique_id=1444634086]
+
+[node name="ArkGenesis" parent="Islands" unique_id=1601432541 instance=ExtResource("1_5pptq")]
+
+[node name="LayoutBlockout" parent="Islands" unique_id=1005052602 instance=ExtResource("2_bahlu")]
+
+[node name="Metadata" type="Node" parent="." unique_id=1270390504]
+
+[node name="Player" parent="." unique_id=153334260 instance=ExtResource("2_t1m31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -60)
+
+[node name="FillLight" type="DirectionalLight3D" parent="." unique_id=1341553006]
+transform = Transform3D(0.639409, -0.72380745, -0.2593434, 0.56535417, 0.6712122, -0.47942555, 0.5210862, 0.15992811, 0.83838665, 0, 0, 0)
+light_color = Color(0.7, 0.8, 1, 1)
+light_energy = 0.6
+
+[node name="TopDownCamera" type="Camera3D" parent="." unique_id=1308189120]
+transform = Transform3D(1, 0, 0, 0, 0.62161, 0.7833269, 0, -0.7833269, 0.62161, 0, 80, -90)
+current = true

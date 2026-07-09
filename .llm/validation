@@ -1,0 +1,18 @@
+# Validation definition for the Aperture autonomous build agent.
+# This file is read by the agent to self-verify every goal.
+# NEVER edit this file to force a pass.
+
+# "validation" means ALL of the following:
+# 1. project_run launches with zero script parse errors (current_run_errors is empty)
+# 2. The goal's specific DONE-CHECK passes
+# 3. ALL global invariants (DEV-BRAIN.md Part II.5) hold
+#
+# Global invariants:
+# - project_run: zero parse errors.
+# - All tests in scenes/_test/ pass.
+# - Player never falls through floor or off world (once C2 exists).
+# - Codex never loses a discovered node; confidence never silently downgrades (once A3/L2 exist).
+# - No autoload throws during _ready().
+# - Current main scene always loads.
+#
+# A goal is DONE only when all three pass simultaneously.

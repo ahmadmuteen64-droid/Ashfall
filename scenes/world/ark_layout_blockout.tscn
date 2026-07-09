@@ -1,0 +1,264 @@
+[gd_scene format=3 uid="uid://d3yj3ltph43wr"]
+
+[ext_resource type="Script" uid="uid://o68f6kbggr6p" path="res://scripts/systems/level_check.gd" id="1_mjfs8"]
+[ext_resource type="Script" uid="uid://cde2lhm66ap54" path="res://scripts/components/loop_beacon.gd" id="2_aupra"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yl4v6"]
+radius = 5.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aupra"]
+size = Vector3(12, 0.5, 12)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ma527"]
+radius = 5.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yl4v6"]
+size = Vector3(60, 1, 60)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hj43t"]
+size = Vector3(60, 4, 0.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fj0il"]
+radius = 5.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ma527"]
+size = Vector3(40, 1, 50)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_a3ts8"]
+radius = 5.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fj0il"]
+size = Vector3(20, 0.5, 18)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ionu1"]
+size = Vector3(0.5, 6, 18)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hj43t"]
+radius = 5.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a3ts8"]
+size = Vector3(28, 1, 28)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cn510"]
+size = Vector3(28, 4, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vq7mh"]
+size = Vector3(8, 0.4, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_q5ew4"]
+size = Vector3(8, 0.4, 14)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xnc2w"]
+size = Vector3(8, 0.4, 52)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_os8kn"]
+size = Vector3(8, 0.4, 30)
+
+[node name="LayoutRoot" type="Node3D" unique_id=1005052602]
+script = ExtResource("1_mjfs8")
+
+[node name="SpawnShrine" type="CSGCombiner3D" parent="." unique_id=1530630260]
+use_collision = true
+
+[node name="ShrineDisc" type="CSGCylinder3D" parent="SpawnShrine" unique_id=1221266405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
+radius = 6.0
+height = 0.5
+
+[node name="ShrineRing" type="CSGCylinder3D" parent="SpawnShrine" unique_id=1220279736]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -60)
+radius = 7.0
+height = 0.3
+
+[node name="LoopBeacon" type="Area3D" parent="SpawnShrine" unique_id=1763279239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
+script = ExtResource("2_aupra")
+beacon_id = "SpawnShrine"
+
+[node name="BeaconShape" type="CollisionShape3D" parent="SpawnShrine/LoopBeacon" unique_id=46235733]
+shape = SubResource("SphereShape3D_yl4v6")
+
+[node name="CollisionBody" type="StaticBody3D" parent="SpawnShrine" unique_id=1810070666]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="SpawnShrine/CollisionBody" unique_id=537003286]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
+shape = SubResource("BoxShape3D_aupra")
+
+[node name="GreatTreePlaza" type="CSGCombiner3D" parent="." unique_id=1509678083]
+use_collision = true
+
+[node name="PlazaDisc" type="CSGCylinder3D" parent="GreatTreePlaza" unique_id=1720316665]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -10)
+radius = 30.0
+height = 1.0
+
+[node name="TreeReserve" type="CSGCylinder3D" parent="GreatTreePlaza" unique_id=687972730]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -10)
+radius = 12.0
+height = 0.4
+
+[node name="LoopBeacon" type="Area3D" parent="GreatTreePlaza" unique_id=1519451299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -10)
+script = ExtResource("2_aupra")
+beacon_id = "GreatTreePlaza"
+
+[node name="BeaconShape" type="CollisionShape3D" parent="GreatTreePlaza/LoopBeacon" unique_id=145134451]
+shape = SubResource("SphereShape3D_ma527")
+
+[node name="CollisionBody" type="StaticBody3D" parent="GreatTreePlaza" unique_id=1795566475]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="GreatTreePlaza/CollisionBody" unique_id=1701101046]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -10)
+shape = SubResource("BoxShape3D_yl4v6")
+
+[node name="WallBody" type="StaticBody3D" parent="GreatTreePlaza" unique_id=1848037381]
+
+[node name="WallShape" type="CollisionShape3D" parent="GreatTreePlaza/WallBody" unique_id=1777943405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 20)
+shape = SubResource("BoxShape3D_hj43t")
+
+[node name="ForestPath" type="CSGCombiner3D" parent="." unique_id=1240426105]
+use_collision = true
+
+[node name="Path1" type="CSGBox3D" parent="ForestPath" unique_id=1547939421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.5, 0)
+size = Vector3(8, 0.3, 16)
+
+[node name="Path2" type="CSGBox3D" parent="ForestPath" unique_id=526344141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 4.5, 14)
+size = Vector3(8, 0.3, 18)
+
+[node name="Path3" type="CSGBox3D" parent="ForestPath" unique_id=911728790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42, 5.5, 28)
+size = Vector3(8, 0.3, 16)
+
+[node name="Path4" type="CSGBox3D" parent="ForestPath" unique_id=1232236211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 5.5, 42)
+size = Vector3(8, 0.3, 10)
+
+[node name="PathReturn" type="CSGBox3D" parent="ForestPath" unique_id=217021806]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 5.5, 48)
+size = Vector3(40, 0.3, 8)
+
+[node name="LoopBeacon" type="Area3D" parent="ForestPath" unique_id=818603288]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.5, 0)
+script = ExtResource("2_aupra")
+beacon_id = "ForestPath"
+
+[node name="BeaconShape" type="CollisionShape3D" parent="ForestPath/LoopBeacon" unique_id=648627026]
+shape = SubResource("SphereShape3D_fj0il")
+
+[node name="CollisionBody" type="StaticBody3D" parent="ForestPath" unique_id=339437601]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="ForestPath/CollisionBody" unique_id=1148642436]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3, -20)
+shape = SubResource("BoxShape3D_ma527")
+
+[node name="CrystalRift" type="CSGCombiner3D" parent="." unique_id=644321455]
+use_collision = true
+
+[node name="RiftFloor" type="CSGBox3D" parent="CrystalRift" unique_id=622780409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, -5, 40)
+size = Vector3(20, 0.5, 18)
+
+[node name="RiftWallLeft" type="CSGBox3D" parent="CrystalRift" unique_id=1610214426]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38, -1, 40)
+size = Vector3(2, 10, 18)
+
+[node name="RiftWallRight" type="CSGBox3D" parent="CrystalRift" unique_id=1277985749]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62, -1, 40)
+size = Vector3(2, 10, 18)
+
+[node name="LoopBeacon" type="Area3D" parent="CrystalRift" unique_id=1477860698]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, -5, 40)
+script = ExtResource("2_aupra")
+beacon_id = "CrystalRift"
+
+[node name="BeaconShape" type="CollisionShape3D" parent="CrystalRift/LoopBeacon" unique_id=369958249]
+shape = SubResource("SphereShape3D_a3ts8")
+
+[node name="CollisionBody" type="StaticBody3D" parent="CrystalRift" unique_id=1454326520]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="CrystalRift/CollisionBody" unique_id=1757224788]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, -5, 40)
+shape = SubResource("BoxShape3D_fj0il")
+
+[node name="WallBody" type="StaticBody3D" parent="CrystalRift" unique_id=180814494]
+
+[node name="WallShape" type="CollisionShape3D" parent="CrystalRift/WallBody" unique_id=50717148]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -2, 40)
+shape = SubResource("BoxShape3D_ionu1")
+
+[node name="Observatory" type="CSGCombiner3D" parent="." unique_id=934114683]
+use_collision = true
+
+[node name="ObsDisc" type="CSGCylinder3D" parent="Observatory" unique_id=1604592718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 50)
+radius = 14.0
+height = 1.0
+
+[node name="LoopBeacon" type="Area3D" parent="Observatory" unique_id=661255086]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 50)
+script = ExtResource("2_aupra")
+beacon_id = "Observatory"
+
+[node name="BeaconShape" type="CollisionShape3D" parent="Observatory/LoopBeacon" unique_id=234848218]
+shape = SubResource("SphereShape3D_hj43t")
+
+[node name="CollisionBody" type="StaticBody3D" parent="Observatory" unique_id=1470259924]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Observatory/CollisionBody" unique_id=875223293]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 50)
+shape = SubResource("BoxShape3D_a3ts8")
+
+[node name="WallBody" type="StaticBody3D" parent="Observatory" unique_id=815567514]
+
+[node name="WallShape" type="CollisionShape3D" parent="Observatory/WallBody" unique_id=2105587976]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 64)
+shape = SubResource("BoxShape3D_cn510")
+
+[node name="Ramps" type="CSGCombiner3D" parent="." unique_id=111811704]
+use_collision = true
+
+[node name="Ramp_SpawnToPlaza" type="CSGBox3D" parent="Ramps" unique_id=500720084]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -35)
+size = Vector3(8, 0.3, 40)
+
+[node name="Ramp_ForestToRift" type="CSGBox3D" parent="Ramps" unique_id=719441127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 40)
+size = Vector3(8, 0.3, 14)
+
+[node name="Ramp_PlazaToObs" type="CSGBox3D" parent="Ramps" unique_id=1048446832]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 20)
+size = Vector3(8, 0.3, 52)
+
+[node name="Ramp_ObsDown" type="CSGBox3D" parent="Ramps" unique_id=693934783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 8, 48)
+size = Vector3(8, 0.3, 30)
+
+[node name="CollisionBody" type="StaticBody3D" parent="Ramps" unique_id=2049561181]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Ramps/CollisionBody" unique_id=49521738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -35)
+shape = SubResource("BoxShape3D_vq7mh")
+
+[node name="CollisionRamp2" type="StaticBody3D" parent="Ramps" unique_id=168302484]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Ramps/CollisionRamp2" unique_id=1699503514]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 0, 40)
+shape = SubResource("BoxShape3D_q5ew4")
+
+[node name="CollisionRamp3" type="StaticBody3D" parent="Ramps" unique_id=313487144]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Ramps/CollisionRamp3" unique_id=588628299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 20)
+shape = SubResource("BoxShape3D_xnc2w")
+
+[node name="CollisionRamp4" type="StaticBody3D" parent="Ramps" unique_id=150826130]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Ramps/CollisionRamp4" unique_id=173448787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 8, 48)
+shape = SubResource("BoxShape3D_os8kn")
+
+[node name="PlayerSpawn" type="Node3D" parent="." unique_id=1908047732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -60)

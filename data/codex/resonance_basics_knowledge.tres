@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="KnowledgeNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/knowledge_node.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+node_id = "resonance_basics"
+display_name = "Resonance Basics"
+summary = "Crystals store and release kinetic energy through lattice vibration."
+links = ["resonant_alloy", "resonance_core"]
+confidence = 2
+unlocks = ["resonance_lens"]

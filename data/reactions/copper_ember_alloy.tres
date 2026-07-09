@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/reaction_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+reaction_id = "copper_ember_alloy"
+inputs = ["copper_ore", "forge_ember"]
+conditions = {"heat": "required"}
+result_node = "conductive_alloy"
+requires_knows = ""
+byproducts = []

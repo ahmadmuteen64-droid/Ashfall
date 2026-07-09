@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dby1lthxlt2uw"]
+
+[ext_resource type="Script" uid="uid://baujh11m803lj" path="res://scripts/components/top_down_controller.gd" id="1_8afob"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8afob"]
+radius = 0.4
+height = 1.0
+
+[node name="Player" type="CharacterBody3D" unique_id=153334260 groups=["player"]]
+script = ExtResource("1_8afob")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="." unique_id=1761993522]
+shape = SubResource("CapsuleShape3D_8afob")
+
+[node name="CameraTarget" type="Marker3D" parent="." unique_id=2059745322]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="BodyMesh" type="CSGCylinder3D" parent="." unique_id=817893157]
+radius = 0.35
+height = 1.0

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="KnowledgeNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/knowledge_node.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+node_id = "crystal_bloom"
+display_name = "Crystal Bloom"
+summary = "Nectar sap infused with crystal shards produces a self-propagating crystal growth."
+links = ["growth_elixir", "resonant_ceramic"]
+confidence = 0
+unlocks = ["growth_catalyst"]

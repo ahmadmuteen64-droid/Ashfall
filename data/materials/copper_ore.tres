@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MaterialDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/material_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+material_id = "copper_ore"
+display_name = "Copper Ore"
+properties = {"type": "metal_ore", "density": "high", "conductivity": "electrical", "era": "foundry"}
+known_properties = []

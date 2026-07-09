@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="DistrictConfig" load_steps=2 format=3 uid="d1-atrium-0001"]
+
+[ext_resource type="Script" path="res://scripts/resources/district_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+district_name = "The Atrium"
+district_slug = "atrium"
+island_slug = "ark_genesis"
+description = "Central hub. Player awakening point. Radial connector to all other districts."
+elevation_min = 5.0
+elevation_max = 12.0
+area_approx_m2 = 2450.0
+primary_emotion = "Wonder"
+core_teaching = "Observation, Journal, 'This place was built by scientists'"
+connected_districts = ["gatehouse", "cascade_gardens", "aviary", "living_quarters", "verdant_creep"]
+landmark_slugs = ["shattered_dome", "great_table", "fountain", "dome_fragments_floor"]
+portal_count = 5
+estimated_object_count = 200
+loading_phase = 1
+sun_contribution = 0.7
+sky_contribution = 0.6
+ambient_color = Color(0.45, 0.48, 0.4, 1)
+ambient_energy = 0.55
+fog_enabled = false
+fog_density = 0.0
+dominant_sounds = ["water_fountain", "wind_crystal_shards", "birdsong_muted"]
+light_quality = "Dappled golden-green through leaves and crystal fragments"

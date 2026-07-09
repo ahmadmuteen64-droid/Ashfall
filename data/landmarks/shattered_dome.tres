@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="LandmarkConfig" load_steps=2 format=3 uid="lm-shattered-dome"]
+
+[ext_resource type="Script" path="res://scripts/resources/landmark_config.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+landmark_name = "Shattered Dome"
+landmark_slug = "shattered_dome"
+tier = 0
+owning_district = "atrium"
+description = "The crystalline dome of the Atrium, shattered but still suspended by residual resonance. Prismatic light scatters through floating crystal panels."
+visual_identity = "Crystalline fragments suspended in air, prismatic light patterns"
+navigation_purpose = "Central reference point; visible from all lower districts"
+historical_purpose = "Central gathering space dome — designed to admit natural light while filtering harsh UV at altitude"
+gameplay_purpose = "Introduces resonance as visible phenomenon; creates memorable first visual impression"
+future_use = "Can be partially restored. Resonance tether points for tuning puzzle."
+lod0_range = 50.0
+lod1_range = 200.0
+lod2_range = 500.0
+primary_interaction = "Look up at dome → Journal trigger: 'The ceiling is broken. But the pieces are still hanging there. How?'"
+secondary_interaction = "Examine crystal fragment on floor → collectible small shard"
+hidden_interaction = "Stand beneath dome at night → memory fragment trigger"
+memory_fragment_id = "dome_at_night"
+dominant_sound = "resonance_hum"
+light_quality = "Prismatic — sunlight splits through crystal panels, projecting colored light on walls and floor"

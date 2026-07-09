@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://btnirm5ble3un"]
+
+[ext_resource type="Script" uid="uid://cde2lhm66ap54" path="res://scripts/components/loop_beacon.gd" id="1_xav5n"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_paw1y"]
+size = Vector3(6, 2, 6)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ndrtv"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3kxkj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_00iu8"]
+size = Vector3(1.2, 1.8, 1.2)
+
+[node name="RegionTemplate" type="Node3D" unique_id=560524348]
+
+[node name="Ground" type="Node3D" parent="." unique_id=1533472521]
+
+[node name="SpawnMarker" type="Node3D" parent="." unique_id=740113407]
+
+[node name="Beacon" type="Area3D" parent="." unique_id=631849514]
+script = ExtResource("1_xav5n")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Beacon" unique_id=111914967]
+shape = SubResource("BoxShape3D_paw1y")
+
+[node name="Interactable_1" type="Area3D" parent="." unique_id=1162052032]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactable_1" unique_id=1218151670]
+shape = SubResource("SphereShape3D_ndrtv")
+
+[node name="Interactable_2" type="Area3D" parent="." unique_id=1049897694]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Interactable_2" unique_id=89142899]
+shape = SubResource("SphereShape3D_3kxkj")
+
+[node name="GateSlot" type="Node3D" parent="." unique_id=1068076214]
+
+[node name="StationSlot" type="Area3D" parent="." unique_id=1436456544]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="StationSlot" unique_id=1171775834]
+shape = SubResource("BoxShape3D_00iu8")

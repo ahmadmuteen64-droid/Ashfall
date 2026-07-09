@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bvuflg7xdddgc"]
+
+[ext_resource type="Script" path="res://tests/test_backbones.gd" id="1_46puo"]
+
+[node name="TestBackbonesRoot" type="Node" unique_id=439798324]
+script = ExtResource("1_46puo")

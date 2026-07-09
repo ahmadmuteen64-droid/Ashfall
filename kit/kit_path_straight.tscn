@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://df7t5a7l4ghvg"]
+
+[ext_resource type="Material" uid="uid://dxa1cmknd70nc" path="res://kit/kit_grey.tres" id="1_4q81m"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_2y685"]
+size = Vector3(2, 0.2, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t8ywr"]
+size = Vector3(2, 0.2, 6)
+
+[node name="KitPathStraight" type="Node3D" unique_id=1224674277]
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1680271283]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+material_override = ExtResource("1_4q81m")
+mesh = SubResource("BoxMesh_2y685")
+
+[node name="CollisionBody" type="StaticBody3D" parent="." unique_id=1899176658]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="CollisionBody" unique_id=1187526707]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+shape = SubResource("BoxShape3D_t8ywr")

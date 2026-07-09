@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="KnowledgeNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/knowledge_node.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+node_id = "resonant_ceramic"
+display_name = "Resonant Ceramic"
+summary = "Moss-clay paste hardens into a ceramic that pulses with faint energy."
+links = ["reflective_lens"]
+confidence = 0
+unlocks = []

@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://dcvn70ymtxsbu"]
+
+[ext_resource type="PackedScene" uid="uid://b56mn8u3qk2nh" path="res://kit/kit_ground_2x2.tscn" id="1_nlu23"]
+[ext_resource type="PackedScene" uid="uid://ccp7ueulbscdo" path="res://kit/kit_platform_2x2.tscn" id="2_00dcl"]
+[ext_resource type="PackedScene" uid="uid://cb5y6i4aa8o4x" path="res://kit/kit_step_1m.tscn" id="3_6de6p"]
+[ext_resource type="PackedScene" uid="uid://di6goqbneh1vv" path="res://kit/kit_ramp_20deg.tscn" id="4_47owj"]
+[ext_resource type="PackedScene" uid="uid://chpnjdwqawli3" path="res://kit/kit_wall_cliff_4m.tscn" id="5_58gwt"]
+[ext_resource type="PackedScene" uid="uid://df7t5a7l4ghvg" path="res://kit/kit_path_straight.tscn" id="6_mkhgq"]
+[ext_resource type="PackedScene" uid="uid://ijegkugmlqxq" path="res://kit/kit_edge_cap.tscn" id="7_0ky3k"]
+
+[node name="KitDemo" type="Node3D" unique_id=446178216]
+
+[node name="Ground_00" parent="." unique_id=2119878399 instance=ExtResource("1_nlu23")]
+
+[node name="Ground_10" parent="." unique_id=1771600656 instance=ExtResource("1_nlu23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Ground_20" parent="." unique_id=285556251 instance=ExtResource("1_nlu23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="Ground_01" parent="." unique_id=2020442249 instance=ExtResource("1_nlu23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Ground_11" parent="." unique_id=1089975407 instance=ExtResource("1_nlu23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="Ground_21" parent="." unique_id=530552077 instance=ExtResource("1_nlu23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2)
+
+[node name="Ground_02" parent="." unique_id=509761308 instance=ExtResource("1_nlu23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Ground_12" parent="." unique_id=450427078 instance=ExtResource("1_nlu23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
+
+[node name="Ground_22" parent="." unique_id=268832842 instance=ExtResource("1_nlu23")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="Platform" parent="." unique_id=1911002448 instance=ExtResource("2_00dcl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
+
+[node name="Step_Lower" parent="." unique_id=771275691 instance=ExtResource("3_6de6p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Step_Upper" parent="." unique_id=765307309 instance=ExtResource("3_6de6p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 4)
+
+[node name="Ramp" parent="." unique_id=1795087774 instance=ExtResource("4_47owj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 4)
+
+[node name="Wall_N" parent="." unique_id=1308236123 instance=ExtResource("5_58gwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)
+
+[node name="Wall_S" parent="." unique_id=190861983 instance=ExtResource("5_58gwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 5)
+
+[node name="Wall_E" parent="." unique_id=1178830420 instance=ExtResource("5_58gwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 4)
+
+[node name="Wall_W" parent="." unique_id=1934149928 instance=ExtResource("5_58gwt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 4)
+
+[node name="Path" parent="." unique_id=1224674277 instance=ExtResource("6_mkhgq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="EdgeCap_N" parent="." unique_id=1171971482 instance=ExtResource("7_0ky3k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2.9)
+
+[node name="EdgeCap_S" parent="." unique_id=40263984 instance=ExtResource("7_0ky3k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 5.1)

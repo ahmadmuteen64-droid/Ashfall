@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="KnowledgeNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/knowledge_node.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+node_id = "abrasive_paste"
+display_name = "Abrasive Paste"
+summary = "Obsidian ground with coal dust produces a cutting paste."
+links = ["charged_gem"]
+confidence = 0
+unlocks = []

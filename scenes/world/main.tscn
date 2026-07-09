@@ -1,0 +1,342 @@
+[gd_scene format=3 uid="uid://clfriwpfy25w2"]
+
+[ext_resource type="Script" uid="uid://di4onh371dxnp" path="res://scripts/systems/main.gd" id="1_wbupf"]
+[ext_resource type="PackedScene" uid="uid://dby1lthxlt2uw" path="res://scenes/player/player.tscn" id="3_tt8nk"]
+[ext_resource type="Script" uid="uid://cekvc6et7mgt" path="res://scripts/components/camera_rig.gd" id="4_6r0uj"]
+[ext_resource type="Script" uid="uid://c7lj1tl7268l4" path="res://scripts/components/interaction_sensor.gd" id="5_6r0uj"]
+[ext_resource type="Script" uid="uid://crjqobrn1juhj" path="res://scripts/systems/loop_tracker.gd" id="5_7tdlr"]
+[ext_resource type="PackedScene" uid="uid://dlqcreywb2kk3" path="res://scenes/world/level_ark_01.tscn" id="5_tt8nk"]
+[ext_resource type="Script" uid="uid://0wv6uydl67c0" path="res://scripts/components/interactable.gd" id="7_j0r68"]
+[ext_resource type="Script" uid="uid://o68f6kbggr6p" path="res://scripts/systems/level_check.gd" id="7_qip8x"]
+[ext_resource type="Script" uid="uid://wchxtfqwb2pa" path="res://scripts/components/observable.gd" id="8_j0r68"]
+[ext_resource type="PackedScene" uid="uid://ba61pnhg7x5de" path="res://kit/kit_barrier.tscn" id="9_85j56"]
+[ext_resource type="PackedScene" uid="uid://by0px4bx70g7i" path="res://scenes/ui/journal.tscn" id="9_j0vxu"]
+[ext_resource type="Script" uid="uid://c4n56q3jd4ty3" path="res://scripts/components/gate.gd" id="10_qip8x"]
+[ext_resource type="PackedScene" uid="uid://b56mn8u3qk2nh" path="res://kit/kit_ground_2x2.tscn" id="12_i5mec"]
+[ext_resource type="Script" uid="uid://cde2lhm66ap54" path="res://scripts/components/loop_beacon.gd" id="13_5bu78"]
+[ext_resource type="PackedScene" uid="uid://dxosr42kpgg25" path="res://scenes/ui/inventory.tscn" id="13_oaya2"]
+[ext_resource type="PackedScene" uid="uid://dyxkiaitb7plq" path="res://scenes/ui/experiment_station.tscn" id="14_wcbaq"]
+[ext_resource type="Script" uid="uid://cvuh68m480ii7" path="res://scripts/systems/unlocks.gd" id="15_r1kpy"]
+[ext_resource type="Script" uid="uid://3cuyes1yrw0l" path="res://scripts/systems/ecology.gd" id="18_pibea"]
+
+[sub_resource type="Environment" id="Environment_7tdlr"]
+background_mode = 1
+background_color = Color(0.2, 0.25, 0.35, 1)
+ambient_light_source = 1
+ambient_light_color = Color(0.35, 0.35, 0.4, 1)
+ambient_light_energy = 0.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_r1kpy"]
+radius = 0.3
+height = 0.6
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_i5mec"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_i5mec"]
+size = Vector3(0.3, 0.6, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5bu78"]
+size = Vector3(0.5, 0.8, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5bu78"]
+size = Vector3(0.25, 0.5, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pibea"]
+size = Vector3(0.4, 0.6, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pibea"]
+size = Vector3(0.5, 0.1, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bolr6"]
+size = Vector3(0.6, 0.15, 0.6)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_bolr6"]
+top_radius = 0.05
+bottom_radius = 0.1
+height = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hbyw3"]
+height = 1.2
+radius = 0.15
+
+[sub_resource type="BoxMesh" id="BoxMesh_hbyw3"]
+size = Vector3(1, 1.5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ubvmu"]
+size = Vector3(1.2, 1.8, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hbyw3"]
+size = Vector3(6, 2, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6gnby"]
+size = Vector3(6, 2, 6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wrw41"]
+size = Vector3(6, 2, 6)
+
+[node name="MainRoot" type="Node3D" unique_id=324924899]
+script = ExtResource("1_wbupf")
+
+[node name="CameraRig" type="Node3D" parent="." unique_id=166551030]
+script = ExtResource("4_6r0uj")
+height = 12.0
+distance = 15.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig" unique_id=1943184754]
+current = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2045674000]
+environment = SubResource("Environment_7tdlr")
+
+[node name="SunLight" type="DirectionalLight3D" parent="." unique_id=593349403]
+transform = Transform3D(0.8660254, -0.35355338, 0.35355338, 0, 0.70710677, 0.70710677, -0.5, -0.6123724, 0.6123724, 0, 0, 0)
+light_energy = 2.0
+shadow_enabled = true
+
+[node name="LoopTracker" type="Node" parent="." unique_id=158071179]
+script = ExtResource("5_7tdlr")
+
+[node name="Player" parent="." unique_id=153334260 instance=ExtResource("3_tt8nk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -60)
+
+[node name="InteractionSensor" type="Area3D" parent="Player" unique_id=491842941]
+script = ExtResource("5_6r0uj")
+
+[node name="LevelRoot" parent="." unique_id=1176789059 instance=ExtResource("5_tt8nk")]
+script = ExtResource("7_qip8x")
+
+[node name="TestInteractable" type="Area3D" parent="LevelRoot" unique_id=1739753253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -58)
+script = ExtResource("7_j0r68")
+interactable_id = "shrine_test_orb"
+
+[node name="Observable" type="Node" parent="LevelRoot/TestInteractable" unique_id=1560254273]
+script = ExtResource("8_j0r68")
+observable_id = "shrine_test_orb"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/TestInteractable" unique_id=860051186]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("SphereMesh_r1kpy")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/TestInteractable" unique_id=558017172]
+shape = SubResource("SphereShape3D_i5mec")
+
+[node name="Gate_Test" parent="LevelRoot" unique_id=1247079620 instance=ExtResource("9_85j56")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 47)
+script = ExtResource("10_qip8x")
+require_knows = "resonance_basics"
+gate_id = "shrine_gate"
+
+[node name="Crystal_Resonant" type="Area3D" parent="LevelRoot" unique_id=1989163651]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -5, 32)
+script = ExtResource("7_j0r68")
+interactable_id = "crystal_resonant"
+
+[node name="Observable" type="Node" parent="LevelRoot/Crystal_Resonant" unique_id=286699669]
+script = ExtResource("8_j0r68")
+observable_id = "crystal_resonant"
+discover_threshold = 3
+discover_node = "resonance_basics"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/Crystal_Resonant" unique_id=1440084803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_i5mec")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Crystal_Resonant" unique_id=273143012]
+shape = SubResource("BoxShape3D_5bu78")
+
+[node name="Crystal_Collect" type="Area3D" parent="LevelRoot" unique_id=78999405]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, -5, 30)
+script = ExtResource("7_j0r68")
+interact_type = 1
+interactable_id = "crystal_collect"
+
+[node name="Observable" type="Node" parent="LevelRoot/Crystal_Collect" unique_id=1491874974]
+script = ExtResource("8_j0r68")
+observable_id = "crystal_shard"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/Crystal_Collect" unique_id=344795944]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("BoxMesh_5bu78")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Crystal_Collect" unique_id=2128153518]
+shape = SubResource("BoxShape3D_pibea")
+
+[node name="Moss_Plaza" type="Area3D" parent="LevelRoot" unique_id=703625071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, -14)
+script = ExtResource("7_j0r68")
+interact_type = 1
+interactable_id = "moss_plaza"
+
+[node name="Observable" type="Node" parent="LevelRoot/Moss_Plaza" unique_id=677505046]
+script = ExtResource("8_j0r68")
+observable_id = "resonance_moss"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/Moss_Plaza" unique_id=205931821]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("BoxMesh_pibea")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Moss_Plaza" unique_id=861937164]
+shape = SubResource("BoxShape3D_bolr6")
+
+[node name="Vine_Forest" type="Area3D" parent="LevelRoot" unique_id=30929751]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 5)
+script = ExtResource("7_j0r68")
+interact_type = 1
+interactable_id = "vine_forest"
+
+[node name="Observable" type="Node" parent="LevelRoot/Vine_Forest" unique_id=19701058]
+script = ExtResource("8_j0r68")
+observable_id = "vine_fiber"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/Vine_Forest" unique_id=1854874961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_bolr6")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Vine_Forest" unique_id=1788589559]
+shape = SubResource("CylinderShape3D_hbyw3")
+
+[node name="Station_Plaza" type="Area3D" parent="LevelRoot" unique_id=242163483]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, -14)
+script = ExtResource("7_j0r68")
+interact_type = 2
+interactable_id = "combine_station"
+
+[node name="Observable" type="Node" parent="LevelRoot/Station_Plaza" unique_id=143819582]
+script = ExtResource("8_j0r68")
+observable_id = "combine_station"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/Station_Plaza" unique_id=1485261968]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("BoxMesh_hbyw3")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Station_Plaza" unique_id=2096824472]
+shape = SubResource("BoxShape3D_ubvmu")
+
+[node name="Gate_UnlockCache" parent="LevelRoot" unique_id=124852420 instance=ExtResource("9_85j56")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -5, 32)
+script = ExtResource("10_qip8x")
+require_flag = "unlock_resonance_lens"
+gate_id = "cache_gate"
+
+[node name="Gate_HiddenPath" parent="LevelRoot" unique_id=362980956 instance=ExtResource("9_85j56")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, -10)
+script = ExtResource("10_qip8x")
+require_flag = "unlock_resonance_lens"
+gate_id = "hidden_path_gate"
+
+[node name="Shrine_G9" parent="LevelRoot" unique_id=2119878399 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -62)
+
+[node name="Shrine_G10" parent="LevelRoot" unique_id=223376210 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -62)
+
+[node name="Shrine_G11" parent="LevelRoot" unique_id=2079024695 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -62)
+
+[node name="Shrine_G12" parent="LevelRoot" unique_id=1980246991 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -58)
+
+[node name="Shrine_G13" parent="LevelRoot" unique_id=2013776060 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -58)
+
+[node name="Shrine_G14" parent="LevelRoot" unique_id=2111958965 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -58)
+
+[node name="Shrine_G15" parent="LevelRoot" unique_id=559714577 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -64)
+
+[node name="Shrine_G16" parent="LevelRoot" unique_id=1500034949 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -62)
+
+[node name="Shrine_G17" parent="LevelRoot" unique_id=1471637961 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -60)
+
+[node name="Shrine_G18" parent="LevelRoot" unique_id=38357925 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -58)
+
+[node name="Shrine_G19" parent="LevelRoot" unique_id=1809953334 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -56)
+
+[node name="Shrine_G20" parent="LevelRoot" unique_id=1385553679 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -64)
+
+[node name="Shrine_G21" parent="LevelRoot" unique_id=1193035848 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -62)
+
+[node name="Shrine_G22" parent="LevelRoot" unique_id=933464356 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -60)
+
+[node name="Shrine_G23" parent="LevelRoot" unique_id=662339615 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -58)
+
+[node name="Shrine_G24" parent="LevelRoot" unique_id=220443691 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -56)
+
+[node name="Region_Mine" type="Node3D" parent="LevelRoot" unique_id=1351502411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0)
+
+[node name="Mine_G0" parent="LevelRoot/Region_Mine" unique_id=1175139757 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+
+[node name="Mine_G1" parent="LevelRoot/Region_Mine" unique_id=377283859 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Mine_G2" parent="LevelRoot/Region_Mine" unique_id=967358829 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -2)
+
+[node name="Mine_G3" parent="LevelRoot/Region_Mine" unique_id=311831673 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Mine_G4" parent="LevelRoot/Region_Mine" unique_id=1525246394 instance=ExtResource("12_i5mec")]
+
+[node name="Mine_G5" parent="LevelRoot/Region_Mine" unique_id=1593116208 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Mine_G6" parent="LevelRoot/Region_Mine" unique_id=241457156 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2)
+
+[node name="Mine_G7" parent="LevelRoot/Region_Mine" unique_id=325270790 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="Mine_G8" parent="LevelRoot/Region_Mine" unique_id=964987310 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
+
+[node name="Beacon_Mine" type="Area3D" parent="LevelRoot/Region_Mine" unique_id=889197041]
+script = ExtResource("13_5bu78")
+beacon_id = "MineDistrict"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Region_Mine/Beacon_Mine" unique_id=1213860183]
+shape = SubResource("BoxShape3D_hbyw3")
+
+[node name="Region_Foundry" type="Node3D" parent="LevelRoot" unique_id=64966312]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 4, 0)
+
+[node name="Beacon_Foundry" type="Area3D" parent="LevelRoot/Region_Foundry" unique_id=1081078557]
+script = ExtResource("13_5bu78")
+beacon_id = "FoundryDistrict"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Region_Foundry/Beacon_Foundry" unique_id=1053334061]
+shape = SubResource("BoxShape3D_6gnby")
+
+[node name="Region_Garden" type="Node3D" parent="LevelRoot" unique_id=1545329170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 70)
+
+[node name="Beacon_Garden" type="Area3D" parent="LevelRoot/Region_Garden" unique_id=2109111575]
+script = ExtResource("13_5bu78")
+beacon_id = "GardenDistrict"
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Region_Garden/Beacon_Garden" unique_id=687289954]
+shape = SubResource("BoxShape3D_wrw41")
+
+[node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
+
+[node name="InventoryUI" parent="." unique_id=1025053704 instance=ExtResource("13_oaya2")]
+
+[node name="ExperimentStationUI" parent="." unique_id=1965425684 instance=ExtResource("14_wcbaq")]
+
+[node name="Unlocks" type="Node" parent="." unique_id=2130920562]
+script = ExtResource("15_r1kpy")
+
+[node name="Ecology" type="Node" parent="." unique_id=1832895376]
+script = ExtResource("18_pibea")

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="KnowledgeNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/knowledge_node.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+node_id = "resonance_core"
+display_name = "Resonance Core"
+summary = "A triple-resonance brew produces a self-sustaining energy core."
+links = ["resonance_basics", "reflective_lens"]
+confidence = 0
+unlocks = ["core_activator"]
