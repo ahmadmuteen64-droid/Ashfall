@@ -104,6 +104,13 @@ top_radius = 5.0
 bottom_radius = 5.0
 height = 1.0
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_u2p2s"]
+bottom_radius = 1.5
+height = 3.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_80eyj"]
+size = Vector3(1, 10, 1)
+
 [node name="MainRoot" type="Node3D" unique_id=324924899]
 script = ExtResource("1_wbupf")
 
@@ -486,6 +493,14 @@ mesh = SubResource("CylinderMesh_wlwgd")
 [node name="RingPlatform" type="MeshInstance3D" parent="LevelRoot" unique_id=424201300]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 25, 0)
 mesh = SubResource("CylinderMesh_4m2ge")
+
+[node name="Landmark_Fountain" type="MeshInstance3D" parent="LevelRoot" unique_id=800627511]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 3, -5)
+mesh = SubResource("CylinderMesh_u2p2s")
+
+[node name="Landmark_Obelisk" type="MeshInstance3D" parent="LevelRoot" unique_id=507936633]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5, 20)
+mesh = SubResource("BoxMesh_80eyj")
 
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
 
