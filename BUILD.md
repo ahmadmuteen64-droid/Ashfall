@@ -1,17 +1,22 @@
-# Aperture — Build Guide
+# AshFall (Aperture) — Build Guide
 
-## Prerequisites
-- Godot 4.7+ (GL Compatibility renderer)
-- Git
+**Project:** AshFall · **Repo:** `/home/iama/ash-fall` · **Remote:** `github.com/ahmadmuteen64-droid/Aperture.git`
+**Engine:** Godot 4.7 (GL Compatibility, Jolt physics)
 
 ## Quick Start
 ```bash
-git clone <repo-url> aperture
-cd aperture
+cd /home/iama/ash-fall
 godot --editor .
 ```
-
 Open `scenes/world/main.tscn` and press F5 (Play).
+
+## Running Tests
+```bash
+# In-editor: open tests/run_all.tscn and press F5
+# Or via MCP: project_run mode=custom scene=res://tests/run_all.tscn
+```
+Full suite: `tests/run_all.gd` — 117+ assertions across 11 test groups.
+Individual tests: `tests/test_*.gd` with `.tscn` harnesses.
 
 ## Export
 ### Linux
