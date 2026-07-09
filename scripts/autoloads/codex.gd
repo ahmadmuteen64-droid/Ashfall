@@ -231,3 +231,148 @@ func get_all_discovered() -> Array[String]:
 		if nodes[id] > Confidence.UNKNOWN:
 			out.append(id)
 	return out
+
+
+# ═══════════════════════════════════════════════════════════════
+# T2 — Node taxonomy
+# ═══════════════════════════════════════════════════════════════
+
+enum NodeType {
+	OBSERVATION, MATERIAL, PROPERTY, PROCESS, REACTION,
+	TECHNIQUE, TOOL, NATURAL_LAW, THEORY, MEMORY,
+	HYPOTHESIS,  # T4 — player-created
+}
+
+var _node_types: Dictionary = {}  # id → NodeType
+
+
+func set_node_type(id: String, ntype: int) -> void:
+	_node_types[id] = ntype
+
+
+func get_node_type(id: String) -> int:
+	return _node_types.get(id, NodeType.OBSERVATION)
+
+
+# ═══════════════════════════════════════════════════════════════
+# T3 — Typed edges + propagation
+# ═══════════════════════════════════════════════════════════════
+
+enum EdgeType { CAUSATION, CORRELATION, COMPOSITION, CONTEXT, CONTRADICTION, SUPPORT }
+
+var _edges: Array[Dictionary] = []  # [{from, to, type, weight}]
+
+
+func add_edge(from_id: String, to_id: String, etype: int, weight: float = 1.0) -> void:
+	_edges.append({"from": from_id, "to": to_id, "type": etype, "weight": weight})
+
+
+func get_edges_from(id: String) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for e in _edges:
+		if e["from"] == id:
+			result.append(e)
+	return result
+
+
+func get_edges_to(id: String) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for e in _edges:
+		if e["to"] == id:
+			result.append(e)
+	return result
+
+
+func propagate_confidence(from_id: String) -> void:
+	"""When a node's confidence rises, propagate to linked nodes based on edge type."""
+	var from_level: int = nodes.get(from_id, Confidence.UNKNOWN)
+	var edges_out: Array = get_edges_from(from_id)
+
+	for e in edges_out:
+		var to_id: String = e["to"]
+		var etype: int = e["type"]
+		var weight: float = e["weight"]
+
+		match etype:
+			EdgeType.SUPPORT:
+				# Supporting node verified → modest boost to supported node
+				if from_level >= Confidence.WORKING:
+					if not _corroborations.has(to_id):
+						_corroborations[to_id] = 0
+					_corroborations[to_id] += int(weight)
+					_evaluate_confidence(to_id)
+			EdgeType.CONTRADICTION:
+				# Contradicting node verified → penalty to contradicted node
+				if from_level >= Confidence.WORKING:
+					if not _contradictions.has(to_id):
+						_contradictions[to_id] = 0
+					_contradictions[to_id] += int(weight)
+					_evaluate_confidence(to_id)
+			EdgeType.COMPOSITION:
+				# Understanding a component helps understand the whole
+				if from_level >= Confidence.PARTIAL:
+					if not _corroborations.has(to_id):
+						_corroborations[to_id] = 0
+					_corroborations[to_id] += 1
+					_evaluate_confidence(to_id)
+			EdgeType.CAUSATION:
+				# Understanding a cause helps understand the effect
+				if from_level >= Confidence.WORKING:
+					if not _corroborations.has(to_id):
+						_corroborations[to_id] = 0
+					_corroborations[to_id] += 1
+					_evaluate_confidence(to_id)
+
+
+func get_all_edges() -> Array[Dictionary]:
+	return _edges.duplicate()
+
+
+# ═══════════════════════════════════════════════════════════════
+# T4 — Hypothesis and theory lifecycle
+# ═══════════════════════════════════════════════════════════════
+
+var _hypotheses: Dictionary = {}     # id → {statement, creator_context, created_at}
+var _overturned: Array[String] = []  # ids of overturned theories
+
+
+func create_hypothesis(id: String, statement: String, context: String = "") -> void:
+	"""Player deliberately creates a hypothesis. Never auto-generated."""
+	_hypotheses[id] = {
+		"statement": statement,
+		"context": context,
+		"created_at": Time.get_ticks_msec(),
+	}
+	set_node_type(id, NodeType.HYPOTHESIS)
+	if nodes.get(id, Confidence.UNKNOWN) == Confidence.UNKNOWN:
+		nodes[id] = Confidence.GLIMPSED
+
+
+func test_hypothesis(id: String, success: bool) -> void:
+	"""Test result: success confirms, failure may overturn."""
+	var current: int = nodes.get(id, Confidence.UNKNOWN)
+	if success:
+		if current < Confidence.WORKING:
+			nodes[id] = Confidence.WORKING
+			confidence_changed.emit(id, current, Confidence.WORKING)
+		add_predictive_success(id)
+	else:
+		# Failure can overturn a theory
+		if current >= Confidence.WORKING:
+			_overturned.append(id)
+			nodes[id] = Confidence.PARTIAL  # drops but doesn't vanish
+			confidence_changed.emit(id, current, Confidence.PARTIAL)
+			# A broader theory may form — UI says "Your understanding deepened"
+		record_contradiction(id)
+
+
+func get_hypothesis(id: String) -> Dictionary:
+	return _hypotheses.get(id, {})
+
+
+func get_all_hypotheses() -> Array[String]:
+	return _hypotheses.keys()
+
+
+func is_overturned(id: String) -> bool:
+	return id in _overturned
