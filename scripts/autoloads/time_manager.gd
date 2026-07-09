@@ -1,15 +1,18 @@
+# TimeManager.gd — 26-minute day cycle with four phases
+# W1: Upgraded from 5-min to 26-min day, night is genuinely dark.
 extends Node
 
-const CYCLE_DURATION: float = 300.0  # 5 min per full cycle
+const CYCLE_DURATION: float = 1560.0  # 26 min per full cycle (W1 spec)
 
-var _time: float = 0.0  # 0.0 = dawn, 0.25 = midday, 0.5 = dusk, 0.75 = midnight
+var _time: float = 0.25  # Start at midday
 var _sun: DirectionalLight3D = null
 
-# Color temps: dawn 3500K orange, midday 5500K white, dusk 3500K, night 4100K blue
 const DAWN_COLOR: Color = Color(1.0, 0.7, 0.4)
 const MIDDAY_COLOR: Color = Color(1.0, 0.95, 0.8)
 const DUSK_COLOR: Color = Color(1.0, 0.55, 0.3)
-const NIGHT_COLOR: Color = Color(0.3, 0.35, 0.7)
+const NIGHT_COLOR: Color = Color(0.15, 0.18, 0.4)  # Genuinely dark
+
+signal phase_changed(phase: String)
 
 
 func _ready() -> void:
@@ -28,10 +31,8 @@ func _update_sun() -> void:
 		_sun = _find_sun(get_tree().root)
 		if not _sun:
 			return
-	# Rotate sun: dawn=0° (east), midday=90° (overhead), dusk=180° (west), night=270° (below)
 	var angle: float = _time * TAU
 	_sun.rotation_degrees = Vector3(-90 + rad_to_deg(angle) * 0.5, rad_to_deg(angle), 0)
-	# Color interpolation
 	if _time < 0.25:
 		_sun.light_color = DAWN_COLOR.lerp(MIDDAY_COLOR, _time / 0.25)
 	elif _time < 0.5:
@@ -40,7 +41,7 @@ func _update_sun() -> void:
 		_sun.light_color = DUSK_COLOR.lerp(NIGHT_COLOR, (_time - 0.5) / 0.25)
 	else:
 		_sun.light_color = NIGHT_COLOR.lerp(DAWN_COLOR, (_time - 0.75) / 0.25)
-	_sun.light_energy = 1.0 if _time < 0.5 else lerp(1.0, 0.15, (_time - 0.5) / 0.5)
+	_sun.light_energy = 2.0 if _time < 0.4 else lerp(2.0, 0.05, (_time - 0.4) / 0.35)
 
 
 func _find_sun(node: Node) -> DirectionalLight3D:
@@ -57,5 +58,16 @@ func is_daytime() -> bool:
 	return _time < 0.5
 
 
+func is_night() -> bool:
+	return _time >= 0.5
+
+
 func get_time() -> float:
 	return _time
+
+
+func get_phase() -> String:
+	if _time < 0.25:  return "dawn"
+	elif _time < 0.5: return "day"
+	elif _time < 0.75: return "dusk"
+	else:              return "night"
