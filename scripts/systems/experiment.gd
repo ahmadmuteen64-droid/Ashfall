@@ -71,6 +71,72 @@ func run(input_ids: Array[String], conditions: Dictionary) -> Dictionary:
 	return result_data
 
 
+# ── U1: Property discovery ──────────────────────────────────────
+# Examining a material reveals one unknown property at a time.
+
+func reveal_property(material_id: String) -> Dictionary:
+	var mat: MaterialDef = _load_material(material_id)
+	if not mat:
+		return {"success": false, "message": "Material not found"}
+	var all_props: Dictionary = mat.properties
+	var known: Array = mat.known_properties.duplicate()
+	for prop in all_props:
+		if prop not in known:
+			known.append(prop)
+			mat.known_properties = known
+			var codex := get_node_or_null("/root/Codex")
+			if codex:
+				codex.observe(material_id + "." + str(prop), "property")
+			return {"success": true, "property": prop, "remaining": all_props.size() - known.size()}
+	return {"success": false, "message": "All properties known", "remaining": 0}
+
+
+# ── U2: Informative failure ─────────────────────────────────────
+# Failed experiments teach — reveal a property of one input.
+
+func _record_failure_learning(input_ids: Array[String]) -> void:
+	if input_ids.is_empty():
+		return
+	# Pick the first input that has unknown properties
+	for mid in input_ids:
+		var mat: MaterialDef = _load_material(mid)
+		if not mat:
+			continue
+		var all_props: Dictionary = mat.properties
+		var known: Array = mat.known_properties
+		for prop in all_props:
+			if prop not in known:
+				known.append(prop)
+				mat.known_properties = known
+				var codex := get_node_or_null("/root/Codex")
+				if codex:
+					codex.observe(mid + "." + str(prop), "property", "failure_learning")
+				return
+
+
+func _load_material(material_id: String) -> MaterialDef:
+	var path := "res://data/materials/" + material_id + ".tres"
+	if ResourceLoader.exists(path):
+		return load(path)
+	# Try searching
+	var dir := DirAccess.open("res://data/materials/")
+	if not dir:
+		return null
+	dir.list_dir_begin()
+	var fn := dir.get_next()
+	while fn != "":
+		if fn.ends_with(".tres"):
+			var mat: MaterialDef = load("res://data/materials/" + fn)
+			if mat and mat.material_id == material_id:
+				return mat
+		fn = dir.get_next()
+	return null
+
+
+func get_history() -> Array[Dictionary]:
+	return _attempts.duplicate()
+
+
 func _inputs_match(given: Array[String], required: Array[String]) -> bool:
 	if given.size() != required.size():
 		return false
