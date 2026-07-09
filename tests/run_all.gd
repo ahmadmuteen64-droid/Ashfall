@@ -23,6 +23,7 @@ func _ready() -> void:
 	_examine_codex()
 	_loop()
 	_ring1()
+	_spatial_coherence()
 
 	_cleanup_autoload_codex()
 
@@ -225,3 +226,33 @@ func _ring1() -> void:
 	# gate._ready() fires on add_child — it checks codex.knows() and opens
 
 	_check(barrier.collision_layer == 0, "ring1: gate barrier collision disabled")
+
+
+# --- spatial_coherence: D5 invariant (mesh ≡ collider ≡ standable surface) ---
+# Data extracted from res://scenes/world/main.tscn (commit e961b67).
+# THIS TEST IS EXPECTED TO FAIL until R5 fixes the world.
+
+const _SC_FLOOR_Y: float = 0.0
+const _SC_SENSOR_RANGE: float = 3.0
+const _SC_FLOOR_MAX_DIST: float = 3.0
+
+func _spatial_coherence() -> void:
+	var interactables: Array[Dictionary] = [
+		{id="shrine_test_orb",  pos=Vector3(0, 0, -58)},
+		{id="crystal_resonant", pos=Vector3(2, -5, 32)},
+		{id="crystal_collect",  pos=Vector3(-2, -5, 30)},
+		{id="moss_plaza",       pos=Vector3(4, 4, -14)},
+		{id="vine_forest",      pos=Vector3(0, 4, 5)},
+		{id="combine_station",  pos=Vector3(-4, 4, -14)},
+	]
+
+	for ia in interactables:
+		var pos: Vector3 = ia["pos"]
+		var rid: String = ia["id"]
+		var floor_dist: float = abs(pos.y - _SC_FLOOR_Y)
+		var reach: float = pos.distance_to(Vector3(pos.x, _SC_FLOOR_Y, pos.z))
+
+		_check(floor_dist <= _SC_FLOOR_MAX_DIST,
+			"spatial:" + rid + " floor-dist=" + "%.1f" % floor_dist)
+		_check(reach <= _SC_SENSOR_RANGE,
+			"spatial:" + rid + " reachable=" + "%.1f" % reach)
