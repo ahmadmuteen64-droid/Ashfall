@@ -514,6 +514,48 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
 [node name="Fill_W" parent="LevelRoot" unique_id=1692848652 instance=ExtResource("12_i5mec")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
+[node name="Brg_A_Gate" parent="LevelRoot" unique_id=793895783 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="Brg_A_Gate2" parent="LevelRoot" unique_id=661767383 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="Brg_A_Casc" parent="LevelRoot" unique_id=507909612 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="Brg_A_Casc2" parent="LevelRoot" unique_id=1753969487 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
+
+[node name="Brg_A_Quart" parent="LevelRoot" unique_id=1366146 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="Brg_A_Quart2" parent="LevelRoot" unique_id=1359752512 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="Brg_A_Avia" parent="LevelRoot" unique_id=1756442509 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+
+[node name="Brg_A_Avia2" parent="LevelRoot" unique_id=1915136909 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+
+[node name="Brg_A_Verd" parent="LevelRoot" unique_id=1589124797 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="Brg_A_Verd2" parent="LevelRoot" unique_id=1255349306 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
+
+[node name="Brg_A_Cel" parent="LevelRoot" unique_id=1705430332 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
+
+[node name="Brg_A_Cel2" parent="LevelRoot" unique_id=2021539825 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -4)
+
+[node name="Brg_Gate_Stas" parent="LevelRoot" unique_id=208412228 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -8)
+
+[node name="Brg_A_Cel3" parent="LevelRoot" unique_id=94137736 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -4)
+
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
 
 [node name="InventoryUI" parent="." unique_id=1025053704 instance=ExtResource("13_oaya2")]
