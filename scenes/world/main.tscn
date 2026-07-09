@@ -430,6 +430,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 18, -5)
 [node name="StasisSanctum" parent="LevelRoot" unique_id=1051195920 instance=ExtResource("21_r3w6i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -25)
 
+[node name="Path_A" parent="LevelRoot" unique_id=515036118 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="Path_B" parent="LevelRoot" unique_id=2012191990 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20)
+
+[node name="Path_E" parent="LevelRoot" unique_id=185260836 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="Path_NE" parent="LevelRoot" unique_id=743868646 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
+
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
 
 [node name="InventoryUI" parent="." unique_id=1025053704 instance=ExtResource("13_oaya2")]
