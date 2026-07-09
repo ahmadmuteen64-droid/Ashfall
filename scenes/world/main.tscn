@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://di4onh371dxnp" path="res://scripts/systems/main.gd" id="1_wbupf"]
 [ext_resource type="PackedScene" uid="uid://dby1lthxlt2uw" path="res://scenes/player/player.tscn" id="3_tt8nk"]
-[ext_resource type="Script" uid="uid://cekvc6et7mgt" path="res://scripts/components/camera_rig.gd" id="4_6r0uj"]
 [ext_resource type="Script" uid="uid://c7lj1tl7268l4" path="res://scripts/components/interaction_sensor.gd" id="5_6r0uj"]
 [ext_resource type="Script" uid="uid://crjqobrn1juhj" path="res://scripts/systems/loop_tracker.gd" id="5_7tdlr"]
+[ext_resource type="Script" path="res://scripts/components/player_controller.gd" id="5_llfdw"]
 [ext_resource type="PackedScene" uid="uid://dlqcreywb2kk3" path="res://scenes/world/level_ark_01.tscn" id="5_tt8nk"]
 [ext_resource type="Script" uid="uid://0wv6uydl67c0" path="res://scripts/components/interactable.gd" id="7_j0r68"]
 [ext_resource type="Script" uid="uid://o68f6kbggr6p" path="res://scripts/systems/level_check.gd" id="7_qip8x"]
@@ -15,17 +15,9 @@
 [ext_resource type="PackedScene" uid="uid://b56mn8u3qk2nh" path="res://kit/kit_ground_2x2.tscn" id="12_i5mec"]
 [ext_resource type="Script" uid="uid://cde2lhm66ap54" path="res://scripts/components/loop_beacon.gd" id="13_5bu78"]
 [ext_resource type="PackedScene" uid="uid://dxosr42kpgg25" path="res://scenes/ui/inventory.tscn" id="13_oaya2"]
-[ext_resource type="PackedScene" path="res://scenes/world/districts/atrium/atrium.tscn" id="14_u2p2s"]
 [ext_resource type="PackedScene" uid="uid://dyxkiaitb7plq" path="res://scenes/ui/experiment_station.tscn" id="14_wcbaq"]
-[ext_resource type="PackedScene" path="res://scenes/world/districts/gatehouse/gatehouse.tscn" id="15_llfdw"]
 [ext_resource type="Script" uid="uid://cvuh68m480ii7" path="res://scripts/systems/unlocks.gd" id="15_r1kpy"]
-[ext_resource type="PackedScene" path="res://scenes/world/districts/cascade_gardens/cascade_gardens.tscn" id="16_80eyj"]
-[ext_resource type="PackedScene" path="res://scenes/world/districts/verdant_creep/verdant_creep.tscn" id="17_wlwgd"]
-[ext_resource type="PackedScene" path="res://scenes/world/districts/living_quarters/living_quarters.tscn" id="18_4m2ge"]
 [ext_resource type="Script" uid="uid://3cuyes1yrw0l" path="res://scripts/systems/ecology.gd" id="18_pibea"]
-[ext_resource type="PackedScene" path="res://scenes/world/districts/aviary/aviary.tscn" id="19_exqdm"]
-[ext_resource type="PackedScene" path="res://scenes/world/districts/celestial_ring/celestial_ring.tscn" id="20_713oj"]
-[ext_resource type="PackedScene" path="res://scenes/world/districts/stasis_sanctum/stasis_sanctum.tscn" id="21_r3w6i"]
 
 [sub_resource type="Environment" id="Environment_7tdlr"]
 background_mode = 1
@@ -100,61 +92,8 @@ size = Vector3(6, 2, 6)
 [sub_resource type="BoxShape3D" id="BoxShape3D_wrw41"]
 size = Vector3(6, 2, 6)
 
-[sub_resource type="BoxMesh" id="BoxMesh_u2p2s"]
-size = Vector3(4, 0.3, 6)
-
-[sub_resource type="BoxMesh" id="BoxMesh_llfdw"]
-size = Vector3(4, 0.3, 6)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_713oj"]
-albedo_color = Color(1, 0.8, 0.1, 1)
-
-[sub_resource type="SphereMesh" id="SphereMesh_80eyj"]
-radius = 4.0
-height = 8.0
-radial_segments = 16
-rings = 8
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3w6i"]
-albedo_color = Color(0.3, 0.8, 0.2, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_wlwgd"]
-top_radius = 0.2
-bottom_radius = 1.0
-height = 12.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ggkmy"]
-albedo_color = Color(0.7, 0.2, 1, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_4m2ge"]
-top_radius = 5.0
-bottom_radius = 5.0
-height = 1.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_28gua"]
-albedo_color = Color(0.4, 0.7, 1, 1)
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_u2p2s"]
-bottom_radius = 1.5
-height = 3.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3mvx"]
-albedo_color = Color(1, 0.3, 0.3, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_80eyj"]
-size = Vector3(1, 10, 1)
-
 [node name="MainRoot" type="Node3D" unique_id=324924899]
 script = ExtResource("1_wbupf")
-
-[node name="CameraRig" type="Node3D" parent="." unique_id=166551030]
-script = ExtResource("4_6r0uj")
-height = 12.0
-distance = 15.0
-
-[node name="Camera3D" type="Camera3D" parent="CameraRig" unique_id=1943184754]
-transform = Transform3D(1, 0, 0, 0, 0.921061, 0.38941833, 0, -0.38941833, 0.921061, 0, 8, 12)
-current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2045674000]
 environment = SubResource("Environment_7tdlr")
@@ -168,9 +107,15 @@ shadow_enabled = true
 script = ExtResource("5_7tdlr")
 
 [node name="Player" parent="." unique_id=153334260 instance=ExtResource("3_tt8nk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -58)
+script = ExtResource("5_llfdw")
 
 [node name="InteractionSensor" type="Area3D" parent="Player" unique_id=491842941]
 script = ExtResource("5_6r0uj")
+
+[node name="Camera3D" type="Camera3D" parent="Player" unique_id=913272922]
+transform = Transform3D(1, 0, 0, 0, 0.87758255, 0.47942555, 0, -0.47942555, 0.87758255, 0, 6, 10)
+current = true
 
 [node name="LevelRoot" parent="." unique_id=1176789059 instance=ExtResource("5_tt8nk")]
 script = ExtResource("7_qip8x")
@@ -457,149 +402,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
 
 [node name="Garden_G8" parent="LevelRoot/Region_Garden" unique_id=1995052875 instance=ExtResource("12_i5mec")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
-
-[node name="Atrium" parent="LevelRoot" unique_id=1648937880 instance=ExtResource("14_u2p2s")]
-
-[node name="Floor_G0" parent="LevelRoot/Atrium" unique_id=1035255803 instance=ExtResource("12_i5mec")]
-
-[node name="Floor_G1" parent="LevelRoot/Atrium" unique_id=921206324 instance=ExtResource("12_i5mec")]
-
-[node name="Floor_G2" parent="LevelRoot/Atrium" unique_id=353265602 instance=ExtResource("12_i5mec")]
-
-[node name="Gatehouse" parent="LevelRoot" unique_id=1546615854 instance=ExtResource("15_llfdw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
-
-[node name="Floor_G3" parent="LevelRoot/Gatehouse" unique_id=1194682024 instance=ExtResource("12_i5mec")]
-
-[node name="Floor_G4" parent="LevelRoot/Gatehouse" unique_id=1826437222 instance=ExtResource("12_i5mec")]
-
-[node name="Floor_G5" parent="LevelRoot/Gatehouse" unique_id=1268865989 instance=ExtResource("12_i5mec")]
-
-[node name="CascadeGardens" parent="LevelRoot" unique_id=1557595301 instance=ExtResource("16_80eyj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
-
-[node name="Floor_G0" parent="LevelRoot/CascadeGardens" unique_id=2032650381 instance=ExtResource("12_i5mec")]
-
-[node name="Floor_G1" parent="LevelRoot/CascadeGardens" unique_id=117729197 instance=ExtResource("12_i5mec")]
-
-[node name="Floor_G2" parent="LevelRoot/CascadeGardens" unique_id=1164772725 instance=ExtResource("12_i5mec")]
-
-[node name="VerdantCreep" parent="LevelRoot" unique_id=1210701405 instance=ExtResource("17_wlwgd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 8)
-
-[node name="LivingQuarters" parent="LevelRoot" unique_id=289127026 instance=ExtResource("18_4m2ge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
-
-[node name="Aviary" parent="LevelRoot" unique_id=1513773066 instance=ExtResource("19_exqdm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
-
-[node name="CelestialRing" parent="LevelRoot" unique_id=1997926398 instance=ExtResource("20_713oj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -4)
-
-[node name="StasisSanctum" parent="LevelRoot" unique_id=1051195920 instance=ExtResource("21_r3w6i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -8)
-
-[node name="Path_A" parent="LevelRoot" unique_id=515036118 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
-
-[node name="Path_B" parent="LevelRoot" unique_id=2012191990 instance=ExtResource("12_i5mec")]
-transform = Transform3D(23.343393, 0, 0, 0, 1, 0, 0, 0, 19.485035, 0, -5.1487093, 40.20707)
-
-[node name="Path_E" parent="LevelRoot" unique_id=185260836 instance=ExtResource("12_i5mec")]
-transform = Transform3D(2.7772825, 0, 0, 0, 1.5720023, -3.103788, 0, 0.56056905, 8.703944, -0.90680027, -2.291595, 19.163837)
-
-[node name="Path_NE" parent="LevelRoot" unique_id=743868646 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
-
-[node name="Ramp_ToGardens" type="MeshInstance3D" parent="LevelRoot" unique_id=679247031]
-transform = Transform3D(1, 0, 0, 0, 0.9553365, 0.29552022, 0, -0.29552022, 0.9553365, 8, 0, 0)
-mesh = SubResource("BoxMesh_u2p2s")
-
-[node name="Ramp_ToQuarters" type="MeshInstance3D" parent="LevelRoot" unique_id=37685425]
-transform = Transform3D(1, 0, 0, 0, 0.9553365, 0.29552022, 0, -0.29552022, 0.9553365, 0, 0, 8)
-mesh = SubResource("BoxMesh_llfdw")
-
-[node name="ShatteredDome" type="MeshInstance3D" parent="LevelRoot" unique_id=643137239]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7614098, 4, -52.76506)
-material_override = SubResource("StandardMaterial3D_713oj")
-mesh = SubResource("SphereMesh_80eyj")
-
-[node name="DomeObservable" type="Node" parent="LevelRoot/ShatteredDome" unique_id=112841531]
-script = ExtResource("8_j0r68")
-
-[node name="CourtyardTree" type="MeshInstance3D" parent="LevelRoot" unique_id=2016088008]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4)
-material_override = SubResource("StandardMaterial3D_r3w6i")
-mesh = SubResource("CylinderMesh_wlwgd")
-
-[node name="RingPlatform" type="MeshInstance3D" parent="LevelRoot" unique_id=424201300]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, -2)
-material_override = SubResource("StandardMaterial3D_ggkmy")
-mesh = SubResource("CylinderMesh_4m2ge")
-
-[node name="Landmark_Fountain" type="MeshInstance3D" parent="LevelRoot" unique_id=800627511]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
-material_override = SubResource("StandardMaterial3D_28gua")
-mesh = SubResource("CylinderMesh_u2p2s")
-
-[node name="Landmark_Obelisk" type="MeshInstance3D" parent="LevelRoot" unique_id=507936633]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
-material_override = SubResource("StandardMaterial3D_e3mvx")
-mesh = SubResource("BoxMesh_80eyj")
-
-[node name="Fill_N" parent="LevelRoot" unique_id=2056362427 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
-
-[node name="Fill_S" parent="LevelRoot" unique_id=289809254 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
-
-[node name="Fill_E" parent="LevelRoot" unique_id=1574745269 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
-
-[node name="Fill_W" parent="LevelRoot" unique_id=1692848652 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
-
-[node name="Brg_A_Gate" parent="LevelRoot" unique_id=793895783 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
-
-[node name="Brg_A_Gate2" parent="LevelRoot" unique_id=661767383 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
-
-[node name="Brg_A_Casc" parent="LevelRoot" unique_id=507909612 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
-
-[node name="Brg_A_Casc2" parent="LevelRoot" unique_id=1753969487 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
-
-[node name="Brg_A_Quart" parent="LevelRoot" unique_id=1366146 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
-
-[node name="Brg_A_Quart2" parent="LevelRoot" unique_id=1359752512 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
-
-[node name="Brg_A_Avia" parent="LevelRoot" unique_id=1756442509 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
-
-[node name="Brg_A_Avia2" parent="LevelRoot" unique_id=1915136909 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
-
-[node name="Brg_A_Verd" parent="LevelRoot" unique_id=1589124797 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
-
-[node name="Brg_A_Verd2" parent="LevelRoot" unique_id=1255349306 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
-
-[node name="Brg_A_Cel" parent="LevelRoot" unique_id=1705430332 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -2)
-
-[node name="Brg_A_Cel2" parent="LevelRoot" unique_id=2021539825 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -4)
-
-[node name="Brg_Gate_Stas" parent="LevelRoot" unique_id=208412228 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -8)
-
-[node name="Brg_A_Cel3" parent="LevelRoot" unique_id=94137736 instance=ExtResource("12_i5mec")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -4)
 
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
 
