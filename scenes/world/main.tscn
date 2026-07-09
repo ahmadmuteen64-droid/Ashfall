@@ -82,6 +82,28 @@ size = Vector3(6, 2, 6)
 [sub_resource type="BoxShape3D" id="BoxShape3D_wrw41"]
 size = Vector3(6, 2, 6)
 
+[sub_resource type="BoxMesh" id="BoxMesh_u2p2s"]
+size = Vector3(4, 0.3, 6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_llfdw"]
+size = Vector3(4, 0.3, 6)
+
+[sub_resource type="SphereMesh" id="SphereMesh_80eyj"]
+radius = 4.0
+height = 8.0
+radial_segments = 16
+rings = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wlwgd"]
+top_radius = 0.2
+bottom_radius = 1.0
+height = 12.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4m2ge"]
+top_radius = 5.0
+bottom_radius = 5.0
+height = 1.0
+
 [node name="MainRoot" type="Node3D" unique_id=324924899]
 script = ExtResource("1_wbupf")
 
@@ -441,6 +463,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 
 [node name="Path_NE" parent="LevelRoot" unique_id=743868646 instance=ExtResource("12_i5mec")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
+
+[node name="Ramp_ToGardens" type="MeshInstance3D" parent="LevelRoot" unique_id=679247031]
+transform = Transform3D(1, 0, 0, 0, 0.9553365, 0.29552022, 0, -0.29552022, 0.9553365, 18, 1.5, 0)
+mesh = SubResource("BoxMesh_u2p2s")
+
+[node name="Ramp_ToQuarters" type="MeshInstance3D" parent="LevelRoot" unique_id=37685425]
+transform = Transform3D(1, 0, 0, 0, 0.9553365, 0.29552022, 0, -0.29552022, 0.9553365, 0, 4, 18)
+mesh = SubResource("BoxMesh_llfdw")
+
+[node name="ShatteredDome" type="MeshInstance3D" parent="LevelRoot" unique_id=643137239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 5)
+mesh = SubResource("SphereMesh_80eyj")
+
+[node name="DomeObservable" type="Node" parent="LevelRoot/ShatteredDome" unique_id=112841531]
+script = ExtResource("8_j0r68")
+
+[node name="CourtyardTree" type="MeshInstance3D" parent="LevelRoot" unique_id=2016088008]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 20, -12)
+mesh = SubResource("CylinderMesh_wlwgd")
+
+[node name="RingPlatform" type="MeshInstance3D" parent="LevelRoot" unique_id=424201300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 25, 0)
+mesh = SubResource("CylinderMesh_4m2ge")
 
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
 
