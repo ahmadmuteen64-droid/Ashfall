@@ -427,7 +427,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 2)
 [node name="Floor_G2" parent="LevelRoot/Atrium" unique_id=353265602 instance=ExtResource("12_i5mec")]
 
 [node name="Gatehouse" parent="LevelRoot" unique_id=1546615854 instance=ExtResource("15_llfdw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 
 [node name="Floor_G3" parent="LevelRoot/Gatehouse" unique_id=1194682024 instance=ExtResource("12_i5mec")]
 
@@ -436,7 +436,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -30)
 [node name="Floor_G5" parent="LevelRoot/Gatehouse" unique_id=1268865989 instance=ExtResource("12_i5mec")]
 
 [node name="CascadeGardens" parent="LevelRoot" unique_id=1557595301 instance=ExtResource("16_80eyj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0)
 
 [node name="Floor_G0" parent="LevelRoot/CascadeGardens" unique_id=2032650381 instance=ExtResource("12_i5mec")]
 
@@ -445,19 +445,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 3, 0)
 [node name="Floor_G2" parent="LevelRoot/CascadeGardens" unique_id=1164772725 instance=ExtResource("12_i5mec")]
 
 [node name="VerdantCreep" parent="LevelRoot" unique_id=1210701405 instance=ExtResource("17_wlwgd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 8)
 
 [node name="LivingQuarters" parent="LevelRoot" unique_id=289127026 instance=ExtResource("18_4m2ge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
 
 [node name="Aviary" parent="LevelRoot" unique_id=1513773066 instance=ExtResource("19_exqdm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 12, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 
 [node name="CelestialRing" parent="LevelRoot" unique_id=1997926398 instance=ExtResource("20_713oj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 18, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -4)
 
 [node name="StasisSanctum" parent="LevelRoot" unique_id=1051195920 instance=ExtResource("21_r3w6i")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, -25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -8)
 
 [node name="Path_A" parent="LevelRoot" unique_id=515036118 instance=ExtResource("12_i5mec")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
@@ -472,35 +472,47 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
 
 [node name="Ramp_ToGardens" type="MeshInstance3D" parent="LevelRoot" unique_id=679247031]
-transform = Transform3D(1, 0, 0, 0, 0.9553365, 0.29552022, 0, -0.29552022, 0.9553365, 18, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9553365, 0.29552022, 0, -0.29552022, 0.9553365, 8, 0, 0)
 mesh = SubResource("BoxMesh_u2p2s")
 
 [node name="Ramp_ToQuarters" type="MeshInstance3D" parent="LevelRoot" unique_id=37685425]
-transform = Transform3D(1, 0, 0, 0, 0.9553365, 0.29552022, 0, -0.29552022, 0.9553365, 0, 4, 18)
+transform = Transform3D(1, 0, 0, 0, 0.9553365, 0.29552022, 0, -0.29552022, 0.9553365, 0, 0, 8)
 mesh = SubResource("BoxMesh_llfdw")
 
 [node name="ShatteredDome" type="MeshInstance3D" parent="LevelRoot" unique_id=643137239]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
 mesh = SubResource("SphereMesh_80eyj")
 
 [node name="DomeObservable" type="Node" parent="LevelRoot/ShatteredDome" unique_id=112841531]
 script = ExtResource("8_j0r68")
 
 [node name="CourtyardTree" type="MeshInstance3D" parent="LevelRoot" unique_id=2016088008]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 20, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, -4)
 mesh = SubResource("CylinderMesh_wlwgd")
 
 [node name="RingPlatform" type="MeshInstance3D" parent="LevelRoot" unique_id=424201300]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 8, -2)
 mesh = SubResource("CylinderMesh_4m2ge")
 
 [node name="Landmark_Fountain" type="MeshInstance3D" parent="LevelRoot" unique_id=800627511]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 3, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1.5, -3)
 mesh = SubResource("CylinderMesh_u2p2s")
 
 [node name="Landmark_Obelisk" type="MeshInstance3D" parent="LevelRoot" unique_id=507936633]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5, 20)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 5, 6)
 mesh = SubResource("BoxMesh_80eyj")
+
+[node name="Fill_N" parent="LevelRoot" unique_id=2056362427 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Fill_S" parent="LevelRoot" unique_id=289809254 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4)
+
+[node name="Fill_E" parent="LevelRoot" unique_id=1574745269 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+
+[node name="Fill_W" parent="LevelRoot" unique_id=1692848652 instance=ExtResource("12_i5mec")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("9_j0vxu")]
 
