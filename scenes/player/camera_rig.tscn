@@ -1,9 +1,16 @@
 [gd_scene format=3 uid="uid://mxya0xhsei0h"]
 
-[ext_resource type="Script" uid="uid://cekvc6et7mgt" path="res://scripts/components/camera_rig.gd" id="1_asq2o"]
+[ext_resource type="Script" uid="uid://cekvc6et7mgt" path="res://scripts/components/camera_rig.gd" id="1_camrig"]
 
 [node name="CameraRig" type="Node3D" unique_id=1148178580]
-script = ExtResource("1_asq2o")
+script = ExtResource("1_camrig")
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=2095392599]
-current = true
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=2095392598]
+spring_length = 8.0
+margin = 0.3
+collision_mask = 1
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=2095392599]
+fov = 75.0
+near = 0.1
+far = 500.0

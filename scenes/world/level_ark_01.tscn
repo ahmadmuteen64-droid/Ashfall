@@ -1,186 +1,69 @@
 [gd_scene format=3 uid="uid://dlqcreywb2kk3"]
 
-[ext_resource type="PackedScene" uid="uid://b56mn8u3qk2nh" path="res://kit/kit_ground_2x2.tscn" id="1_yr8k7"]
-[ext_resource type="PackedScene" uid="uid://chpnjdwqawli3" path="res://kit/kit_wall_cliff_4m.tscn" id="2_4osxb"]
-[ext_resource type="PackedScene" uid="uid://df7t5a7l4ghvg" path="res://kit/kit_path_straight.tscn" id="3_32bys"]
-[ext_resource type="Script" uid="uid://cde2lhm66ap54" path="res://scripts/components/loop_beacon.gd" id="3_p7b83"]
-[ext_resource type="PackedScene" uid="uid://di6goqbneh1vv" path="res://kit/kit_ramp_20deg.tscn" id="4_p7b83"]
-[ext_resource type="PackedScene" uid="uid://dou46ws3ldkep" path="res://kit/kit_ramp_30deg.tscn" id="5_fx6bw"]
-[ext_resource type="PackedScene" uid="uid://ccp7ueulbscdo" path="res://kit/kit_platform_2x2.tscn" id="6_o1df5"]
+[ext_resource type="Script" uid="uid://cde2lhm66ap54" path="res://scripts/components/loop_beacon.gd" id="1_beacon"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wg32w"]
+[sub_resource type="BoxShape3D" id="Shape_shrine"]
 size = Vector3(4, 2, 4)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_wk6a0"]
+[sub_resource type="BoxShape3D" id="Shape_plaza"]
 size = Vector3(8, 2, 8)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_a5bct"]
+[sub_resource type="BoxShape3D" id="Shape_rift"]
 size = Vector3(8, 2, 6)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_670hx"]
+[sub_resource type="BoxShape3D" id="Shape_obs"]
 size = Vector3(4, 2, 4)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_vh6pn"]
+[sub_resource type="BoxShape3D" id="Shape_forest"]
 size = Vector3(4, 2, 4)
+
+; ═══════════════════════════════════════════════════════════════
+; LevelArk01 — stripped-down level template.
+; All kit tiles replaced by a single plane in main.tscn.
+; This scene retains only beacons and the player spawn marker.
+; ═══════════════════════════════════════════════════════════════
 
 [node name="LevelArk01" type="Node3D" unique_id=1176789059]
 
-[node name="Shrine_G0" parent="." unique_id=2119878399 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -64)
-
-[node name="Shrine_G1" parent="." unique_id=1081897883 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -64)
-
-[node name="Shrine_G2" parent="." unique_id=477825916 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -64)
-
-[node name="Shrine_G3" parent="." unique_id=240415399 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -60)
-
-[node name="Shrine_G4" parent="." unique_id=1493060169 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -60)
-
-[node name="Shrine_G5" parent="." unique_id=123140521 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -60)
-
-[node name="Shrine_G6" parent="." unique_id=2039657698 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -56)
-
-[node name="Shrine_G7" parent="." unique_id=562067958 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -56)
-
-[node name="Shrine_G8" parent="." unique_id=810557301 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -56)
-
-[node name="Shrine_WallN" parent="." unique_id=1308236123 instance=ExtResource("2_4osxb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -65)
-
-[node name="Shrine_WallS" parent="." unique_id=1493533589 instance=ExtResource("2_4osxb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -55)
-
-[node name="Shrine_WallE" parent="." unique_id=797146997 instance=ExtResource("2_4osxb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -60)
-
-[node name="Shrine_WallW" parent="." unique_id=1429488325 instance=ExtResource("2_4osxb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -60)
-
 [node name="PlayerSpawn" type="Node3D" parent="." unique_id=859574969]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -60)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
 [node name="Beacon_Shrine" type="Area3D" parent="." unique_id=1258377425]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -60)
-script = ExtResource("3_p7b83")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_beacon")
 beacon_id = "SpawnShrine"
 
 [node name="Shape" type="CollisionShape3D" parent="Beacon_Shrine" unique_id=1409858886]
-shape = SubResource("BoxShape3D_wg32w")
-
-[node name="Path_ShrineToPlaza" parent="." unique_id=1224674277 instance=ExtResource("3_32bys")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50)
-
-[node name="Ramp_ToPlaza" parent="." unique_id=1795087774 instance=ExtResource("4_p7b83")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -36)
-
-[node name="Plaza_G0" parent="." unique_id=1416522108 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, -18)
-
-[node name="Plaza_G1" parent="." unique_id=2021518957 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -18)
-
-[node name="Plaza_G2" parent="." unique_id=1213232045 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, -18)
-
-[node name="Plaza_G3" parent="." unique_id=1087862828 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, -14)
-
-[node name="Plaza_G4" parent="." unique_id=1597835954 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -14)
-
-[node name="Plaza_G5" parent="." unique_id=515169196 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, -14)
-
-[node name="Plaza_G6" parent="." unique_id=1588419062 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4, -10)
-
-[node name="Plaza_G7" parent="." unique_id=457831643 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -10)
-
-[node name="Plaza_G8" parent="." unique_id=1307191696 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4, -10)
+shape = SubResource("Shape_shrine")
 
 [node name="Beacon_Plaza" type="Area3D" parent="." unique_id=2089824785]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -14)
-script = ExtResource("3_p7b83")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
+script = ExtResource("1_beacon")
 beacon_id = "GreatTreePlaza"
 
 [node name="Shape" type="CollisionShape3D" parent="Beacon_Plaza" unique_id=1618199539]
-shape = SubResource("BoxShape3D_wk6a0")
-
-[node name="Path_ToRift1" parent="." unique_id=1092082225 instance=ExtResource("3_32bys")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
-
-[node name="Path_ToRift2" parent="." unique_id=282548399 instance=ExtResource("3_32bys")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 10)
-
-[node name="Ramp_DownToRift" parent="." unique_id=304694251 instance=ExtResource("5_fx6bw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 20)
-
-[node name="Rift_G0" parent="." unique_id=1791269558 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -5, 30)
-
-[node name="Rift_G1" parent="." unique_id=453547714 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 30)
-
-[node name="Rift_G2" parent="." unique_id=1781193152 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -5, 30)
-
-[node name="Rift_G3" parent="." unique_id=1276168991 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, -5, 34)
-
-[node name="Rift_G4" parent="." unique_id=314214341 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 34)
-
-[node name="Rift_G5" parent="." unique_id=1138977191 instance=ExtResource("1_yr8k7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -5, 34)
-
-[node name="Rift_WallL" parent="." unique_id=903980004 instance=ExtResource("2_4osxb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, -5, 32)
-
-[node name="Rift_WallR" parent="." unique_id=2080349109 instance=ExtResource("2_4osxb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, 32)
+shape = SubResource("Shape_plaza")
 
 [node name="Beacon_Rift" type="Area3D" parent="." unique_id=330829554]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, 32)
-script = ExtResource("3_p7b83")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 12)
+script = ExtResource("1_beacon")
 beacon_id = "CrystalRift"
 
 [node name="Shape" type="CollisionShape3D" parent="Beacon_Rift" unique_id=928392262]
-shape = SubResource("BoxShape3D_a5bct")
-
-[node name="Ramp_ToObs" parent="." unique_id=340314059 instance=ExtResource("4_p7b83")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 38)
-
-[node name="Obs_Platform" parent="." unique_id=1911002448 instance=ExtResource("6_o1df5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 48)
-
-[node name="Obs_WallN" parent="." unique_id=1328929333 instance=ExtResource("2_4osxb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 47)
-
-[node name="Obs_WallS" parent="." unique_id=730322477 instance=ExtResource("2_4osxb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 49)
+shape = SubResource("Shape_rift")
 
 [node name="Beacon_Obs" type="Area3D" parent="." unique_id=1314015655]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 48)
-script = ExtResource("3_p7b83")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 18)
+script = ExtResource("1_beacon")
 beacon_id = "Observatory"
 
 [node name="Shape" type="CollisionShape3D" parent="Beacon_Obs" unique_id=722524847]
-shape = SubResource("BoxShape3D_670hx")
+shape = SubResource("Shape_obs")
 
 [node name="Beacon_Forest" type="Area3D" parent="." unique_id=715269022]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 5)
-script = ExtResource("3_p7b83")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -6)
+script = ExtResource("1_beacon")
 beacon_id = "ForestPath"
 
 [node name="Shape" type="CollisionShape3D" parent="Beacon_Forest" unique_id=1161195491]
-shape = SubResource("BoxShape3D_vh6pn")
+shape = SubResource("Shape_forest")

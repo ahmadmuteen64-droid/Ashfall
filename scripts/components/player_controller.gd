@@ -7,6 +7,7 @@ extends CharacterBody3D
 @export var sprint_multiplier: float = 1.6
 @export var glide_duration: float = 1.0
 @export var max_air_jumps: int = 2
+@export var rotation_speed: float = 12.0  ## How fast the player turns to face movement/camera direction
 
 var _gravity: float = 9.8
 var _jump_velocity: float = 0.0
@@ -16,6 +17,7 @@ var _is_gliding: bool = false
 var _glide_timer: float = 0.0
 var _can_wall_jump: bool = false
 var _air_jumps_remaining: int = 0
+@onready var _wind_particles: GPUParticles3D = $WindParticles
 
 
 func _ready() -> void:
@@ -96,13 +98,48 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+	# ── Wind particles: emit when gliding or falling fast ──
+	if _wind_particles:
+		var in_air := not is_on_floor()
+		var moving_fast := velocity.length() > speed * 1.2
+		_wind_particles.emitting = in_air and (_is_gliding or moving_fast)
+
+	# ── Rotation: face movement direction (or camera forward when idle) ──
+	_apply_facing(delta, world_dir)
+
+
+func _apply_facing(delta: float, move_dir: Vector3) -> void:
+	## Rotates the player smoothly toward:
+	##  - Movement direction when actively moving
+	##  - Camera forward when standing still
+	var target_dir: Vector3
+	if move_dir.length() > 0.01:
+		target_dir = move_dir
+	else:
+		var cam: Camera3D = get_viewport().get_camera_3d()
+		if cam:
+			target_dir = -cam.global_transform.basis.z
+			target_dir.y = 0.0
+		else:
+			return
+	if target_dir.length_squared() < 0.001:
+		return
+	var target_angle: float = atan2(target_dir.x, target_dir.z)
+	rotation.y = rotate_toward(rotation.y, target_angle, rotation_speed * delta)
+
 
 func _get_camera_basis() -> Basis:
-	var target: Node = get_node_or_null("CameraTarget")
-	if target:
-		var p: Node = target.get_parent()
-		if p and p != self and p is Node3D:
-			var b: Basis = (p as Node3D).global_transform.basis
-			b.y = Vector3(0, 0, 0)
-			return b
+	## Returns the horizontal-only basis of the active 3D camera
+	## so movement is always relative to where the player is looking.
+	var cam: Camera3D = get_viewport().get_camera_3d()
+	if cam:
+		var b: Basis = cam.global_transform.basis
+		# Flatten forward onto XZ plane
+		var forward: Vector3 = -b.z
+		forward.y = 0.0
+		if forward.length_squared() < 0.001:
+			return Basis()
+		forward = forward.normalized()
+		var right: Vector3 = forward.cross(Vector3.UP).normalized()
+		return Basis(right, Vector3.UP, forward)
 	return Basis()

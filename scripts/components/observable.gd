@@ -34,4 +34,4 @@ func _on_interacted(id: String, type: int) -> void:
 	elif type == 2:
 		var station := get_node_or_null("/root/MainRoot/ExperimentStationUI")
 		if station and station.has_method("open"):
-			station.open()
+			station.open(_interactable)
