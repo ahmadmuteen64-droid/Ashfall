@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/reaction_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+reaction_id = "awakening_essence_resonance_core_to_living_crystal"
+inputs = ["awakening_essence", "resonance_core"]
+conditions = {}
+result_node = "living_crystal"
+requires_knows = "awakening_essence"
+byproducts = []

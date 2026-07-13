@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/reaction_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+reaction_id = "coal_dust_coal_dust_to_carbon_powder"
+inputs = ["coal_dust", "coal_dust"]
+conditions = {}
+result_node = "carbon_powder"
+requires_knows = ""
+byproducts = []

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="KnowledgeNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/knowledge_node.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+node_id = "insulated_ceramic"
+display_name = "Thermal Insulation"
+summary = "Carbon-enhanced ceramics provide superior insulation against heat and energy discharge."
+links = ["thermal_shield", "resonant_armor"]
+confidence = 2
+unlocks = []

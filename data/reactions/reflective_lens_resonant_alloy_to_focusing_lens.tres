@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/reaction_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+reaction_id = "reflective_lens_resonant_alloy_to_focusing_lens"
+inputs = ["reflective_lens", "resonant_alloy"]
+conditions = {"pressure": "required"}
+result_node = "focusing_lens"
+requires_knows = "reflective_lens"
+byproducts = []

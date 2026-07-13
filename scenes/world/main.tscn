@@ -206,6 +206,58 @@ size = Vector3(0.4, 0.2, 0.4)
 [sub_resource type="BoxShape3D" id="Shape_clay"]
 size = Vector3(0.6, 0.35, 0.6)
 
+; ── Copper Ore (orange metallic, Mine zone) ──────────────────
+[sub_resource type="StandardMaterial3D" id="Mat_copper"]
+albedo_color = Color(0.85, 0.45, 0.15, 1)
+roughness = 0.4
+metallic = 0.9
+
+[sub_resource type="SphereMesh" id="Mesh_copper"]
+radius = 0.18
+height = 0.36
+
+[sub_resource type="SphereShape3D" id="Shape_copper"]
+radius = 0.28
+
+; ── Forge Ember (glowing orange, Forge zone) ─────────────────
+[sub_resource type="StandardMaterial3D" id="Mat_ember"]
+albedo_color = Color(1.0, 0.35, 0.05, 1)
+emission_enabled = true
+emission = Color(0.9, 0.25, 0.02, 1)
+emission_energy_multiplier = 0.9
+
+[sub_resource type="SphereMesh" id="Mesh_ember"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="SphereShape3D" id="Shape_ember"]
+radius = 0.2
+
+; ── Obsidian Shard (dark glassy, Mine zone) ──────────────────
+[sub_resource type="StandardMaterial3D" id="Mat_obsidian"]
+albedo_color = Color(0.12, 0.08, 0.18, 1)
+roughness = 0.15
+metallic = 0.3
+
+[sub_resource type="BoxMesh" id="Mesh_obsidian"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="BoxShape3D" id="Shape_obsidian"]
+size = Vector3(0.35, 0.35, 0.35)
+
+; ── Pollen Dust (golden powder, Forest zone) ─────────────────
+[sub_resource type="StandardMaterial3D" id="Mat_pollen"]
+albedo_color = Color(0.95, 0.85, 0.15, 1)
+roughness = 0.9
+metallic = 0.0
+
+[sub_resource type="SphereMesh" id="Mesh_pollen"]
+radius = 0.12
+height = 0.24
+
+[sub_resource type="SphereShape3D" id="Shape_pollen"]
+radius = 0.22
+
 [node name="MainRoot" type="Node3D" unique_id=324924899]
 script = ExtResource("1_main")
 
@@ -519,6 +571,82 @@ mesh = SubResource("Mesh_clay")
 
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Clay_Deposit" unique_id=305000004]
 shape = SubResource("Shape_clay")
+
+; ── Copper Ore (Mine zone — northeast cluster) ───────────────
+[node name="Copper_Ore" type="Area3D" parent="LevelRoot" unique_id=306000001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 12)
+script = ExtResource("6_interact")
+interact_type = 1
+interactable_id = "copper_ore"
+
+[node name="Observable" type="Node" parent="LevelRoot/Copper_Ore" unique_id=306000002]
+script = ExtResource("8_obs")
+observable_id = "copper_ore"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/Copper_Ore" unique_id=306000003]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
+material_override = SubResource("Mat_copper")
+mesh = SubResource("Mesh_copper")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Copper_Ore" unique_id=306000004]
+shape = SubResource("Shape_copper")
+
+; ── Forge Ember (Forge zone — south cluster) ─────────────────
+[node name="Forge_Ember" type="Area3D" parent="LevelRoot" unique_id=307000001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -14)
+script = ExtResource("6_interact")
+interact_type = 1
+interactable_id = "forge_ember"
+
+[node name="Observable" type="Node" parent="LevelRoot/Forge_Ember" unique_id=307000002]
+script = ExtResource("8_obs")
+observable_id = "forge_ember"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/Forge_Ember" unique_id=307000003]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+material_override = SubResource("Mat_ember")
+mesh = SubResource("Mesh_ember")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Forge_Ember" unique_id=307000004]
+shape = SubResource("Shape_ember")
+
+; ── Obsidian Shard (Mine zone — northeast cluster) ───────────
+[node name="Obsidian_Shard" type="Area3D" parent="LevelRoot" unique_id=308000001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 12)
+script = ExtResource("6_interact")
+interact_type = 1
+interactable_id = "obsidian_shard"
+
+[node name="Observable" type="Node" parent="LevelRoot/Obsidian_Shard" unique_id=308000002]
+script = ExtResource("8_obs")
+observable_id = "obsidian_shard"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/Obsidian_Shard" unique_id=308000003]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+material_override = SubResource("Mat_obsidian")
+mesh = SubResource("Mesh_obsidian")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Obsidian_Shard" unique_id=308000004]
+shape = SubResource("Shape_obsidian")
+
+; ── Pollen Dust (Forest zone — northwest cluster) ────────────
+[node name="Pollen_Dust" type="Area3D" parent="LevelRoot" unique_id=309000001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 6)
+script = ExtResource("6_interact")
+interact_type = 1
+interactable_id = "pollen_dust"
+
+[node name="Observable" type="Node" parent="LevelRoot/Pollen_Dust" unique_id=309000002]
+script = ExtResource("8_obs")
+observable_id = "pollen_dust"
+
+[node name="Visual" type="MeshInstance3D" parent="LevelRoot/Pollen_Dust" unique_id=309000003]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.12, 0)
+material_override = SubResource("Mat_pollen")
+mesh = SubResource("Mesh_pollen")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Pollen_Dust" unique_id=309000004]
+shape = SubResource("Shape_pollen")
 
 [node name="PlayerSpawn" type="Node3D" parent="LevelRoot" unique_id=859574969]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

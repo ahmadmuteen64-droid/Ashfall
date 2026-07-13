@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/reaction_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+reaction_id = "harmonic_alloy_resonance_relay_to_ark_resonator"
+inputs = ["harmonic_alloy", "resonance_relay"]
+conditions = {"heat": "required", "pressure": "required"}
+result_node = "ark_resonator"
+requires_knows = "harmonic_alloy"
+byproducts = []

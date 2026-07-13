@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/reaction_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+reaction_id = "insulated_ceramic_energy_conduit_to_thermal_shield"
+inputs = ["insulated_ceramic", "energy_conduit"]
+conditions = {"heat": "required"}
+result_node = "thermal_shield"
+requires_knows = "insulated_ceramic"
+byproducts = []

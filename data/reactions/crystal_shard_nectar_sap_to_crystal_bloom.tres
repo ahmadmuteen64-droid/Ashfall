@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/reaction_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+reaction_id = "crystal_shard_nectar_sap_to_crystal_bloom"
+inputs = ["crystal_shard", "nectar_sap"]
+conditions = {}
+result_node = "crystal_bloom"
+requires_knows = "resonance_basics"
+byproducts = ["pollen_dust"]

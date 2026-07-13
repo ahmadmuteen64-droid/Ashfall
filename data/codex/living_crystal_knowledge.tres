@@ -4,9 +4,9 @@
 
 [resource]
 script = ExtResource("1_script")
-node_id = "resonance_basics"
-display_name = "Resonance Basics"
-summary = "Crystals store and release kinetic energy through lattice vibration."
-links = ["resonant_alloy", "resonance_core"]
+node_id = "living_crystal"
+display_name = "Living Crystal Theory"
+summary = "Crystals infused with awakening essence exhibit organic growth patterns and self-repair."
+links = ["crystal_seed", "crystal_beacon"]
 confidence = 2
-unlocks = ["resonance_lens"]
+unlocks = []

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReactionDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/reaction_def.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+reaction_id = "armored_mesh_resonant_ceramic_to_resonant_armor"
+inputs = ["armored_mesh", "resonant_ceramic"]
+conditions = {"heat": "required"}
+result_node = "resonant_armor"
+requires_knows = "armored_mesh"
+byproducts = []

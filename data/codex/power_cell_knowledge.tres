@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="KnowledgeNode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/knowledge_node.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+node_id = "power_cell"
+display_name = "Energy Storage Systems"
+summary = "Combining conductive alloys with charged crystals creates stable power storage."
+links = ["energy_conduit", "laser_emitter"]
+confidence = 2
+unlocks = []
