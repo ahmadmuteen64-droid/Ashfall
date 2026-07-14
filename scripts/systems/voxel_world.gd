@@ -19,7 +19,22 @@ var _chunks: Array = []
 func _ready() -> void:
 	_load_voxel_types()
 	_generate_world()
+	_create_floor_collision()
 	print("VOXEL_WORLD_OK  types:%d  chunks:%d" % [type_table.size() - 1, _chunks.size()])
+
+
+func _create_floor_collision() -> void:
+	var floor: StaticBody3D = get_node_or_null("FloorCollision")
+	if not floor: return
+	var cs: CollisionShape3D = floor.get_node_or_null("CollisionShape3D")
+	if not cs: return
+	var box: BoxShape3D = BoxShape3D.new()
+	var world_w: float = float(world_size_x * CHUNK_SIZE)
+	var world_d: float = float(world_size_z * CHUNK_SIZE)
+	box.size = Vector3(world_w, 0.5, world_d)
+	cs.shape = box
+	cs.position = Vector3(world_w / 2.0, 1.0, world_d / 2.0)
+	floor.collision_layer = 1
 
 
 func _load_voxel_types() -> void:

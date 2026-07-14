@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://do22yradc4tjt"]
 
-[ext_resource type="Script" uid="uid://bgehkcpy2fruu" path="res://scripts/systems/voxel_world.gd" id="1_6tv6f"]
+[ext_resource type="Script" uid="uid://dimcqli1cgkt6" path="res://scripts/systems/voxel_world.gd" id="1_6tv6f"]
 
 [node name="VoxelWorldRoot" type="Node3D" unique_id=385079801]
 script = ExtResource("1_6tv6f")
+
+[node name="FloorCollision" type="StaticBody3D" parent="." unique_id=1893564499]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorCollision" unique_id=170940938]
