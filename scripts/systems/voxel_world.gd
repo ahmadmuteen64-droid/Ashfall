@@ -1,6 +1,6 @@
 class_name VoxelWorld
 extends Node3D
-## Sky Island world generator — 5 floating biomes, caves, giant trees, bridges, waterfalls.
+## Sky Island world - 5 massive floating biomes, scaled to the player.
 
 const CHUNK_SIZE: int = 32
 const VOXEL_SIZE: float = 0.2
@@ -12,10 +12,11 @@ var type_ids: Dictionary = {}
 var type_table: Array = []
 var _chunks: Array = []
 var _interactables_spawned: bool = false
+var _dirty: Dictionary = {}
 
-@export var chunks_x: int = 8
-@export var chunks_y: int = 8
-@export var chunks_z: int = 8
+@export var chunks_x: int = 10
+@export var chunks_y: int = 12
+@export var chunks_z: int = 10
 
 
 func _ready() -> void:
@@ -30,7 +31,6 @@ func _ready() -> void:
 	_create_floor()
 	_rebuild_all()
 	set_process(true)
-	print("VOXEL_WORLD_READY")
 
 
 func _process(_delta: float) -> void:
@@ -143,7 +143,10 @@ func _set_voxel(vx: int, vy: int, vz: int, type_id: int) -> void:
 	var cy: int = vy / CHUNK_SIZE
 	var cz: int = vz / CHUNK_SIZE
 	var c: VoxelChunk = _chunk_at(cx, cy, cz)
-	if c: c.set_voxel(vx - cx * CHUNK_SIZE, vy - cy * CHUNK_SIZE, vz - cz * CHUNK_SIZE, type_id)
+	if c:
+		c.set_voxel(vx - cx * CHUNK_SIZE, vy - cy * CHUNK_SIZE, vz - cz * CHUNK_SIZE, type_id)
+		var k: String = str(cx) + "," + str(cy) + "," + str(cz)
+		_dirty[k] = true
 
 
 func _create_floor() -> void:
@@ -161,12 +164,10 @@ func _create_floor() -> void:
 
 
 func _rebuild_all() -> void:
-	for cx in range(chunks_x):
-		for cy in range(chunks_y):
-			for cz in range(chunks_z):
-				var c: VoxelChunk = _chunk_at(cx, cy, cz)
-				if c and c.grid.count(0) < c.grid.size():
-					c.rebuild()
+	for k in _dirty:
+		var p: PackedStringArray = k.split(",")
+		var c: VoxelChunk = _chunk_at(int(p[0]), int(p[1]), int(p[2]))
+		if c: c.rebuild()
 
 
 func _get_voxel_raw(vx: int, vy: int, vz: int) -> int:
@@ -176,14 +177,12 @@ func _get_voxel_raw(vx: int, vy: int, vz: int) -> int:
 	return 0
 
 
-## ═══════════════ Sky Islands ═══════════════
-
 func _build_sky_islands() -> void:
-	_build_island(40, 160, 40, 28, 10, "volcanic", ["obsidian","volcanic","stone"])
-	_build_island(120, 100, 120, 36, 14, "forest", ["stone","dirt","stone"])
-	_build_island(80, 72, 160, 24, 8, "crystal", ["stone","obsidian","crystal"])
-	_build_island(160, 48, 80, 24, 8, "ruins", ["ruined_stone","brick","stone"])
-	_build_island(200, 28, 200, 20, 6, "desert", ["sand","gravel","sand"])
+	_build_island(80, 316, 80, 90, 16, "volcanic", ["obsidian","volcanic","stone"])
+	_build_island(250, 196, 250, 110, 22, "forest", ["stone","dirt","stone"])
+	_build_island(160, 126, 360, 80, 14, "crystal", ["stone","obsidian","crystal"])
+	_build_island(380, 66, 160, 80, 12, "ruins", ["ruined_stone","brick","stone"])
+	_build_island(420, 16, 420, 70, 10, "desert", ["sand","gravel","sand"])
 
 
 func _build_island(cx: int, base_y: int, cz: int, radius: int, height: int, _biome: String, layers: Array) -> void:
@@ -195,7 +194,7 @@ func _build_island(cx: int, base_y: int, cz: int, radius: int, height: int, _bio
 			var edge_factor: float = dist2 / r2
 			var max_h: int = int(float(height) * (1.0 - edge_factor * 0.6))
 			if max_h < 2: max_h = 2
-			max_h += int(round(sin(float(dx) * 0.3) * cos(float(dz) * 0.4) * 2.0 + sin(float(dx + dz) * 0.15) * 3.0))
+			max_h += int(round(sin(float(dx) * 0.15) * cos(float(dz) * 0.2) * 4.0 + sin(float(dx + dz) * 0.08) * 6.0))
 			if max_h < 1: max_h = 1
 			for dy in range(0, max_h):
 				var vy: int = base_y + dy
@@ -205,16 +204,18 @@ func _build_island(cx: int, base_y: int, cz: int, radius: int, height: int, _bio
 				elif dy == max_h - 1: mat = layers[2]
 				_set_voxel(cx + dx, vy, cz + dz, get_type_id(mat))
 			if edge_factor > 0.5 and max_h < height - 1:
-				for udy in range(-3, 0):
+				for udy in range(-5, 0):
 					var uvy: int = base_y + udy
-					if uvy >= 0 and randf() < 0.3:
+					if uvy >= 0 and randf() < 0.25:
 						_set_voxel(cx + dx, uvy, cz + dz, get_type_id(layers[0]))
 
 
 func _carve_caves() -> void:
-	_carve_hollow(80, 80, 160, 10)
-	_carve_tunnel(25, 170, 25, 55, 170, 55, 6)
-	_carve_tunnel(150, 55, 70, 170, 55, 90, 5)
+	_carve_hollow(160, 131, 360, 18)
+	_carve_hollow(250, 201, 250, 12)
+	_carve_tunnel(55, 321, 55, 110, 321, 100, 8)
+	_carve_tunnel(350, 71, 130, 400, 71, 180, 8)
+	_carve_tunnel(230, 201, 230, 280, 201, 280, 7)
 
 
 func _carve_hollow(center_x: int, center_y: int, center_z: int, radius: int) -> void:
@@ -227,12 +228,12 @@ func _carve_hollow(center_x: int, center_y: int, center_z: int, radius: int) -> 
 
 
 func _carve_tunnel(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int, radius: int) -> void:
-	var steps: int = 40; var r2: float = float(radius * radius)
+	var steps: int = 60; var r2: float = float(radius * radius)
 	for i in range(steps):
 		var t: float = float(i) / float(steps - 1)
-		var px: float = lerpf(float(x1), float(x2), t) + sin(t * 12.0) * 6.0
-		var py: float = lerpf(float(y1), float(y2), t) + cos(t * 8.0) * 3.0
-		var pz: float = lerpf(float(z1), float(z2), t) + cos(t * 10.0) * 5.0
+		var px: float = lerpf(float(x1), float(x2), t) + sin(t * 10.0) * 12.0
+		var py: float = lerpf(float(y1), float(y2), t) + cos(t * 7.0) * 5.0
+		var pz: float = lerpf(float(z1), float(z2), t) + cos(t * 8.0) * 10.0
 		for dx in range(-radius, radius + 1):
 			for dy in range(-radius, radius + 1):
 				for dz in range(-radius, radius + 1):
@@ -242,34 +243,37 @@ func _carve_tunnel(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int, radius:
 
 func _build_giant_trees() -> void:
 	var wood: int = get_type_id("wood"); var leaves: int = get_type_id("leaves")
-	var trees: Array = [[105,100,105],[135,100,105],[120,100,120],[110,100,135],[130,100,130],[120,100,100]]
+	var trees: Array = []
+	for _i in range(12):
+		trees.append([250 + randi_range(-90, 90), 260, 250 + randi_range(-90, 90)])
 	for tp in trees:
 		var tx: int = tp[0]; var ty: int = tp[1]; var tz: int = tp[2]
-		for sy in range(ty + 30, ty, -1):
+		for sy in range(ty + 50, ty, -1):
 			if _get_voxel_raw(tx, sy, tz) > 0: ty = sy + 1; break
-		var trunk_h: int = randi_range(10, 15)
+		var trunk_h: int = randi_range(20, 35)
 		for h in range(trunk_h):
-			for tdx in range(-2, 3):
-				for tdz in range(-2, 3):
-					if abs(tdx) <= 1 and abs(tdz) <= 1:
+			for tdx in range(-3, 4):
+				for tdz in range(-3, 4):
+					if abs(tdx) <= 2 and abs(tdz) <= 2:
 						_set_voxel(tx + tdx, ty + h, tz + tdz, wood)
 		var canopy_y: int = ty + trunk_h
-		for ldx in range(-5, 6):
-			for ldy in range(-3, 5):
-				for ldz in range(-5, 6):
-					if float(ldx*ldx + ldy*ldy*0.7 + ldz*ldz) <= 25.0 and randf() > 0.15:
+		for ldx in range(-9, 10):
+			for ldy in range(-5, 9):
+				for ldz in range(-9, 10):
+					if float(ldx*ldx + ldy*ldy*0.6 + ldz*ldz) <= 70.0 and randf() > 0.2:
 						_set_voxel(tx + ldx, canopy_y + ldy, tz + ldz, leaves)
-		for rdx in range(-2, 3):
-			for rdz in range(-2, 3):
-				if abs(rdx) + abs(rdz) <= 3:
-					_set_voxel(tx + rdx, ty - 1, tz + rdz, wood)
+		for rdx in range(-4, 5):
+			for rdz in range(-4, 5):
+				if abs(rdx) + abs(rdz) <= 5:
+					for rdy in range(-3, 0):
+						_set_voxel(tx + rdx, ty + rdy, tz + rdz, wood)
 
 
 func _paint_surface() -> void:
 	var grass: int = get_type_id("grass"); var dirt: int = get_type_id("dirt"); var stone: int = get_type_id("stone")
-	for vx in range(90, 150):
-		for vz in range(90, 150):
-			for vy in range(50, 140):
+	for vx in range(150, 350):
+		for vz in range(150, 350):
+			for vy in range(72, 320):
 				var tid: int = _get_voxel_raw(vx, vy, vz)
 				if tid == dirt or tid == stone:
 					if _get_voxel_raw(vx, vy + 1, vz) == 0:
@@ -277,10 +281,10 @@ func _paint_surface() -> void:
 
 
 func _build_bridges() -> void:
-	_build_bridge_arch(70, 168, 50, 100, 108, 100, "brick")
-	_build_bridge_arch(100, 108, 150, 70, 80, 160, "wood")
-	_build_bridge_arch(155, 55, 100, 140, 102, 110, "brick")
-	_build_bridge_arch(90, 80, 170, 195, 35, 190, "wood")
+	_build_bridge_arch(76, 324, 110, 72, 208, 72, "brick")
+	_build_bridge_arch(220, 208, 310, 72, 70, 360, "wood")
+	_build_bridge_arch(330, 76, 72, 300, 204, 280, "brick")
+	_build_bridge_arch(190, 70, 326, 380, 24, 326, "wood")
 
 
 func _build_bridge_arch(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int, mat: String) -> void:
@@ -290,45 +294,50 @@ func _build_bridge_arch(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int, ma
 		var t: float = float(i) / float(steps)
 		var bx: int = int(lerpf(float(x1), float(x2), t))
 		var bz: int = int(lerpf(float(z1), float(z2), t))
-		var by: int = int(lerpf(float(y1), float(y2), t)) + int(sin(t * PI) * 6.0)
-		for wdx in range(-2, 3):
-			for wdz in range(-2, 3):
-				if abs(wdx) + abs(wdz) <= 2:
+		var by: int = int(lerpf(float(y1), float(y2), t)) + int(sin(t * PI) * 10.0)
+		for wdx in range(-3, 4):
+			for wdz in range(-3, 4):
+				if abs(wdx) + abs(wdz) <= 3:
 					_set_voxel(bx + wdx, by, bz + wdz, mid)
-				if abs(wdx) <= 1 and abs(wdz) <= 1:
+				if abs(wdx) <= 2 and abs(wdz) <= 2:
 					_set_voxel(bx + wdx, by - 1, bz + wdz, mid)
 
 
 func _build_waterfalls() -> void:
 	var ice: int = get_type_id("ice")
-	var falls: Array = [[30,168,35,12],[55,168,30,14],[130,102,150,10],[100,102,140,12],[70,78,170,8],[95,78,165,10],[165,50,85,9],[175,50,75,7]]
+	var falls: Array = [
+		[60,324,60,20],[100,324,50,18],[72,208,160,15],[240,208,330,14],
+		[76,70,340,14],[180,70,370,12],[360,76,76,16],[400,76,170,14],
+		[400,24,400,12],[440,24,430,14]
+	]
 	for fp in falls:
 		for dy in range(fp[3]):
-			for w in range(-1, 2):
+			for w in range(-2, 3):
 				_set_voxel(fp[0] + w, fp[1] - dy, fp[2] + w, ice)
-				_set_voxel(fp[0] + w, fp[1] - dy, fp[2], ice)
+				if abs(w) <= 1:
+					_set_voxel(fp[0] + w, fp[1] - dy, fp[2], ice)
 
 
 func spawn_interactables() -> void:
-	_spawn_in_region(25,170,25,15,"ash_fragment",Interactable.InteractType.EXAMINE,{"type":"volcanic"},5)
-	_spawn_in_region(35,175,35,10,"volcanic_core",Interactable.InteractType.ACTIVATE,{"type":"volcanic"},2)
-	_spawn_in_region(105,110,105,20,"herb_cluster",Interactable.InteractType.COLLECT,{"type":"flora"},6)
-	_spawn_in_region(115,108,115,15,"ancient_bark",Interactable.InteractType.EXAMINE,{"type":"flora"},3)
-	_spawn_in_region(120,112,120,12,"glowing_mushroom",Interactable.InteractType.EXAMINE,{"type":"fungus"},2)
-	_spawn_in_region(70,80,150,12,"crystal_shard",Interactable.InteractType.EXAMINE,{"type":"mineral"},5)
-	_spawn_in_region(80,76,160,8,"geode",Interactable.InteractType.ACTIVATE,{"type":"mineral"},2)
-	_spawn_in_region(78,84,158,6,"glowing_fungus",Interactable.InteractType.COLLECT,{"type":"fungus"},4)
-	_spawn_in_region(150,56,70,12,"ancient_stone",Interactable.InteractType.EXAMINE,{"type":"ruins"},4)
-	_spawn_in_region(160,54,80,10,"moss_sample",Interactable.InteractType.COLLECT,{"type":"flora"},3)
-	_spawn_in_region(155,52,75,8,"broken_tablet",Interactable.InteractType.EXAMINE,{"type":"ruins"},2)
-	_spawn_in_region(165,54,80,5,"ore_deposit",Interactable.InteractType.EXAMINE,{"type":"mineral"},3)
-	_spawn_in_region(195,36,195,8,"sand_tablet",Interactable.InteractType.ACTIVATE,{"type":"artifact"},3)
-	_spawn_in_region(200,34,200,6,"sunken_relic",Interactable.InteractType.EXAMINE,{"type":"artifact"},2)
+	_spawn_in_region(50,321,50,50,"ash_fragment",Interactable.InteractType.EXAMINE,{"type":"volcanic"},15)
+	_spawn_in_region(70,326,70,40,"volcanic_core",Interactable.InteractType.ACTIVATE,{"type":"volcanic"},6)
+	_spawn_in_region(230,206,230,70,"herb_cluster",Interactable.InteractType.COLLECT,{"type":"flora"},18)
+	_spawn_in_region(250,204,250,50,"ancient_bark",Interactable.InteractType.EXAMINE,{"type":"flora"},10)
+	_spawn_in_region(260,208,260,40,"glowing_mushroom",Interactable.InteractType.EXAMINE,{"type":"fungus"},8)
+	_spawn_in_region(150,134,340,45,"crystal_shard",Interactable.InteractType.EXAMINE,{"type":"mineral"},14)
+	_spawn_in_region(160,131,360,30,"geode",Interactable.InteractType.ACTIVATE,{"type":"mineral"},6)
+	_spawn_in_region(155,136,355,20,"glowing_fungus",Interactable.InteractType.COLLECT,{"type":"fungus"},10)
+	_spawn_in_region(360,74,140,45,"ancient_stone",Interactable.InteractType.EXAMINE,{"type":"ruins"},12)
+	_spawn_in_region(380,72,160,35,"moss_sample",Interactable.InteractType.COLLECT,{"type":"flora"},10)
+	_spawn_in_region(370,70,150,25,"broken_tablet",Interactable.InteractType.EXAMINE,{"type":"ruins"},8)
+	_spawn_in_region(390,71,170,20,"ore_deposit",Interactable.InteractType.EXAMINE,{"type":"mineral"},10)
+	_spawn_in_region(410,24,410,35,"sand_tablet",Interactable.InteractType.ACTIVATE,{"type":"artifact"},10)
+	_spawn_in_region(425,22,425,25,"sunken_relic",Interactable.InteractType.EXAMINE,{"type":"artifact"},8)
 
 
 func _spawn_in_region(cx: int, cy: int, cz: int, r: int, id: String, itype: int, props: Dictionary, count: int) -> void:
 	for _i in range(count):
-		_spawn_one(Vector3((cx+randf_range(-r,r))*VOXEL_SIZE,(cy+randf_range(-2,3))*VOXEL_SIZE,(cz+randf_range(-r,r))*VOXEL_SIZE),id,itype,id,props)
+		_spawn_one(Vector3((cx+randf_range(-r,r))*VOXEL_SIZE,(cy+randf_range(-3,5))*VOXEL_SIZE,(cz+randf_range(-r,r))*VOXEL_SIZE),id,itype,id,props)
 
 
 func _spawn_one(pos: Vector3, id: String, itype: int, obs_id: String, props: Dictionary) -> void:

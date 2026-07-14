@@ -45,7 +45,7 @@ light_energy = 2.0
 shadow_enabled = true
 
 [node name="Player" parent="." unique_id=153334260 instance=ExtResource("2_player")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 36, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 68, 16)
 
 [node name="InteractionSensor" type="Area3D" parent="Player" unique_id=491842941]
 script = ExtResource("4_sensor")
