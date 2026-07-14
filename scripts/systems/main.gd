@@ -5,6 +5,9 @@ var _char_spawned: bool = false
 
 func _ready() -> void:
 	set_process(true)
+	# Freeze player until voxel world is ready
+	var p := get_node_or_null("Player")
+	if p: p.set_physics_process(false)
 	print("MAIN_OK")
 
 

@@ -132,49 +132,42 @@ func _build_animations() -> void:
 	_anim = AnimationPlayer.new()
 	_anim.name = "AnimationPlayer"
 	add_child(_anim)
+	var lib := AnimationLibrary.new()
 	
-	# Idle: gentle breathing + subtle arm sway
+	# Idle
 	var idle := Animation.new()
-	idle.length = 2.0
-	idle.loop_mode = Animation.LOOP_LINEAR
-	
+	idle.length = 2.0; idle.loop_mode = Animation.LOOP_LINEAR
 	_anim_key_pos(idle, 1, 0.0, Vector3(0, 0.20, 0))
 	_anim_key_pos(idle, 1, 1.0, Vector3(0, 0.205, 0.01))
 	_anim_key_pos(idle, 1, 2.0, Vector3(0, 0.20, 0))
-	_anim_key_rot(idle, 5, 0.0, Vector3.ZERO)  # upper_arm_l
+	_anim_key_rot(idle, 5, 0.0, Vector3.ZERO)
 	_anim_key_rot(idle, 5, 1.0, Vector3(0.08, 0, 0.03))
 	_anim_key_rot(idle, 5, 2.0, Vector3.ZERO)
-	_anim_key_rot(idle, 7, 0.0, Vector3.ZERO)  # upper_arm_r
-	_anim_key_rot(idle, 7, 1.0, Vector3(-0.08, 0, -0.03))
-	_anim_key_rot(idle, 7, 2.0, Vector3.ZERO)
-	_anim.add_animation("idle", idle)
+	lib.add_animation("idle", idle)
 	
-	# Walk: legs + arms swing
+	# Walk
 	var walk := Animation.new()
-	walk.length = 1.0
-	walk.loop_mode = Animation.LOOP_LINEAR
-	
-	_anim_key_rot(walk, 9, 0.0, Vector3(0.5, 0, 0))    # upper_leg_l forward
-	_anim_key_rot(walk, 9, 0.5, Vector3(-0.5, 0, 0))   # upper_leg_l back
+	walk.length = 1.0; walk.loop_mode = Animation.LOOP_LINEAR
+	_anim_key_rot(walk, 9, 0.0, Vector3(0.5, 0, 0))
+	_anim_key_rot(walk, 9, 0.5, Vector3(-0.5, 0, 0))
 	_anim_key_rot(walk, 9, 1.0, Vector3(0.5, 0, 0))
-	_anim_key_rot(walk, 12, 0.0, Vector3(-0.5, 0, 0))  # upper_leg_r back
-	_anim_key_rot(walk, 12, 0.5, Vector3(0.5, 0, 0))   # upper_leg_r forward
+	_anim_key_rot(walk, 12, 0.0, Vector3(-0.5, 0, 0))
+	_anim_key_rot(walk, 12, 0.5, Vector3(0.5, 0, 0))
 	_anim_key_rot(walk, 12, 1.0, Vector3(-0.5, 0, 0))
-	
-	_anim_key_rot(walk, 5, 0.0, Vector3(-0.4, 0, 0))   # upper_arm_l back
-	_anim_key_rot(walk, 5, 0.5, Vector3(0.4, 0, 0))    # upper_arm_l forward
+	_anim_key_rot(walk, 5, 0.0, Vector3(-0.4, 0, 0))
+	_anim_key_rot(walk, 5, 0.5, Vector3(0.4, 0, 0))
 	_anim_key_rot(walk, 5, 1.0, Vector3(-0.4, 0, 0))
-	_anim_key_rot(walk, 7, 0.0, Vector3(0.4, 0, 0))    # upper_arm_r forward
-	_anim_key_rot(walk, 7, 0.5, Vector3(-0.4, 0, 0))   # upper_arm_r back
+	_anim_key_rot(walk, 7, 0.0, Vector3(0.4, 0, 0))
+	_anim_key_rot(walk, 7, 0.5, Vector3(-0.4, 0, 0))
 	_anim_key_rot(walk, 7, 1.0, Vector3(0.4, 0, 0))
-	
-	_anim_key_pos(walk, 0, 0.0, Vector3(0, 0.85, 0))    # root bob
+	_anim_key_pos(walk, 0, 0.0, Vector3(0, 0.85, 0))
 	_anim_key_pos(walk, 0, 0.25, Vector3(0, 0.82, 0))
 	_anim_key_pos(walk, 0, 0.5, Vector3(0, 0.85, 0))
 	_anim_key_pos(walk, 0, 0.75, Vector3(0, 0.82, 0))
 	_anim_key_pos(walk, 0, 1.0, Vector3(0, 0.85, 0))
-	_anim.add_animation("walk", walk)
+	lib.add_animation("walk", walk)
 	
+	_anim.add_animation_library("", lib)
 	_anim.play("idle")
 
 
@@ -191,7 +184,8 @@ func _anim_key_rot(anim: Animation, bone: int, time: float, rot: Vector3) -> voi
 	if idx < 0:
 		idx = anim.add_track(Animation.TYPE_ROTATION_3D)
 		anim.track_set_path(idx, "Skeleton:" + str(bone))
-	anim.track_insert_key(idx, time, rot)
+	var q := Quaternion.from_euler(rot)
+	anim.track_insert_key(idx, time, q)
 
 
 func _make_mat(color: Color) -> StandardMaterial3D:

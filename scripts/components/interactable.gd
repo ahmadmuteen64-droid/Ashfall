@@ -13,6 +13,6 @@ func _ready() -> void:
 	add_to_group("interactable")
 
 
-func interact(by: Node) -> void:
+func interact(_by: Node) -> void:
 	interacted.emit(interactable_id, interact_type)
 	print("INTERACT:" + interactable_id)

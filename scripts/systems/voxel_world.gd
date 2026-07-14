@@ -29,15 +29,34 @@ func _ready() -> void:
 	_build_connectors()
 	_build_waterfalls()
 	_create_floor()
-	_rebuild_all()
 	set_process(true)
+	print("VOXEL_WORLD_READY")
 
+
+var _rebuild_keys: Array = []
+var _rebuild_idx: int = 0
 
 func _process(_delta: float) -> void:
-	if not _interactables_spawned:
+	if _rebuild_idx == 0:
+		_rebuild_keys = _dirty.keys()
+		_rebuild_idx = 0
+	# Rebuild 16 chunks per frame until done
+	var end := mini(_rebuild_idx + 16, _rebuild_keys.size())
+	while _rebuild_idx < end:
+		var k: String = _rebuild_keys[_rebuild_idx]
+		var p: PackedStringArray = k.split(",")
+		var c: VoxelChunk = _chunk_at(int(p[0]), int(p[1]), int(p[2]))
+		if c: c.rebuild()
+		_rebuild_idx += 1
+	if _rebuild_idx >= _rebuild_keys.size() and not _interactables_spawned:
 		_interactables_spawned = true
 		spawn_interactables()
 		set_process(false)
+		# Enable player physics now that world is ready
+		var player := get_node_or_null("../Player")
+		if player:
+			player.set_physics_process(true)
+		print("VOXEL_WORLD_DONE")
 
 
 func _load_voxel_types() -> void:
