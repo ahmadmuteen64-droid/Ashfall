@@ -17,10 +17,10 @@ class_name CameraRig
 @export var orbit_sensitivity: float = 0.25
 @export var pitch_min: float = -80.0
 @export var pitch_max: float = -10.0
-@export var zoom_min: float = 0.25
-@export var zoom_max: float = 4.0
-@export var zoom_default: float = 1.0
-@export var zoom_step: float = 0.125
+@export var zoom_min: float = 0.5
+@export var zoom_max: float = 6.0
+@export var zoom_default: float = 1.5
+@export var zoom_step: float = 0.25
 @export var shoulder_offset: float = 0.6
 
 # Private state
@@ -33,8 +33,8 @@ var _is_orbiting: bool = false
 @onready var _spring_arm: SpringArm3D = $SpringArm3D
 @onready var _camera: Camera3D = $SpringArm3D/Camera3D
 
-const BASE_ORTHO_SIZE: float = 180.0
-const CAMERA_DISTANCE: float = 40.0
+const BASE_ORTHO_SIZE: float = 10.0
+const CAMERA_DISTANCE: float = 12.0
 
 
 func _ready() -> void:
