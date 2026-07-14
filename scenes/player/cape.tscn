@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://ctnjsu1c2jspq"]
+
+[ext_resource type="Script" uid="uid://csm6kgp6nhkhr" path="res://scripts/components/cape.gd" id="1_cape"]
+
+[sub_resource type="BoxShape3D" id="Shape_seg"]
+size = Vector3(1, 0.3, 0.08)
+
+[sub_resource type="BoxShape3D" id="Shape_seg_small"]
+size = Vector3(0.8, 0.28, 0.07)
+
+[sub_resource type="BoxShape3D" id="Shape_seg_tiny"]
+size = Vector3(0.55, 0.25, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="Mat_cape"]
+shading_mode = 0
+albedo_color = Color(0.18, 0.2, 0.28, 1)
+
+[sub_resource type="PlaneMesh" id="Mesh_cape"]
+size = Vector2(1.2, 2)
+subdivide_width = 6
+subdivide_depth = 10
+
+[node name="Cape" type="Node3D" unique_id=401000001]
+script = ExtResource("1_cape")
+
+[node name="Skeleton3D" type="Skeleton3D" parent="." unique_id=401000002]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -0.35)
+
+[node name="BoneRoot" type="PhysicalBone3D" parent="Skeleton3D" unique_id=401000003]
+joint_type = 1
+gravity_scale = 0.0
+linear_damp = 6.0
+angular_damp = 6.0
+bone_name = "BoneRoot"
+joint_constraints/bias = 0.3
+joint_constraints/damping = 1.0
+joint_constraints/impulse_clamp = 0.0
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Skeleton3D/BoneRoot" unique_id=401000004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+shape = SubResource("Shape_seg")
+
+[node name="Bone1" type="PhysicalBone3D" parent="Skeleton3D" unique_id=401000005]
+joint_type = 2
+joint_offset = Transform3D(0.87758255, -0.47942555, 1.4287995e-08, 0.4207355, 0.77015114, -0.47942558, 0.22984886, 0.4207355, 0.87758255, 0, 0, 0)
+joint_rotation = Vector3(0.50000006, 1.6281083e-08, 0.5)
+gravity_scale = 1.5
+linear_damp = 3.0
+angular_damp = 2.0
+bone_name = "Bone1"
+joint_constraints/swing_span = 45.0
+joint_constraints/twist_span = 180.0
+joint_constraints/bias = 0.3
+joint_constraints/softness = 0.8
+joint_constraints/relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Skeleton3D/Bone1" unique_id=401000006]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+shape = SubResource("Shape_seg")
+
+[node name="Bone2" type="PhysicalBone3D" parent="Skeleton3D" unique_id=401000007]
+joint_type = 2
+joint_offset = Transform3D(0.8253356, -0.5646425, 0, 0.46601957, 0.68117887, -0.5646425, 0.31882113, 0.46601957, 0.8253356, 0, 0, 0)
+joint_rotation = Vector3(0.6, 0, 0.6)
+gravity_scale = 1.5
+linear_damp = 3.0
+angular_damp = 2.0
+bone_name = "Bone2"
+joint_constraints/swing_span = 45.0
+joint_constraints/twist_span = 180.0
+joint_constraints/bias = 0.3
+joint_constraints/softness = 0.8
+joint_constraints/relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Skeleton3D/Bone2" unique_id=401000008]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("Shape_seg_small")
+
+[node name="Bone3" type="PhysicalBone3D" parent="Skeleton3D" unique_id=401000009]
+joint_type = 2
+joint_offset = Transform3D(0.7648422, -0.64421767, 0, 0.49272487, 0.5849836, -0.64421767, 0.4150164, 0.49272487, 0.7648422, 0, 0, 0)
+joint_rotation = Vector3(0.7, 0, 0.7)
+gravity_scale = 1.5
+linear_damp = 2.5
+angular_damp = 1.8
+bone_name = "Bone3"
+joint_constraints/swing_span = 45.0
+joint_constraints/twist_span = 180.0
+joint_constraints/bias = 0.3
+joint_constraints/softness = 0.8
+joint_constraints/relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Skeleton3D/Bone3" unique_id=401000010]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.08, 0)
+shape = SubResource("Shape_seg_small")
+
+[node name="Bone4" type="PhysicalBone3D" parent="Skeleton3D" unique_id=401000011]
+joint_type = 2
+joint_offset = Transform3D(0.69670665, -0.7173561, 0, 0.49978676, 0.48540023, -0.7173561, 0.5145997, 0.4997868, 0.6967067, 0, 0, 0)
+joint_rotation = Vector3(0.8, 2.9802322e-08, 0.8)
+gravity_scale = 1.5
+linear_damp = 2.0
+angular_damp = 1.5
+bone_name = "Bone4"
+joint_constraints/swing_span = 45.0
+joint_constraints/twist_span = 180.0
+joint_constraints/bias = 0.3
+joint_constraints/softness = 0.8
+joint_constraints/relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Skeleton3D/Bone4" unique_id=401000012]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("Shape_seg_tiny")
+
+[node name="CapeMesh" type="MeshInstance3D" parent="." unique_id=401000013]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, -0.02)
+material_override = SubResource("Mat_cape")
+mesh = SubResource("Mesh_cape")
+skeleton = NodePath("../Skeleton3D")

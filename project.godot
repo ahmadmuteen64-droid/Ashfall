@@ -23,8 +23,8 @@ Inventory="*res://scripts/autoloads/inventory.gd"
 SaveSystem="*res://scripts/autoloads/save_system.gd"
 TimeManager="*res://scripts/autoloads/time_manager.gd"
 WeatherController="*res://scripts/autoloads/weather_controller.gd"
-_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 VoxelConfig="*res://scripts/autoloads/voxel_config.gd"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [display]
 

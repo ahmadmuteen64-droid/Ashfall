@@ -1,36 +1,25 @@
 extends Node
-## VoxelConfig — global singleton holding pixel-perfect rendering constants.
-##
-## Standing Rule: Everything in the game world is Voxels per pixel size.
-## One voxel = one world unit = one screen pixel at the target internal resolution.
-##
-## This autoload is the single source of truth. All world geometry, the camera,
-## and the display settings derive their pixel-perfect parameters from here.
+## VoxelConfig — global pixel-perfect rendering constants.
+## Standing Rule: 1 sub-voxel = 1 pixel. External sub-voxel detail.
 
-# ── Target internal resolution ─────────────────────────────────────
 const VIEWPORT_WIDTH: int = 640
 const VIEWPORT_HEIGHT: int = 360
 
-# ── Voxel constants ─────────────────────────────────────────────────
-const VOXEL_SIZE: float = 1.0
-## Sub-voxel resolution: each voxel contains 100³ logical sub-voxels.
-## Health = 100 per voxel. Debris = sub-voxel scale. Grid stays at voxel resolution.
+# Voxel: the visible cube. Sub-voxel: internal division for destruction detail.
+const VOXEL_SIZE: float = 0.2
 const SUB_VOXELS_PER_AXIS: int = 100
-const SUB_VOXEL_SIZE: float = VOXEL_SIZE / float(SUB_VOXELS_PER_AXIS)  ## 0.01
-const SUB_VOXEL_HEALTH: int = SUB_VOXELS_PER_AXIS  ## 100 hits to destroy
-const HALF_VOXEL: float = 0.5
+const SUB_VOXEL_SIZE: float = VOXEL_SIZE / float(SUB_VOXELS_PER_AXIS)
+const SUB_VOXEL_HEALTH: int = SUB_VOXELS_PER_AXIS
+const HALF_VOXEL: float = VOXEL_SIZE / 2.0
 
-# ── Camera constants ────────────────────────────────────────────────
 const ORTHO_SIZE: float = float(VIEWPORT_HEIGHT) / 2.0
 const DEFAULT_CAMERA_PITCH: float = -45.0
-const DEFAULT_CAMERA_DISTANCE: float = 40.0
-const CAMERA_ZOOM_MIN: float = 10.0
-const CAMERA_ZOOM_MAX: float = 80.0
+const DEFAULT_CAMERA_DISTANCE: float = 12.0
 
 
 func _ready() -> void:
-	print("VOXEL_CONFIG_OK  res:%dx%d  voxel:%.1f  ortho_size:%.0f" % [
-		VIEWPORT_WIDTH, VIEWPORT_HEIGHT, VOXEL_SIZE, ORTHO_SIZE
+	print("VOXEL_CONFIG_OK  res:%dx%d  voxel:%.2f  sub_voxel:%.4f  ortho_size:%.0f" % [
+		VIEWPORT_WIDTH, VIEWPORT_HEIGHT, VOXEL_SIZE, SUB_VOXEL_SIZE, ORTHO_SIZE
 	])
 
 

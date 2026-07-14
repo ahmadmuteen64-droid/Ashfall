@@ -1,22 +1,20 @@
 class_name VoxelChunk
 extends Node3D
-## 16³ chunk of voxels. Each voxel = 100 sub-voxels internally for granular
-## destruction and physics. Rendered as individual MultiMesh cubes.
-## Collision: trimesh from merged faces, box fallback guarantees player can walk.
+## Force recompile
+## Chunk of sub-voxel cubes. Collision via per-column BoxShape3D.
+## VOXEL_SIZE = 0.1 units (10 sub-voxels per unit).
 
-const CHUNK_SIZE: int = 16
-const VOXEL_SIZE: float = 1.0
-const SUB_PER_VOXEL: int = 100          ## Sub-voxels per voxel per axis (health = 100)
-const SUB_SIZE: float = 0.01            ## 1/100th of a voxel
+const CHUNK_SIZE: int = 32
+const VOXEL_SIZE: float = 0.1
+const SUB_PER_VOXEL: int = 100
 
-var grid: PackedInt32Array = []          ## Voxel type IDs (0 = air)
-var health_grid: PackedInt32Array = []   ## Sub-voxels remaining (0-100, 0 = destroyed)
-var _type_table: Array = []              ## Index -> VoxelType
-var _multimesh_by_mat: Dictionary = {}   ## material_path -> MultiMeshInstance3D
-var _transforms_by_mat: Dictionary = {}  ## material_path -> Array[Transform3D]
+var grid: PackedInt32Array = []
+var health_grid: PackedInt32Array = []
+var _type_table: Array = []
+var _multimesh_by_mat: Dictionary = {}
+var _transforms_by_mat: Dictionary = {}
 
 @onready var _static_body: StaticBody3D = $StaticBody3D
-@onready var _collision_shape: CollisionShape3D = $StaticBody3D/CollisionShape3D
 
 
 func _ready() -> void:
@@ -28,8 +26,10 @@ func _ready() -> void:
 
 func _init_empty() -> void:
 	var total: int = CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE
-	grid.resize(total); health_grid.resize(total)
-	grid.fill(0); health_grid.fill(0)
+	grid.resize(total)
+	health_grid.resize(total)
+	grid.fill(0)
+	health_grid.fill(0)
 
 
 func _idx(x: int, y: int, z: int) -> int:
@@ -52,8 +52,6 @@ func set_voxel(x: int, y: int, z: int, type_id: int) -> void:
 	health_grid[i] = SUB_PER_VOXEL if type_id > 0 else 0
 
 
-## Returns number of sub-voxels destroyed (0 = none, 100 = full voxel gone).
-## Calls back with {destroyed: bool, sub_voxels_lost: int}
 func damage_voxel(x: int, y: int, z: int, amount: int) -> Dictionary:
 	if not is_in_bounds(x, y, z): return {"destroyed": false, "sub_voxels_lost": 0}
 	var i: int = _idx(x, y, z)
@@ -61,7 +59,6 @@ func damage_voxel(x: int, y: int, z: int, amount: int) -> Dictionary:
 	if tid <= 0: return {"destroyed": false, "sub_voxels_lost": 0}
 	var vt: VoxelType = _type_table[tid] if tid < _type_table.size() else null
 	if vt and vt.is_ground: return {"destroyed": false, "sub_voxels_lost": 0}
-
 	var lost: int = mini(amount, health_grid[i])
 	health_grid[i] -= lost
 	if health_grid[i] <= 0:
@@ -93,15 +90,14 @@ func register_types(types: Array) -> void:
 	_type_table = types.duplicate()
 
 
-## Full rebuild: clear all MultiMeshes, build fresh from grid, rebuild collision.
 func rebuild() -> void:
 	_clear_multimeshes()
 	if grid.size() == 0: return
 
 	var box: BoxMesh = BoxMesh.new()
 	box.size = Vector3(VOXEL_SIZE, VOXEL_SIZE, VOXEL_SIZE)
+	var half: float = VOXEL_SIZE / 2.0
 
-	# Collect transforms per material
 	for x in range(CHUNK_SIZE):
 		for y in range(CHUNK_SIZE):
 			for z in range(CHUNK_SIZE):
@@ -113,10 +109,9 @@ func rebuild() -> void:
 				if mat_path.is_empty(): continue
 				if not _transforms_by_mat.has(mat_path):
 					_transforms_by_mat[mat_path] = []
-				var t: Transform3D = Transform3D(Basis(), Vector3(float(x) + 0.5, float(y) + 0.5, float(z) + 0.5))
+				var t: Transform3D = Transform3D(Basis(), Vector3(float(x) * VOXEL_SIZE + half, float(y) * VOXEL_SIZE + half, float(z) * VOXEL_SIZE + half))
 				_transforms_by_mat[mat_path].append(t)
 
-	# Create MultiMeshInstance3D per material
 	for mat_path in _transforms_by_mat:
 		var transforms: Array = _transforms_by_mat[mat_path]
 		if transforms.size() == 0: continue
@@ -145,47 +140,66 @@ func _clear_multimeshes() -> void:
 
 
 func _rebuild_collision() -> void:
-	# Build trimesh from visible voxel faces
-	var st: SurfaceTool = SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for child in _static_body.get_children():
+		if child is CollisionShape3D:
+			child.queue_free()
 
-	for x in range(CHUNK_SIZE):
-		for y in range(CHUNK_SIZE):
-			for z in range(CHUNK_SIZE):
-				if get_voxel(x, y, z) <= 0: continue
-				_add_six_faces(st, x, y, z)
+	var processed: Dictionary = {}
+	# Minimum merge span: 4 voxels (0.8 units) so player capsule (r=0.35) can't slip through
+	const MIN_MERGE: int = 4
 
-	st.generate_normals()
-	var mesh: ArrayMesh = st.commit()
-	if mesh and mesh.get_surface_count() > 0:
-		_collision_shape.shape = mesh.create_trimesh_shape()
-	else:
-		# Fallback: box covering chunk volume — player always has something to stand on
-		var box_shape: BoxShape3D = BoxShape3D.new()
-		box_shape.size = Vector3(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE)
-		_collision_shape.shape = box_shape
+	# First pass: fill any gaps so columns don't have holes
+	_fill_gaps()
+
+	for x in range(0, CHUNK_SIZE, MIN_MERGE):
+		for z in range(0, CHUNK_SIZE, MIN_MERGE):
+			var key: String = "%d,%d" % [x, z]
+			if processed.get(key, false): continue
+
+			var min_y: int = 999; var max_y: int = -1
+			for dx in range(MIN_MERGE):
+				for dz in range(MIN_MERGE):
+					if x + dx >= CHUNK_SIZE or z + dz >= CHUNK_SIZE: continue
+					for y in range(CHUNK_SIZE):
+						if get_voxel(x + dx, y, z + dz) > 0:
+							if y < min_y: min_y = y
+							if y > max_y: max_y = y
+
+			if max_y < 0: continue
+
+			var bw: float = float(MIN_MERGE) * VOXEL_SIZE
+			var bh: float = float(max_y - min_y + 1) * VOXEL_SIZE
+			var bd: float = float(MIN_MERGE) * VOXEL_SIZE
+
+			var box_shape: BoxShape3D = BoxShape3D.new()
+			box_shape.size = Vector3(bw, bh, bd)
+			var cs: CollisionShape3D = CollisionShape3D.new()
+			cs.shape = box_shape
+			cs.position = Vector3(float(x) * VOXEL_SIZE + bw / 2.0, float(min_y) * VOXEL_SIZE + bh / 2.0, float(z) * VOXEL_SIZE + bd / 2.0)
+			_static_body.add_child(cs)
+
+			for dx in range(MIN_MERGE):
+				for dz in range(MIN_MERGE):
+					if x + dx < CHUNK_SIZE and z + dz < CHUNK_SIZE:
+						processed["%d,%d" % [x + dx, z + dz]] = true
 
 
-func _add_six_faces(st: SurfaceTool, x: int, y: int, z: int) -> void:
-	var dirs: Array = [
-		[1,0,0], [-1,0,0], [0,1,0], [0,-1,0], [0,0,1], [0,0,-1]
-	]
-	for d in dirs:
-		var nx: int = d[0]; var ny: int = d[1]; var nz: int = d[2]
-		if get_voxel(x + nx, y + ny, z + nz) > 0: continue
-		st.set_normal(Vector3(float(nx), float(ny), float(nz)))
-		var v: Array = _face_verts(x, y, z, nx, ny, nz)
-		st.add_vertex(v[0]); st.add_vertex(v[1]); st.add_vertex(v[2])
-		st.add_vertex(v[0]); st.add_vertex(v[2]); st.add_vertex(v[3])
+func _fill_gaps() -> void:
+	# Fill single-voxel gaps between solid columns so collision is continuous
+	for x in range(1, CHUNK_SIZE - 1):
+		for z in range(1, CHUNK_SIZE - 1):
+			for y in range(1, CHUNK_SIZE - 1):
+				if get_voxel(x, y, z) > 0: continue
+				# If surrounded on all 4 horizontal sides, fill the gap
+				if get_voxel(x-1, y, z) > 0 and get_voxel(x+1, y, z) > 0 and get_voxel(x, y, z-1) > 0 and get_voxel(x, y, z+1) > 0:
+					var neighbor_type: int = get_voxel(x-1, y, z)
+					set_voxel(x, y, z, neighbor_type)
 
 
-func _face_verts(x: int, y: int, z: int, nx: int, ny: int, nz: int) -> Array:
-	var fx: float = float(x); var fy: float = float(y); var fz: float = float(z)
-	match [nx, ny, nz]:
-		[1, 0, 0]:   return [Vector3(fx+1,fy,fz),   Vector3(fx+1,fy+1,fz),   Vector3(fx+1,fy+1,fz+1),   Vector3(fx+1,fy,fz+1)]
-		[-1, 0, 0]:  return [Vector3(fx,fy,fz+1),   Vector3(fx,fy+1,fz+1),   Vector3(fx,fy+1,fz),     Vector3(fx,fy,fz)]
-		[0, 1, 0]:   return [Vector3(fx,fy+1,fz),   Vector3(fx+1,fy+1,fz),   Vector3(fx+1,fy+1,fz+1),   Vector3(fx,fy+1,fz+1)]
-		[0, -1, 0]:  return [Vector3(fx,fy,fz+1),   Vector3(fx+1,fy,fz+1),   Vector3(fx+1,fy,fz),       Vector3(fx,fy,fz)]
-		[0, 0, 1]:   return [Vector3(fx,fy,fz+1),   Vector3(fx,fy+1,fz+1),   Vector3(fx+1,fy+1,fz+1),   Vector3(fx+1,fy,fz+1)]
-		[0, 0, -1]:  return [Vector3(fx+1,fy,fz),   Vector3(fx+1,fy+1,fz),   Vector3(fx,fy+1,fz),       Vector3(fx,fy,fz)]
-	return []
+func _column_matches(x: int, z: int, ref_min_y: int, ref_max_y: int) -> bool:
+	var min_y: int = -1; var max_y: int = -1
+	for y in range(CHUNK_SIZE):
+		if get_voxel(x, y, z) > 0:
+			if min_y < 0: min_y = y
+			max_y = y
+	return min_y == ref_min_y and max_y == ref_max_y
