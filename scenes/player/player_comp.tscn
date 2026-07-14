@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://dby1lthxlt2uw" path="res://scenes/player/player.tscn" id="1_player"]
+[ext_resource type="Script" uid="uid://dpql6pcm48dvp" path="res://scripts/components/fps_camera.gd" id="2_cam"]
+
+[node name="PlayerComp" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("2_cam")
+follow_target = NodePath("../Player/CameraTarget")

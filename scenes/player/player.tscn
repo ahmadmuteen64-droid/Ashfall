@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cdx34jbw8x143" path="res://scripts/components/player_controller.gd" id="1_ctrl"]
 [ext_resource type="Script" uid="uid://csm6kgp6nhkhr" path="res://scripts/components/cape.gd" id="2_cape"]
+[ext_resource type="Script" uid="uid://c7lj1tl7268l4" path="res://scripts/components/interaction_sensor.gd" id="4_sensor"]
+[ext_resource type="Script" uid="uid://dmcbodgwew084" path="res://scripts/components/voxel_destroyer.gd" id="5_voxdest"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.4
@@ -31,7 +33,7 @@ script = ExtResource("1_ctrl")
 shape = SubResource("CapsuleShape3D_player")
 
 [node name="CameraTarget" type="Marker3D" parent="." unique_id=2059745322]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.058757544, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 
 [node name="BodyMesh" type="CSGCylinder3D" parent="." unique_id=817893157]
 radius = 0.35
@@ -51,10 +53,9 @@ randomness = 0.3
 local_coords = true
 process_material = SubResource("PPM_wind")
 
-[node name="Head" type="Node3D" parent="." unique_id=200000001]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+[node name="InteractionSensor" type="Area3D" parent="." unique_id=491842941]
+script = ExtResource("4_sensor")
 
-[node name="Camera3D" type="Camera3D" parent="Head" unique_id=200000002]
-near = 0.05
-far = 500.0
-fov = 75.0
+[node name="VoxelDestroyer" type="Node" parent="." unique_id=891286800]
+script = ExtResource("5_voxdest")
+
