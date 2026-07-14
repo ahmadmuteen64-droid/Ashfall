@@ -20,7 +20,41 @@ var _portal_nodes: Array = []
 @export var chunks_z: int = 8
 
 
+var _rebuild_keys: Array = []
+var _rebuild_idx: int = 0
+var _is_switching: bool = false
+var _target_biome: String = ""
+var _loading_screen: Node = null
+
+
 func _ready() -> void:
+	_load_voxel_types()
+	_spawn_all_chunks()
+	generate_biome("forest")
+	_rebuild_dirty()
+
+
+
+
+func _process(_delta: float) -> void:
+	if not _is_switching: return
+	var end := mini(_rebuild_idx + 8, _rebuild_keys.size())
+	while _rebuild_idx < end:
+		var k: String = _rebuild_keys[_rebuild_idx]
+		var p: PackedStringArray = k.split(",")
+		var c: VoxelChunk = _chunk_at(int(p[0]), int(p[1]), int(p[2]))
+		if c: c.rebuild()
+		_rebuild_idx += 1
+	if _loading_screen and _loading_screen.has_method("set_progress"):
+		_loading_screen.set_progress(float(_rebuild_idx) / float(_rebuild_keys.size()))
+	if _rebuild_idx >= _rebuild_keys.size():
+		_is_switching = false
+		if _loading_screen and _loading_screen.has_method("hide_loading"):
+			_loading_screen.hide_loading()
+		var player := get_node_or_null("../Player")
+		if player: player.set_physics_process(true)
+		set_process(false)
+		print("BIOME_READY: " + _current_biome)
 	_load_voxel_types()
 	_spawn_all_chunks()
 	generate_biome("forest")
@@ -170,12 +204,11 @@ func generate_biome(biome: String) -> void:
 			_build_lake_surface(cx, base_y + 5, cz, 80)
 	
 	_spawn_portals(cx, base_y, cz)
-	_rebuild_dirty()
-	print("BIOME: " + biome + " chunks:" + str(_dirty.size()))
+	print("BIOME_GEN: " + biome + " dirty:" + str(_dirty.size()))
 
 
-func switch_biome(target: String) -> void:
-	generate_biome(target)
+func switch_biome(target_biome: String) -> void:
+	generate_biome(target_biome)
 
 
 ## ═══════════════ Island Builder ═══════════════
@@ -376,14 +409,19 @@ func _get_portal_mat(biome: String) -> Material:
 
 
 func _on_portal_used(_id: String, _type: int, target_biome: String) -> void:
-	print("PORTAL: switching to " + target_biome)
-	# Move player to center
+	print("PORTAL: " + target_biome)
 	var player := get_node_or_null("../Player")
 	if player:
 		player.position = Vector3(128 * VOXEL_SIZE, (50 + 20) * VOXEL_SIZE, 128 * VOXEL_SIZE)
-	switch_biome(target_biome)
-
-
+		player.set_physics_process(false)
+	_loading_screen = get_node_or_null("../LoadingScreen")
+	if _loading_screen and _loading_screen.has_method("show_loading"):
+		_loading_screen.show_loading()
+	generate_biome(target_biome)
+	_rebuild_keys = _dirty.keys()
+	_rebuild_idx = 0
+	_is_switching = true
+	set_process(true)
 func _clear_portals() -> void:
 	for p in _portal_nodes:
 		p.queue_free()

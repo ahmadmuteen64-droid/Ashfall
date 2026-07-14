@@ -5,7 +5,40 @@ var _char_spawned: bool = false
 
 func _ready() -> void:
 	set_process(true)
+	_create_loading_screen()
 	print("MAIN_OK")
+
+
+func _create_loading_screen() -> void:
+	var ls := CanvasLayer.new()
+	ls.name = "LoadingScreen"
+	ls.set_script(load("res://scripts/ui/loading_screen.gd"))
+	var panel := Panel.new()
+	panel.name = "Panel"
+	panel.anchor_left = 0.2; panel.anchor_right = 0.8
+	panel.anchor_top = 0.3; panel.anchor_bottom = 0.7
+	ls.add_child(panel)
+	var vbox := VBoxContainer.new()
+	vbox.name = "VBox"
+	vbox.anchor_left = 0.05; vbox.anchor_right = 0.95
+	vbox.anchor_top = 0.05; vbox.anchor_bottom = 0.95
+	panel.add_child(vbox)
+	var joke := Label.new(); joke.name = "JokeLabel"
+	joke.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	joke.autowrap_mode = TextServer.AUTOWRAP_WORD
+	vbox.add_child(joke)
+	var spin := Label.new(); spin.name = "Spinner"
+	spin.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(spin)
+	var prog := ProgressBar.new(); prog.name = "Progress"
+	prog.size_flags_horizontal = Control.SIZE_FILL
+	vbox.add_child(prog)
+	var title := Label.new(); title.name = "Title"
+	title.text = "TRAVELLING THROUGH THE VOID..."
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 24)
+	vbox.add_child(title)
+	add_child(ls)
 
 
 func _process(_delta: float) -> void:
