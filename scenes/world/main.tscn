@@ -12,18 +12,32 @@
 [ext_resource type="Script" uid="uid://3cuyes1yrw0l" path="res://scripts/systems/ecology.gd" id="16_ecology"]
 [ext_resource type="PackedScene" uid="uid://do22yradc4tjt" path="res://scenes/world/voxel_world.tscn" id="17_5bu78"]
 
-[sub_resource type="Environment" id="Env_main"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85j56"]
+sky_top_color = Color(0.38, 0.45, 0.55, 1)
+sky_horizon_color = Color(0.65, 0.67, 0.7, 1)
+ground_bottom_color = Color(0.2, 0.17, 0.13, 1)
+ground_horizon_color = Color(0.65, 0.67, 0.7, 1)
+
+[sub_resource type="Sky" id="Sky_qip8x"]
+sky_material = SubResource("ProceduralSkyMaterial_85j56")
+
+[sub_resource type="Environment" id="Environment_oaya2"]
 background_mode = 1
-background_color = Color(0.2, 0.25, 0.35, 1)
-ambient_light_source = 1
-ambient_light_color = Color(0.35, 0.35, 0.4, 1)
-ambient_light_energy = 0.6
+background_color = Color(0.35, 0.45, 0.65, 1)
+sky = SubResource("Sky_qip8x")
+ambient_light_source = 3
+ambient_light_color = Color(0.4, 0.45, 0.55, 1)
+ambient_light_energy = 0.8
+fog_enabled = true
+fog_light_color = Color(0.5, 0.6, 0.8, 1)
+fog_density = 0.008
+fog_depth_end = 80.0
 
 [node name="MainRoot" type="Node3D" unique_id=324924899]
 script = ExtResource("1_main")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2045674000]
-environment = SubResource("Env_main")
+environment = SubResource("Environment_oaya2")
 
 [node name="SunLight" type="DirectionalLight3D" parent="." unique_id=593349403]
 transform = Transform3D(0.8660254, -0.35355338, 0.35355338, 0, 0.70710677, 0.70710677, -0.5, -0.6123724, 0.6123724, 0, 0, 0)
@@ -31,7 +45,7 @@ light_energy = 2.0
 shadow_enabled = true
 
 [node name="Player" parent="." unique_id=153334260 instance=ExtResource("2_player")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 36, 8)
 
 [node name="InteractionSensor" type="Area3D" parent="Player" unique_id=491842941]
 script = ExtResource("4_sensor")

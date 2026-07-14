@@ -11,6 +11,7 @@ const SUB_PER_VOXEL: int = 100
 var grid: PackedInt32Array = []
 var health_grid: PackedInt32Array = []
 var _type_table: Array = []
+var _skip_rebuild: bool = false
 var _multimesh_by_mat: Dictionary = {}
 var _transforms_by_mat: Dictionary = {}
 
@@ -20,7 +21,7 @@ var _transforms_by_mat: Dictionary = {}
 func _ready() -> void:
 	if grid.size() == 0:
 		_init_empty()
-	if not Engine.is_editor_hint():
+	if not Engine.is_editor_hint() and not _skip_rebuild:
 		rebuild()
 
 
