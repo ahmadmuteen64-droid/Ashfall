@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dg3o3yrbc48rs"]
 
 [ext_resource type="PackedScene" uid="uid://dby1lthxlt2uw" path="res://scenes/player/player.tscn" id="1_syimg"]
-[ext_resource type="Script" uid="uid://okjf8r3vttw7" path="res://scripts/components/camera_rig.gd" id="2_wyhvb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_gj14y"]
 size = Vector3(60, 0.1, 60)
@@ -50,12 +49,6 @@ size = Vector3(8, 1, 0.1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 15)
 use_collision = true
 size = Vector3(6, 0.8, 0.1)
-
-[node name="CameraRig" type="Node3D" parent="." unique_id=1929527555]
-script = ExtResource("2_wyhvb")
-
-[node name="Camera3D" type="Camera3D" parent="CameraRig" unique_id=1878785667]
-current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1886710312]
 environment = SubResource("Environment_wyhvb")
