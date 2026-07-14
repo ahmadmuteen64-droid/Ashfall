@@ -3,8 +3,8 @@ extends Node3D
 ## One giant island, one biome at a time. Portals switch biomes.
 
 const CHUNK_SIZE: int = 32
-const VOXEL_SIZE: float = 0.2
-const VOXELS_PER_UNIT: int = 5
+const VOXEL_SIZE: float = 1.0
+const VOXELS_PER_UNIT: int = 1
 const TYPE_DIR: String = "res://data/voxel/types/"
 const DAMAGE_PER_HIT: int = 25
 
@@ -180,28 +180,28 @@ func generate_biome(biome: String) -> void:
 	_clear_voxels()
 	_current_biome = biome
 	
-	var cx: int = 128; var cz: int = 128; var base_y: int = 50
+	var cx: int = 25; var cz: int = 25; var base_y: int = 10
 	match biome:
 		"forest":
-			_build_island(cx, base_y, cz, 130, 18, ["stone","dirt","stone"])
-			_build_trees(cx, base_y, cz, 120, 10)
-			_paint_grass(cx - 120, cz - 120, cx + 120, cz + 120, base_y, base_y + 25)
+			_build_island(cx, base_y, cz, 25, 10, ["stone","dirt","stone"])
+			_build_trees(cx, base_y, cz, 24, 10)
+			_paint_grass(cx - 24, cz - 24, cx + 24, cz + 24, base_y, base_y + 12)
 		"volcanic":
-			_build_island(cx, base_y, cz, 130, 16, ["obsidian","volcanic","stone"])
-			_build_volcanic_columns(cx, base_y, cz, 110, 15)
+			_build_island(cx, base_y, cz, 25, 9, ["obsidian","volcanic","stone"])
+			_build_volcanic_columns(cx, base_y, cz, 22, 15)
 		"crystal":
-			_build_island(cx, base_y, cz, 130, 12, ["stone","obsidian","crystal"])
+			_build_island(cx, base_y, cz, 25, 8, ["stone","obsidian","crystal"])
 			_carve_hollow(cx, base_y + 8, cz, 15)
-			_build_crystal_spikes(cx, base_y, cz, 110, 30)
+			_build_crystal_spikes(cx, base_y, cz, 22, 30)
 		"ruins":
-			_build_island(cx, base_y, cz, 130, 14, ["ruined_stone","brick","stone"])
-			_build_ruins(cx, base_y, cz, 110)
+			_build_island(cx, base_y, cz, 25, 9, ["ruined_stone","brick","stone"])
+			_build_ruins(cx, base_y, cz, 22)
 		"desert":
-			_build_island(cx, base_y, cz, 130, 10, ["sand","gravel","sand"])
-			_build_dunes(cx, base_y, cz, 120)
+			_build_island(cx, base_y, cz, 25, 7, ["sand","gravel","sand"])
+			_build_dunes(cx, base_y, cz, 24)
 		"lake":
-			_build_island(cx, base_y, cz, 130, 8, ["stone","gravel","ice"])
-			_build_lake_surface(cx, base_y + 5, cz, 80)
+			_build_island(cx, base_y, cz, 25, 6, ["stone","gravel","ice"])
+			_build_lake_surface(cx, base_y + 2, cz, 16)
 	
 	_spawn_portals(cx, base_y, cz)
 	print("BIOME_GEN: " + biome + " dirty:" + str(_dirty.size()))
@@ -358,8 +358,8 @@ func _spawn_portals(cx: int, base_y: int, cz: int) -> void:
 	for b in biomes:
 		if b == _current_biome: continue
 		var angle: float = float(idx) * TAU / float(biomes.size() - 1)
-		var px: float = (float(cx) + cos(angle) * 70.0) * VOXEL_SIZE
-		var pz: float = (float(cz) + sin(angle) * 70.0) * VOXEL_SIZE
+		var px: float = (float(cx) + cos(angle) * 14.0) * VOXEL_SIZE
+		var pz: float = (float(cz) + sin(angle) * 14.0) * VOXEL_SIZE
 		var py: float = (float(base_y) + 5.0) * VOXEL_SIZE
 		_spawn_portal(Vector3(px, py, pz), b)
 		idx += 1
@@ -412,7 +412,7 @@ func _on_portal_used(_id: String, _type: int, target_biome: String) -> void:
 	print("PORTAL: " + target_biome)
 	var player := get_node_or_null("../Player")
 	if player:
-		player.position = Vector3(128 * VOXEL_SIZE, (50 + 20) * VOXEL_SIZE, 128 * VOXEL_SIZE)
+		player.position = Vector3(25 * VOXEL_SIZE, 14 * VOXEL_SIZE, 25 * VOXEL_SIZE)
 		player.set_physics_process(false)
 	_loading_screen = get_node_or_null("../LoadingScreen")
 	if _loading_screen and _loading_screen.has_method("show_loading"):

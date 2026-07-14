@@ -5,8 +5,8 @@ extends Node3D
 ## VOXEL_SIZE = 0.1 units (10 sub-voxels per unit).
 
 const CHUNK_SIZE: int = 32
-const VOXEL_SIZE: float = 0.2
-const SUB_PER_VOXEL: int = 100
+const VOXEL_SIZE: float = 1.0
+const SUB_PER_VOXEL: int = 10
 
 var grid: PackedInt32Array = []
 var health_grid: PackedInt32Array = []
