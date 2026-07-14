@@ -11,7 +11,8 @@ const DAMAGE_PER_HIT: int = 25
 
 var type_ids: Dictionary = {}
 var type_table: Array = []
-var _chunks: Array = []
+var _chunks: Array = []           ## 2D array [cx][cz] for direct indexing
+var _total_voxels: int = 0
 
 @export var chunks_x: int = 10
 @export var chunks_z: int = 10
@@ -23,7 +24,7 @@ func _ready() -> void:
 	_build_world()
 	_create_floor()
 	_rebuild_all()
-	print("VOXEL_WORLD_OK  types:%d  chunks:%d  voxels_per_unit:%d" % [type_table.size() - 1, _chunks.size(), VOXELS_PER_UNIT])
+	print("VOXEL_WORLD_OK  types:%d  chunks:%d  voxels_per_unit:%d" % [type_table.size() - 1, chunks_x * chunks_z, VOXELS_PER_UNIT])
 
 
 func _load_voxel_types() -> void:
@@ -42,31 +43,31 @@ func get_type(id: int) -> VoxelType:
 
 
 func _spawn_all_chunks() -> void:
+	_chunks.clear()
 	for cx in range(chunks_x):
+		_chunks.append([])
 		for cz in range(chunks_z):
-			var chunk: VoxelChunk = _spawn_chunk(cx, cz)
+			var scene: PackedScene = load("res://scenes/world/voxel_chunk.tscn")
+			var chunk: VoxelChunk = scene.instantiate()
+			chunk.name = "Chunk_%d_%d" % [cx, cz]
+			var wu: float = float(CHUNK_SIZE) * VOXEL_SIZE
+			chunk.position = Vector3(float(cx) * wu, 0.0, float(cz) * wu)
 			chunk.register_types(type_table)
+			add_child(chunk)
+			_chunks[cx].append(chunk)
 
 
-func _spawn_chunk(cx: int, cz: int) -> VoxelChunk:
-	var scene: PackedScene = load("res://scenes/world/voxel_chunk.tscn")
-	var chunk: VoxelChunk = scene.instantiate()
-	chunk.name = "Chunk_%d_%d" % [cx, cz]
-	var world_units: float = float(CHUNK_SIZE) * VOXEL_SIZE
-	chunk.position = Vector3(float(cx) * world_units, 0.0, float(cz) * world_units)
-	add_child(chunk)
-	_chunks.append(chunk)
-	return chunk
+func _chunk_at(cx: int, cz: int) -> VoxelChunk:
+	if cx >= 0 and cx < _chunks.size() and cz >= 0 and cz < _chunks[cx].size():
+		return _chunks[cx][cz]
+	return null
+
 
 
 func get_chunk_at(wx: float, wy: float, wz: float) -> VoxelChunk:
-	var chunk_world: float = float(CHUNK_SIZE) * VOXEL_SIZE
-	var cx: int = int(floor(wx / chunk_world))
-	var cz: int = int(floor(wz / chunk_world))
-	for c in _chunks:
-		if int(c.position.x) == int(float(cx) * chunk_world) and int(c.position.z) == int(float(cz) * chunk_world):
-			return c
-	return null
+	var cx: int = int(floor(wx / (float(CHUNK_SIZE) * VOXEL_SIZE)))
+	var cz: int = int(floor(wz / (float(CHUNK_SIZE) * VOXEL_SIZE)))
+	return _chunk_at(cx, cz)
 
 
 func damage_voxel_at(world_pos: Vector3, amount: int) -> Dictionary:
@@ -74,17 +75,17 @@ func damage_voxel_at(world_pos: Vector3, amount: int) -> Dictionary:
 	var vx: int = int(world_pos.x / VOXEL_SIZE)
 	var vy: int = int(world_pos.y / VOXEL_SIZE)
 	var vz: int = int(world_pos.z / VOXEL_SIZE)
-	var chunk: VoxelChunk = get_chunk_at(world_pos.x, world_pos.y, world_pos.z)
+	var cx: int = vx / CHUNK_SIZE
+	var cz: int = vz / CHUNK_SIZE
+	var chunk: VoxelChunk = _chunk_at(cx, cz)
 	if not chunk: return result
-	var cw: float = float(CHUNK_SIZE) * VOXEL_SIZE
-	var lx: int = vx - int(chunk.position.x / VOXEL_SIZE)
-	var ly: int = vy
-	var lz: int = vz - int(chunk.position.z / VOXEL_SIZE)
-	if lx < 0 or lx >= CHUNK_SIZE or ly < 0 or ly >= CHUNK_SIZE or lz < 0 or lz >= CHUNK_SIZE:
+	var lx: int = vx - cx * CHUNK_SIZE
+	var lz: int = vz - cz * CHUNK_SIZE
+	if lx < 0 or lx >= CHUNK_SIZE or vy < 0 or vy >= CHUNK_SIZE or lz < 0 or lz >= CHUNK_SIZE:
 		return result
-	result.voxel_type = chunk.get_voxel(lx, ly, lz)
+	result.voxel_type = chunk.get_voxel(lx, vy, lz)
 	if result.voxel_type <= 0: return result
-	var dmg: Dictionary = chunk.damage_voxel(lx, ly, lz, amount)
+	var dmg: Dictionary = chunk.damage_voxel(lx, vy, lz, amount)
 	result.sub_voxels_lost = dmg.get("sub_voxels_lost", 0)
 	if dmg.get("destroyed", false):
 		result.destroyed = true
@@ -120,13 +121,11 @@ func _spawn_debris(world_pos: Vector3, type_id: int, sub_voxels: int) -> void:
 
 
 func _set_voxel(vx: int, vy: int, vz: int, type_id: int) -> void:
-	var cw: int = CHUNK_SIZE
-	var cx: int = vx / cw; var cz: int = vz / cw
-	var chunk_world: float = float(cw) * VOXEL_SIZE
-	for c in _chunks:
-		if int(c.position.x) == int(float(cx) * chunk_world) and int(c.position.z) == int(float(cz) * chunk_world):
-			c.set_voxel(vx - cx * cw, vy, vz - cz * cw, type_id)
-			return
+	var cx: int = vx / CHUNK_SIZE
+	var cz: int = vz / CHUNK_SIZE
+	var c: VoxelChunk = _chunk_at(cx, cz)
+	if c:
+		c.set_voxel(vx - cx * CHUNK_SIZE, vy, vz - cz * CHUNK_SIZE, type_id)
 
 
 func _create_floor() -> void:
@@ -144,10 +143,6 @@ func _create_floor() -> void:
 	floor.collision_layer = 1
 
 
-func _rebuild_all() -> void:
-	for c in _chunks: c.rebuild()
-
-
 func _wu(v: float) -> int: return int(v * float(VOXELS_PER_UNIT))
 
 
@@ -155,19 +150,23 @@ func _wu(v: float) -> int: return int(v * float(VOXELS_PER_UNIT))
 
 func _build_world() -> void:
 	var bedrock: int = get_type_id("bedrock")
-	# Bedrock layer across all chunks at vy=0
 	for cx in range(chunks_x):
 		for cz in range(chunks_z):
-			for c in _chunks:
-				if int(c.position.x) == int(float(cx * CHUNK_SIZE) * VOXEL_SIZE) and int(c.position.z) == int(float(cz * CHUNK_SIZE) * VOXEL_SIZE):
-					c.fill_rect(0, 0, 0, CHUNK_SIZE, 1, CHUNK_SIZE, bedrock)
-					break
+			var c: VoxelChunk = _chunk_at(cx, cz)
+			if c: c.fill_rect(0, 0, 0, CHUNK_SIZE, 1, CHUNK_SIZE, bedrock)
 	_build_forest()
 	_build_plains()
 	_build_ruins()
 	_build_crystal_cavern()
 	_build_desert()
 	_build_volcanic()
+
+
+func _rebuild_all() -> void:
+	for cx in range(chunks_x):
+		for cz in range(chunks_z):
+			var c: VoxelChunk = _chunk_at(cx, cz)
+			if c: c.rebuild()
 
 
 func _build_forest() -> void:
@@ -199,9 +198,12 @@ func _build_plains() -> void:
 	var dirt: int = get_type_id("dirt")
 	for vx in range(_wu(16), _wu(48)):
 		for vz in range(_wu(0), _wu(32)):
-			var h: int = 1 + int(sin(float(vx) * 0.04) * cos(float(vz) * 0.03) * 2.0)
-			_set_voxel(vx, h, vz, grass)
-			_set_voxel(vx, h - 1, vz, dirt)
+			var h: float = sin(float(vx) * 0.025) * cos(float(vz) * 0.02) * 6.0 + sin(float(vx) * 0.06) * 3.0
+			var top: int = 2 + int(round(h))
+			top = clampi(top, 1, 8)
+			for y in range(1, top):
+				_set_voxel(vx, y, vz, dirt)
+			_set_voxel(vx, top, vz, grass)
 
 
 func _build_ruins() -> void:
@@ -256,9 +258,12 @@ func _build_desert() -> void:
 	var gravel: int = get_type_id("gravel")
 	for vx in range(_wu(48), _wu(64)):
 		for vz in range(_wu(0), _wu(32)):
-			var h: int = 1 + int(abs(sin(float(vx) * 0.03) * cos(float(vz) * 0.04) * 3.0))
-			_set_voxel(vx, h, vz, sand)
-			_set_voxel(vx, h - 1, vz, sand)
+			var h: float = abs(sin(float(vx) * 0.03) * cos(float(vz) * 0.04) * 6.0)
+			var top: int = 2 + int(round(h))
+			top = clampi(top, 1, 8)
+			for y in range(1, top):
+				_set_voxel(vx, y, vz, sand)
+			_set_voxel(vx, top, vz, sand)
 	for _i in range(80):
 		_set_voxel(randi_range(_wu(48), _wu(63)), 1, randi_range(_wu(0), _wu(31)), gravel)
 
