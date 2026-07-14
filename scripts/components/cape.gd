@@ -103,7 +103,7 @@ func _physics_process(delta: float) -> void:
 	for i in range(VERT_COUNT):
 		if not _is_pinned(i):
 			continue
-		var col: int = i % COLS
+		var _col: int = i % COLS
 		var row: int = i / COLS
 		var target := Vector3(_pos[i].x, _base_y - float(row) * rest_y, _base_z)
 		_pos[i] = target

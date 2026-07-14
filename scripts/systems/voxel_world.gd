@@ -12,7 +12,6 @@ const DAMAGE_PER_HIT: int = 25
 var type_ids: Dictionary = {}
 var type_table: Array = []
 var _chunks: Array = []           ## 2D array [cx][cz] for direct indexing
-var _total_voxels: int = 0
 
 @export var chunks_x: int = 10
 @export var chunks_z: int = 10
@@ -64,7 +63,7 @@ func _chunk_at(cx: int, cz: int) -> VoxelChunk:
 
 
 
-func get_chunk_at(wx: float, wy: float, wz: float) -> VoxelChunk:
+func get_chunk_at(wx: float, _wy: float, wz: float) -> VoxelChunk:
 	var cx: int = int(floor(wx / (float(CHUNK_SIZE) * VOXEL_SIZE)))
 	var cz: int = int(floor(wz / (float(CHUNK_SIZE) * VOXEL_SIZE)))
 	return _chunk_at(cx, cz)
@@ -129,18 +128,18 @@ func _set_voxel(vx: int, vy: int, vz: int, type_id: int) -> void:
 
 
 func _create_floor() -> void:
-	var floor: StaticBody3D = get_node_or_null("FloorCollision")
-	if not floor: return
-	var cs: CollisionShape3D = floor.get_node_or_null("CollisionShape3D")
+	var floor_node: StaticBody3D = get_node_or_null("FloorCollision")
+	if not floor_node: return
+	var cs: CollisionShape3D = floor_node.get_node_or_null("CollisionShape3D")
 	if not cs: return
 	var total_w: float = float(chunks_x * CHUNK_SIZE) * VOXEL_SIZE
 	var total_d: float = float(chunks_z * CHUNK_SIZE) * VOXEL_SIZE
 	var box: BoxShape3D = BoxShape3D.new()
-	# Thick safety floor — 0.5 units tall, centered at y=0.25 (above bedrock at y=0)
-	box.size = Vector3(total_w, 0.5, total_d)
+	# Safety net — below all surface geometry, only catches player if they clip through
+	box.size = Vector3(total_w, 0.2, total_d)
 	cs.shape = box
-	cs.position = Vector3(total_w / 2.0, 0.25, total_d / 2.0)
-	floor.collision_layer = 1
+	cs.position = Vector3(total_w / 2.0, -0.5, total_d / 2.0)
+	floor_node.collision_layer = 1
 
 
 func _wu(v: float) -> int: return int(v * float(VOXELS_PER_UNIT))

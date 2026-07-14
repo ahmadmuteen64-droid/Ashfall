@@ -16,7 +16,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):
-		print("SENSOR_INPUT: interact pressed, nearest=", _nearest.name if _nearest else "none")
+		print("SENSOR_INPUT: interact pressed, nearest=", str(_nearest.name) if _nearest else "none")
 		if _nearest and _nearest.has_method("interact"):
 			_nearest.interact(get_parent())
 
@@ -37,5 +37,5 @@ func _physics_process(_delta: float) -> void:
 				best_dist = dist
 				best = area
 	if best != _nearest:
-		print("SENSOR_NEAR:", best.name if best else "none")
+		print("SENSOR_NEAR:", str(best.name) if best else "none")
 	_nearest = best

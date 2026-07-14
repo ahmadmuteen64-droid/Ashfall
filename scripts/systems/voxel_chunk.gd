@@ -1,6 +1,6 @@
 class_name VoxelChunk
 extends Node3D
-## Force recompile
+
 ## Chunk of sub-voxel cubes. Collision via per-column BoxShape3D.
 ## VOXEL_SIZE = 0.1 units (10 sub-voxels per unit).
 

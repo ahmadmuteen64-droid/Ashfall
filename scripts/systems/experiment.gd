@@ -36,8 +36,9 @@ func run(input_ids: Array[String], conditions: Dictionary) -> Dictionary:
 		return {"success": false, "message": "No reaction found for these inputs."}
 
 	# Era gate check
+	var codex: Node = null
 	if best_match.requires_knows != "":
-		var codex := get_node_or_null("/root/Codex")
+		codex = get_node_or_null("/root/Codex")
 		if codex and not codex.knows(best_match.requires_knows):
 			_attempts.append({"inputs": input_ids, "result": "era_gated", "requires": best_match.requires_knows})
 			return {"success": false, "message": "You lack the understanding to perform this reaction."}
@@ -49,7 +50,7 @@ func run(input_ids: Array[String], conditions: Dictionary) -> Dictionary:
 			return {"success": false, "message": "Missing condition: " + cond}
 
 	# Success
-	var codex := get_node_or_null("/root/Codex")
+	codex = get_node_or_null("/root/Codex")
 	if codex and best_match.result_node != "":
 		codex.discover(best_match.result_node)
 		if codex.has_method("confirm"):

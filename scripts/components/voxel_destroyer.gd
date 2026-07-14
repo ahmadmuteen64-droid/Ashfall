@@ -51,7 +51,7 @@ func _try_destroy_voxel() -> void:
 	var hit_pos: Vector3 = result.position
 	# Offset slightly into the voxel from the hit face
 	var normal: Vector3 = result.normal
-	var target: Vector3 = hit_pos + normal * 0.1
+	var target: Vector3 = hit_pos - normal * 0.05
 	var damage_result: Dictionary = _voxel_world.damage_voxel_at(target, damage_per_hit)
 	if damage_result.get("destroyed", false):
 		print("VOXEL_DESTROYED at ", target)

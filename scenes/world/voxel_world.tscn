@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://do22yradc4tjt"]
 
-[ext_resource type="Script" uid="uid://dimcqli1cgkt6" path="res://scripts/systems/voxel_world.gd" id="1_6tv6f"]
+[ext_resource type="Script" uid="uid://cboeb6qmt8cj3" path="res://scripts/systems/voxel_world.gd" id="1_6tv6f"]
 
 [node name="VoxelWorldRoot" type="Node3D" unique_id=385079801]
 script = ExtResource("1_6tv6f")

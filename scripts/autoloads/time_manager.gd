@@ -31,6 +31,7 @@ func _update_sun() -> void:
 		_sun = _find_sun(get_tree().root)
 		if not _sun:
 			return
+	var new_phase := get_phase()
 	var angle: float = _time * TAU
 	_sun.rotation_degrees = Vector3(-90 + rad_to_deg(angle) * 0.5, rad_to_deg(angle), 0)
 	if _time < 0.25:
@@ -42,6 +43,8 @@ func _update_sun() -> void:
 	else:
 		_sun.light_color = NIGHT_COLOR.lerp(DAWN_COLOR, (_time - 0.75) / 0.25)
 	_sun.light_energy = 2.0 if _time < 0.4 else lerp(2.0, 0.05, (_time - 0.4) / 0.35)
+	if new_phase != get_phase():
+		phase_changed.emit(get_phase())
 
 
 func _find_sun(node: Node) -> DirectionalLight3D:

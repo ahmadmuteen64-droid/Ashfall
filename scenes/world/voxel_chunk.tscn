@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://duwpfahjymrt2"]
 
-[ext_resource type="Script" uid="uid://devaijini3b4k" path="res://scripts/systems/voxel_chunk.gd" id="1_d737i"]
+[ext_resource type="Script" uid="uid://c0eoqh3sbqoxb" path="res://scripts/systems/voxel_chunk.gd" id="1_d737i"]
 
 [node name="VoxelChunk" type="Node3D" unique_id=91516058]
 script = ExtResource("1_d737i")

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="VoxelType" format=3 uid="uid://n47jhcsp3vg7"]
 
 [ext_resource type="Material" uid="uid://c32dkcnm6swo7" path="res://data/voxel/materials/wood.tres" id="1_bs7mv"]
-[ext_resource type="Script" uid="uid://csk41s7k2u6en" path="res://scripts/resources/voxel_type.gd" id="2_3ux7y"]
+[ext_resource type="Script" uid="uid://cr4ycfypluk1i" path="res://scripts/resources/voxel_type.gd" id="2_3ux7y"]
 
 [resource]
 script = ExtResource("2_3ux7y")

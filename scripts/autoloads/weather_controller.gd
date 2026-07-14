@@ -19,7 +19,7 @@ func _ready() -> void:
 	print("WEATHER_OK")
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Natural drift of atmospheric variables
 	_temperature += (randf() - 0.5) * 0.02
 	_pressure += (randf() - 0.5) * 0.05

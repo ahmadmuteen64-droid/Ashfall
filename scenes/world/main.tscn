@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dby1lthxlt2uw" path="res://scenes/player/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" uid="uid://mxya0xhsei0h" path="res://scenes/player/camera_rig.tscn" id="3_camrig"]
 [ext_resource type="Script" uid="uid://c7lj1tl7268l4" path="res://scripts/components/interaction_sensor.gd" id="4_sensor"]
-[ext_resource type="Script" uid="uid://2ppmdnmkrkny" path="res://scripts/components/voxel_destroyer.gd" id="5_pibea"]
+[ext_resource type="Script" uid="uid://dmcbodgwew084" path="res://scripts/components/voxel_destroyer.gd" id="5_pibea"]
 [ext_resource type="PackedScene" uid="uid://by0px4bx70g7i" path="res://scenes/ui/journal.tscn" id="12_journal"]
 [ext_resource type="PackedScene" uid="uid://dxosr42kpgg25" path="res://scenes/ui/inventory.tscn" id="13_inv"]
 [ext_resource type="PackedScene" uid="uid://dyxkiaitb7plq" path="res://scenes/ui/experiment_station.tscn" id="14_station"]
@@ -45,8 +45,10 @@ follow_target = NodePath("../Player/CameraTarget")
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("12_journal")]
 
 [node name="InventoryUI" parent="." unique_id=1025053704 instance=ExtResource("13_inv")]
+visible = false
 
 [node name="ExperimentStationUI" parent="." unique_id=1965425684 instance=ExtResource("14_station")]
+visible = false
 
 [node name="Unlocks" type="Node" parent="." unique_id=2130920562]
 script = ExtResource("15_unlocks")
