@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://mxya0xhsei0h" path="res://scenes/player/camera_rig.tscn" id="3_camrig"]
 [ext_resource type="Script" uid="uid://c7lj1tl7268l4" path="res://scripts/components/interaction_sensor.gd" id="4_sensor"]
 [ext_resource type="Script" uid="uid://crjqobrn1juhj" path="res://scripts/systems/loop_tracker.gd" id="5_loop"]
+[ext_resource type="Script" uid="uid://2ppmdnmkrkny" path="res://scripts/components/voxel_destroyer.gd" id="5_pibea"]
 [ext_resource type="Script" uid="uid://0wv6uydl67c0" path="res://scripts/components/interactable.gd" id="6_interact"]
 [ext_resource type="Script" uid="uid://o68f6kbggr6p" path="res://scripts/systems/level_check.gd" id="7_level"]
 [ext_resource type="Script" uid="uid://wchxtfqwb2pa" path="res://scripts/components/observable.gd" id="8_obs"]
@@ -16,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dyxkiaitb7plq" path="res://scenes/ui/experiment_station.tscn" id="14_station"]
 [ext_resource type="Script" uid="uid://cvuh68m480ii7" path="res://scripts/systems/unlocks.gd" id="15_unlocks"]
 [ext_resource type="Script" uid="uid://3cuyes1yrw0l" path="res://scripts/systems/ecology.gd" id="16_ecology"]
+[ext_resource type="PackedScene" uid="uid://do22yradc4tjt" path="res://scenes/world/voxel_world.tscn" id="17_5bu78"]
 
 [sub_resource type="Environment" id="Env_main"]
 background_mode = 1
@@ -206,11 +208,10 @@ size = Vector3(0.4, 0.2, 0.4)
 [sub_resource type="BoxShape3D" id="Shape_clay"]
 size = Vector3(0.6, 0.35, 0.6)
 
-; ── Copper Ore (orange metallic, Mine zone) ──────────────────
 [sub_resource type="StandardMaterial3D" id="Mat_copper"]
 albedo_color = Color(0.85, 0.45, 0.15, 1)
-roughness = 0.4
 metallic = 0.9
+roughness = 0.4
 
 [sub_resource type="SphereMesh" id="Mesh_copper"]
 radius = 0.18
@@ -219,9 +220,8 @@ height = 0.36
 [sub_resource type="SphereShape3D" id="Shape_copper"]
 radius = 0.28
 
-; ── Forge Ember (glowing orange, Forge zone) ─────────────────
 [sub_resource type="StandardMaterial3D" id="Mat_ember"]
-albedo_color = Color(1.0, 0.35, 0.05, 1)
+albedo_color = Color(1, 0.35, 0.05, 1)
 emission_enabled = true
 emission = Color(0.9, 0.25, 0.02, 1)
 emission_energy_multiplier = 0.9
@@ -233,11 +233,10 @@ height = 0.2
 [sub_resource type="SphereShape3D" id="Shape_ember"]
 radius = 0.2
 
-; ── Obsidian Shard (dark glassy, Mine zone) ──────────────────
 [sub_resource type="StandardMaterial3D" id="Mat_obsidian"]
 albedo_color = Color(0.12, 0.08, 0.18, 1)
-roughness = 0.15
 metallic = 0.3
+roughness = 0.15
 
 [sub_resource type="BoxMesh" id="Mesh_obsidian"]
 size = Vector3(0.2, 0.2, 0.2)
@@ -245,11 +244,9 @@ size = Vector3(0.2, 0.2, 0.2)
 [sub_resource type="BoxShape3D" id="Shape_obsidian"]
 size = Vector3(0.35, 0.35, 0.35)
 
-; ── Pollen Dust (golden powder, Forest zone) ─────────────────
 [sub_resource type="StandardMaterial3D" id="Mat_pollen"]
 albedo_color = Color(0.95, 0.85, 0.15, 1)
 roughness = 0.9
-metallic = 0.0
 
 [sub_resource type="SphereMesh" id="Mesh_pollen"]
 radius = 0.12
@@ -287,6 +284,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="InteractionSensor" type="Area3D" parent="Player" unique_id=491842941]
 script = ExtResource("4_sensor")
+
+[node name="VoxelDestroyer" type="Node" parent="Player" unique_id=891286800]
+script = ExtResource("5_pibea")
 
 [node name="CameraRig" parent="." unique_id=200000001 instance=ExtResource("3_camrig")]
 follow_target = NodePath("../Player/CameraTarget")
@@ -572,7 +572,6 @@ mesh = SubResource("Mesh_clay")
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Clay_Deposit" unique_id=305000004]
 shape = SubResource("Shape_clay")
 
-; ── Copper Ore (Mine zone — northeast cluster) ───────────────
 [node name="Copper_Ore" type="Area3D" parent="LevelRoot" unique_id=306000001]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 12)
 script = ExtResource("6_interact")
@@ -591,7 +590,6 @@ mesh = SubResource("Mesh_copper")
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Copper_Ore" unique_id=306000004]
 shape = SubResource("Shape_copper")
 
-; ── Forge Ember (Forge zone — south cluster) ─────────────────
 [node name="Forge_Ember" type="Area3D" parent="LevelRoot" unique_id=307000001]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -14)
 script = ExtResource("6_interact")
@@ -610,7 +608,6 @@ mesh = SubResource("Mesh_ember")
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Forge_Ember" unique_id=307000004]
 shape = SubResource("Shape_ember")
 
-; ── Obsidian Shard (Mine zone — northeast cluster) ───────────
 [node name="Obsidian_Shard" type="Area3D" parent="LevelRoot" unique_id=308000001]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 12)
 script = ExtResource("6_interact")
@@ -629,7 +626,6 @@ mesh = SubResource("Mesh_obsidian")
 [node name="CollisionShape" type="CollisionShape3D" parent="LevelRoot/Obsidian_Shard" unique_id=308000004]
 shape = SubResource("Shape_obsidian")
 
-; ── Pollen Dust (Forest zone — northwest cluster) ────────────
 [node name="Pollen_Dust" type="Area3D" parent="LevelRoot" unique_id=309000001]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 6)
 script = ExtResource("6_interact")
@@ -662,3 +658,5 @@ script = ExtResource("15_unlocks")
 
 [node name="Ecology" type="Node" parent="." unique_id=1832895376]
 script = ExtResource("16_ecology")
+
+[node name="VoxelWorld" parent="." unique_id=385079801 instance=ExtResource("17_5bu78")]

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="VoxelType" format=3 uid="uid://w2kg3t5r2bbd"]
+
+[ext_resource type="Material" uid="uid://bk6yraflt1s1p" path="res://data/voxel/materials/obsidian.tres" id="1_skgt8"]
+[ext_resource type="Script" uid="uid://csk41s7k2u6en" path="res://scripts/resources/voxel_type.gd" id="2_701sj"]
+
+[resource]
+script = ExtResource("2_701sj")
+id = "obsidian"
+display_name = "Obsidian"
+material = ExtResource("1_skgt8")
+health = 40.0
+required_tool = "pickaxe"
+hardness = 3.0
+description = "Volcanic glass. Razor-sharp edges."
