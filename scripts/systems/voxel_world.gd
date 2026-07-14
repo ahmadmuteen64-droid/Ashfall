@@ -26,7 +26,7 @@ func _ready() -> void:
 	_carve_caves()
 	_build_giant_trees()
 	_paint_surface()
-	_build_bridges()
+	_build_connectors()
 	_build_waterfalls()
 	_create_floor()
 	_rebuild_all()
@@ -183,6 +183,7 @@ func _build_sky_islands() -> void:
 	_build_island(160, 126, 360, 80, 14, "crystal", ["stone","obsidian","crystal"])
 	_build_island(380, 66, 160, 80, 12, "ruins", ["ruined_stone","brick","stone"])
 	_build_island(420, 16, 420, 70, 10, "desert", ["sand","gravel","sand"])
+	_build_island(500, 10, 250, 55, 6, "lake", ["stone","gravel","ice"])
 
 
 func _build_island(cx: int, base_y: int, cz: int, radius: int, height: int, _biome: String, layers: Array) -> void:
@@ -245,7 +246,7 @@ func _build_giant_trees() -> void:
 	var wood: int = get_type_id("wood"); var leaves: int = get_type_id("leaves")
 	var trees: Array = []
 	for _i in range(12):
-		trees.append([250 + randi_range(-90, 90), 260, 250 + randi_range(-90, 90)])
+		trees.append([250 + randi_range(-90, 90), 196, 250 + randi_range(-90, 90)])
 	for tp in trees:
 		var tx: int = tp[0]; var ty: int = tp[1]; var tz: int = tp[2]
 		for sy in range(ty + 50, ty, -1):
@@ -280,35 +281,49 @@ func _paint_surface() -> void:
 						_set_voxel(vx, vy, vz, grass)
 
 
-func _build_bridges() -> void:
-	_build_bridge_arch(76, 324, 110, 72, 208, 72, "brick")
-	_build_bridge_arch(220, 208, 310, 72, 70, 360, "wood")
-	_build_bridge_arch(330, 76, 72, 300, 204, 280, "brick")
-	_build_bridge_arch(190, 70, 326, 380, 24, 326, "wood")
+
+## Biome Connectors - mixed obsidian/ice/wood paths
+
+func _build_connectors() -> void:
+	_build_connector(140, 326, 110, 200, 208, 200)
+	_build_connector(220, 208, 310, 200, 134, 360)
+	_build_connector(330, 76, 200, 300, 204, 280)
+	_build_connector(190, 134, 390, 380, 76, 390)
+	_build_connector(440, 24, 380, 480, 18, 280)
 
 
-func _build_bridge_arch(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int, mat: String) -> void:
-	var mid: int = get_type_id(mat)
+func _build_connector(x1: int, y1: int, z1: int, x2: int, y2: int, z2: int) -> void:
+	var obs: int = get_type_id("obsidian"); var ice: int = get_type_id("ice"); var wood: int = get_type_id("wood")
 	var steps: int = maxi(abs(x2-x1) + abs(z2-z1), 1)
 	for i in range(steps + 1):
 		var t: float = float(i) / float(steps)
 		var bx: int = int(lerpf(float(x1), float(x2), t))
 		var bz: int = int(lerpf(float(z1), float(z2), t))
-		var by: int = int(lerpf(float(y1), float(y2), t)) + int(sin(t * PI) * 10.0)
-		for wdx in range(-3, 4):
-			for wdz in range(-3, 4):
-				if abs(wdx) + abs(wdz) <= 3:
-					_set_voxel(bx + wdx, by, bz + wdz, mid)
-				if abs(wdx) <= 2 and abs(wdz) <= 2:
-					_set_voxel(bx + wdx, by - 1, bz + wdz, mid)
+		var by: int = int(lerpf(float(y1), float(y2), t)) + int(sin(t * PI) * 12.0)
+		for wdx in range(-5, 6):
+			for wdz in range(-5, 6):
+				var d: int = abs(wdx) + abs(wdz)
+				if d <= 5:
+					_set_voxel(bx + wdx, by, bz + wdz, wood)
+					if d <= 3:
+						_set_voxel(bx + wdx, by - 1, bz + wdz, wood)
+				if d >= 3 and d <= 5:
+					_set_voxel(bx + wdx, by + 1, bz + wdz, obs)
+					if d == 3 or d == 5:
+						_set_voxel(bx + wdx, by + 2, bz + wdz, obs)
+			if i % 4 == 0:
+				for pdx in range(-4, 5):
+					if abs(pdx) == 4:
+						_set_voxel(bx + pdx, by + 1, bz, ice)
+						_set_voxel(bx, by + 1, bz + pdx, ice)
 
 
 func _build_waterfalls() -> void:
 	var ice: int = get_type_id("ice")
 	var falls: Array = [
-		[60,324,60,20],[100,324,50,18],[72,208,160,15],[240,208,330,14],
-		[76,70,340,14],[180,70,370,12],[360,76,76,16],[400,76,170,14],
-		[400,24,400,12],[440,24,430,14]
+		[60,324,60,20],[100,324,50,18],[200,208,160,15],[240,208,330,14],
+		[140,134,340,14],[180,134,370,12],[360,76,140,16],[400,76,170,14],
+		[400,24,400,12],[440,24,430,14],[480,18,250,8],[510,18,260,8]
 	]
 	for fp in falls:
 		for dy in range(fp[3]):
@@ -332,6 +347,10 @@ func spawn_interactables() -> void:
 	_spawn_in_region(370,70,150,25,"broken_tablet",Interactable.InteractType.EXAMINE,{"type":"ruins"},8)
 	_spawn_in_region(390,71,170,20,"ore_deposit",Interactable.InteractType.EXAMINE,{"type":"mineral"},10)
 	_spawn_in_region(410,24,410,35,"sand_tablet",Interactable.InteractType.ACTIVATE,{"type":"artifact"},10)
+	# Lake (center 500,10,250 radius 55)
+	_spawn_in_region(490,18,240,30,"lake_pearl",Interactable.InteractType.COLLECT,{"type":"aquatic"},8)
+	_spawn_in_region(510,16,260,25,"driftwood",Interactable.InteractType.EXAMINE,{"type":"flora"},6)
+
 	_spawn_in_region(425,22,425,25,"sunken_relic",Interactable.InteractType.EXAMINE,{"type":"artifact"},8)
 
 
