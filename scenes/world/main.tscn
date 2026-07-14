@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://di4onh371dxnp" path="res://scripts/systems/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://dby1lthxlt2uw" path="res://scenes/player/player.tscn" id="2_player"]
-[ext_resource type="PackedScene" uid="uid://mxya0xhsei0h" path="res://scenes/player/camera_rig.tscn" id="3_camrig"]
 [ext_resource type="Script" uid="uid://c7lj1tl7268l4" path="res://scripts/components/interaction_sensor.gd" id="4_sensor"]
 [ext_resource type="Script" uid="uid://dmcbodgwew084" path="res://scripts/components/voxel_destroyer.gd" id="5_pibea"]
 [ext_resource type="PackedScene" uid="uid://by0px4bx70g7i" path="res://scenes/ui/journal.tscn" id="12_journal"]
@@ -52,9 +51,6 @@ script = ExtResource("4_sensor")
 
 [node name="VoxelDestroyer" type="Node" parent="Player" unique_id=891286800]
 script = ExtResource("5_pibea")
-
-[node name="CameraRig" parent="." unique_id=200000001 instance=ExtResource("3_camrig")]
-follow_target = NodePath("../Player/CameraTarget")
 
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("12_journal")]
 process_mode = 1
