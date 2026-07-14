@@ -1,22 +1,29 @@
-# main.gd — Main scene root. Global input handling + character spawning.
 extends Node3D
 
+var _char_spawned: bool = false
+
+
 func _ready() -> void:
+	set_process(true)
 	print("MAIN_OK")
-	_spawn_voxel_character()
+
+
+func _process(_delta: float) -> void:
+	if not _char_spawned:
+		_char_spawned = true
+		_spawn_voxel_character()
 
 
 func _spawn_voxel_character() -> void:
 	var player := get_node_or_null("Player")
 	if not player: return
-	# Remove old cylinder body
 	var old := player.get_node_or_null("BodyMesh")
 	if old: old.queue_free()
-	# Spawn voxel character
 	var vc := VoxelCharacter.new()
 	vc.name = "VoxelChar"
-	vc.position = Vector3(0, -1.0, 0)  # align feet to player origin
+	vc.position = Vector3(0, -1.0, 0)
 	player.add_child(vc)
+	print("VOXEL_CHAR_SPAWNED")
 
 
 func _input(event: InputEvent) -> void:

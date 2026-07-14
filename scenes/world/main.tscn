@@ -72,6 +72,3 @@ script = ExtResource("15_unlocks")
 script = ExtResource("16_ecology")
 
 [node name="VoxelWorld" parent="." unique_id=385079801 instance=ExtResource("17_5bu78")]
-chunks_x = null
-chunks_y = null
-chunks_z = null

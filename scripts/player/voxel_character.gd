@@ -1,60 +1,103 @@
 extends Node3D
 class_name VoxelCharacter
-## Micro-voxel character builder — human body parts, rigged.
-## Micro-voxel = 0.02 units (10x finer than regular 0.2 voxels)
+## Micro-voxel humanoid — properly rigged with BoneAttachment3D.
+## UV = 0.02 units per micro-voxel (10x finer than regular 0.2 voxels)
 
-const UV: float = 0.02  # micro-voxel unit
-const CHUNK: int = 5    # micro-voxels per body unit
+const UV: float = 0.02
 
-var _parts: Dictionary = {}
 var _skeleton: Skeleton3D
 var _anim: AnimationPlayer
 
 
 func _ready() -> void:
+	_build_skeleton()
 	_build_body()
-	_rig_body()
+	_build_animations()
 	print("VOXEL_CHARACTER_OK")
 
 
+func _build_skeleton() -> void:
+	_skeleton = Skeleton3D.new()
+	_skeleton.name = "Skeleton"
+	add_child(_skeleton)
+	
+	# Bone chain: root(0)->spine(1)->chest(2)->neck(3)->head(4)
+	# Arms branch from chest(2): upper_arm(5)->lower_arm(6)
+	# Legs branch from root(0): upper_leg(7)->lower_leg(8)->foot(9)
+	# Mirror for right side
+	var rest_pos := [
+		Vector3(0, 0.85, 0),   # 0: root (hips)
+		Vector3(0, 0.20, 0),   # 1: spine
+		Vector3(0, 0.20, 0),   # 2: chest
+		Vector3(0, 0.14, 0),   # 3: neck
+		Vector3(0, 0.12, 0),   # 4: head
+		Vector3(-0.12, 0.05, 0),  # 5: upper_arm_l
+		Vector3(0, -0.18, 0),     # 6: lower_arm_l
+		Vector3(0.12, 0.05, 0),   # 7: upper_arm_r
+		Vector3(0, -0.18, 0),     # 8: lower_arm_r
+		Vector3(-0.05, -0.22, 0), # 9: upper_leg_l
+		Vector3(0, -0.22, 0),     # 10: lower_leg_l
+		Vector3(0, -0.06, 0.03),  # 11: foot_l
+		Vector3(0.05, -0.22, 0),  # 12: upper_leg_r
+		Vector3(0, -0.22, 0),     # 13: lower_leg_r
+		Vector3(0, -0.06, 0.03),  # 14: foot_r
+	]
+	var parents := [-1, 0, 1, 2, 3, 2, 5, 2, 7, 0, 9, 10, 0, 12, 13]
+	
+	for i in range(15):
+		_skeleton.add_bone(str(i))
+		if parents[i] >= 0:
+			_skeleton.set_bone_parent(i, parents[i])
+		_skeleton.set_bone_rest(i, Transform3D(Basis(), rest_pos[i]))
+		_skeleton.set_bone_pose_position(i, rest_pos[i])
+
+
 func _build_body() -> void:
-	# Create a humanoid body from micro-voxel cubes
-	var skin_mat := _make_mat(Color(0.82, 0.62, 0.45))  # skin tone
-	var dark_mat := _make_mat(Color(0.25, 0.2, 0.15))   # hair/shoes
+	var skin := _make_mat(Color(0.82, 0.62, 0.45))
+	var dark := _make_mat(Color(0.22, 0.18, 0.12))
+	var shirt := _make_mat(Color(0.15, 0.25, 0.35))
+	var pants := _make_mat(Color(0.25, 0.22, 0.18))
 	
-	# Head (sphere-like): 8x8x7 micro-voxels = 0.16 x 0.16 x 0.14 units
-	_build_part("head", Vector3(0, 1.5, 0), Vector3(8, 7, 8), "sphere", skin_mat)
+	# Head (bone 4)
+	_attach_voxels("head", 4, Vector3(0, -0.04, 0), Vector3(5, 5, 5), "sphere", skin)
+	# Hair
+	_attach_voxels("hair", 4, Vector3(0, 0.06, 0), Vector3(6, 3, 6), "sphere", dark)
 	
-	# Hair cap on top of head
-	_build_part("hair", Vector3(0, 1.68, 0), Vector3(9, 3, 9), "sphere", dark_mat)
+	# Torso (bone 2 - chest)
+	_attach_voxels("torso", 2, Vector3(0, -0.02, 0), Vector3(8, 10, 5), "box", shirt)
+	_attach_voxels("waist", 1, Vector3(0, 0, 0), Vector3(7, 7, 4), "box", pants)
 	
-	# Torso: 10x12x6 = 0.2 x 0.24 x 0.12 units
-	_build_part("torso", Vector3(0, 1.1, 0), Vector3(10, 12, 6), "box", skin_mat)
+	# Upper arms (bone 5/7)
+	_attach_voxels("up_arm_l", 5, Vector3(0, -0.06, 0), Vector3(3, 7, 3), "box", skin)
+	_attach_voxels("up_arm_r", 7, Vector3(0, -0.06, 0), Vector3(3, 7, 3), "box", skin)
 	
-	# Upper arms (left/right)
-	_build_part("upper_arm_l", Vector3(-0.12, 1.35, 0), Vector3(4, 8, 4), "box", skin_mat)
-	_build_part("upper_arm_r", Vector3(0.12, 1.35, 0), Vector3(4, 8, 4), "box", skin_mat)
+	# Lower arms (bone 6/8)
+	_attach_voxels("lo_arm_l", 6, Vector3(0, -0.06, 0), Vector3(3, 7, 3), "box", skin)
+	_attach_voxels("lo_arm_r", 8, Vector3(0, -0.06, 0), Vector3(3, 7, 3), "box", skin)
 	
-	# Lower arms
-	_build_part("lower_arm_l", Vector3(-0.12, 1.05, 0), Vector3(3, 8, 3), "box", skin_mat)
-	_build_part("lower_arm_r", Vector3(0.12, 1.05, 0), Vector3(3, 8, 3), "box", skin_mat)
+	# Upper legs (bone 9/12)
+	_attach_voxels("up_leg_l", 9, Vector3(0, -0.08, 0), Vector3(4, 9, 4), "box", pants)
+	_attach_voxels("up_leg_r", 12, Vector3(0, -0.08, 0), Vector3(4, 9, 4), "box", pants)
 	
-	# Upper legs
-	_build_part("upper_leg_l", Vector3(-0.04, 0.6, 0), Vector3(4, 10, 4), "box", skin_mat)
-	_build_part("upper_leg_r", Vector3(0.04, 0.6, 0), Vector3(4, 10, 4), "box", skin_mat)
+	# Lower legs (bone 10/13)
+	_attach_voxels("lo_leg_l", 10, Vector3(0, -0.08, 0), Vector3(4, 9, 4), "box", pants)
+	_attach_voxels("lo_leg_r", 13, Vector3(0, -0.08, 0), Vector3(4, 9, 4), "box", pants)
 	
-	# Lower legs
-	_build_part("lower_leg_l", Vector3(-0.04, 0.22, 0), Vector3(4, 10, 4), "box", skin_mat)
-	_build_part("lower_leg_r", Vector3(0.04, 0.22, 0), Vector3(4, 10, 4), "box", skin_mat)
-	
-	# Shoes
-	_build_part("shoe_l", Vector3(-0.04, 0.02, 0.02), Vector3(5, 3, 6), "box", dark_mat)
-	_build_part("shoe_r", Vector3(0.04, 0.02, 0.02), Vector3(5, 3, 6), "box", dark_mat)
+	# Feet (bone 11/14)
+	_attach_voxels("foot_l", 11, Vector3(0, 0, 0.04), Vector3(4, 3, 6), "box", dark)
+	_attach_voxels("foot_r", 14, Vector3(0, 0, 0.04), Vector3(4, 3, 6), "box", dark)
 
 
-func _build_part(part_name: String, pos: Vector3, size: Vector3, shape: String, mat: Material) -> void:
+func _attach_voxels(p_name: String, bone_idx: int, offset: Vector3, size: Vector3, shape: String, mat: Material) -> void:
+	var bone_name := str(bone_idx)
+	var att := BoneAttachment3D.new()
+	att.name = "Att_" + p_name
+	att.bone_name = bone_name
+	att.position = offset
+	_skeleton.add_child(att)
+	
 	var mmi := MultiMeshInstance3D.new()
-	mmi.name = part_name
+	mmi.name = p_name
 	mmi.material_override = mat
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
@@ -63,111 +106,106 @@ func _build_part(part_name: String, pos: Vector3, size: Vector3, shape: String, 
 	
 	var transforms: Array = []
 	var sx: int = int(size.x); var sy: int = int(size.y); var sz: int = int(size.z)
-	var cx: float = float(sx) / 2.0; var cy: float = float(sy) / 2.0; var cz: float = float(sz) / 2.0
+	var hx: float = float(sx) / 2.0; var hy: float = float(sy) / 2.0; var hz: float = float(sz) / 2.0
 	
 	for x in range(sx):
 		for y in range(sy):
 			for z in range(sz):
+				var add := true
 				if shape == "sphere":
-					var dx: float = (float(x) - cx + 0.5) / cx
-					var dy: float = (float(y) - cy + 0.5) / cy
-					var dz: float = (float(z) - cz + 0.5) / cz
-					if dx*dx + dy*dy + dz*dz > 1.1: continue
-				var t := Transform3D(Basis(), pos + Vector3(float(x-cx)*UV, float(y-cy)*UV, float(z-cz)*UV))
-				transforms.append(t)
+					var dx: float = (float(x) - hx + 0.5) / hx
+					var dy: float = (float(y) - hy + 0.5) / hy
+					var dz: float = (float(z) - hz + 0.5) / hz
+					if dx*dx + dy*dy + dz*dz > 1.1:
+						add = false
+				if add:
+					transforms.append(Transform3D(Basis(), Vector3(float(x-hx)*UV, float(y-hy)*UV, float(z-hz)*UV)))
 	
 	mm.instance_count = transforms.size()
 	for i in range(transforms.size()):
 		mm.set_instance_transform(i, transforms[i])
 	mmi.multimesh = mm
-	add_child(mmi)
-	_parts[name] = mmi
+	att.add_child(mmi)
+
+
+func _build_animations() -> void:
+	_anim = AnimationPlayer.new()
+	_anim.name = "AnimationPlayer"
+	add_child(_anim)
+	
+	# Idle: gentle breathing + subtle arm sway
+	var idle := Animation.new()
+	idle.length = 2.0
+	idle.loop_mode = Animation.LOOP_LINEAR
+	
+	_anim_key_pos(idle, 1, 0.0, Vector3(0, 0.20, 0))
+	_anim_key_pos(idle, 1, 1.0, Vector3(0, 0.205, 0.01))
+	_anim_key_pos(idle, 1, 2.0, Vector3(0, 0.20, 0))
+	_anim_key_rot(idle, 5, 0.0, Vector3.ZERO)  # upper_arm_l
+	_anim_key_rot(idle, 5, 1.0, Vector3(0.08, 0, 0.03))
+	_anim_key_rot(idle, 5, 2.0, Vector3.ZERO)
+	_anim_key_rot(idle, 7, 0.0, Vector3.ZERO)  # upper_arm_r
+	_anim_key_rot(idle, 7, 1.0, Vector3(-0.08, 0, -0.03))
+	_anim_key_rot(idle, 7, 2.0, Vector3.ZERO)
+	_anim.add_animation("idle", idle)
+	
+	# Walk: legs + arms swing
+	var walk := Animation.new()
+	walk.length = 1.0
+	walk.loop_mode = Animation.LOOP_LINEAR
+	
+	_anim_key_rot(walk, 9, 0.0, Vector3(0.5, 0, 0))    # upper_leg_l forward
+	_anim_key_rot(walk, 9, 0.5, Vector3(-0.5, 0, 0))   # upper_leg_l back
+	_anim_key_rot(walk, 9, 1.0, Vector3(0.5, 0, 0))
+	_anim_key_rot(walk, 12, 0.0, Vector3(-0.5, 0, 0))  # upper_leg_r back
+	_anim_key_rot(walk, 12, 0.5, Vector3(0.5, 0, 0))   # upper_leg_r forward
+	_anim_key_rot(walk, 12, 1.0, Vector3(-0.5, 0, 0))
+	
+	_anim_key_rot(walk, 5, 0.0, Vector3(-0.4, 0, 0))   # upper_arm_l back
+	_anim_key_rot(walk, 5, 0.5, Vector3(0.4, 0, 0))    # upper_arm_l forward
+	_anim_key_rot(walk, 5, 1.0, Vector3(-0.4, 0, 0))
+	_anim_key_rot(walk, 7, 0.0, Vector3(0.4, 0, 0))    # upper_arm_r forward
+	_anim_key_rot(walk, 7, 0.5, Vector3(-0.4, 0, 0))   # upper_arm_r back
+	_anim_key_rot(walk, 7, 1.0, Vector3(0.4, 0, 0))
+	
+	_anim_key_pos(walk, 0, 0.0, Vector3(0, 0.85, 0))    # root bob
+	_anim_key_pos(walk, 0, 0.25, Vector3(0, 0.82, 0))
+	_anim_key_pos(walk, 0, 0.5, Vector3(0, 0.85, 0))
+	_anim_key_pos(walk, 0, 0.75, Vector3(0, 0.82, 0))
+	_anim_key_pos(walk, 0, 1.0, Vector3(0, 0.85, 0))
+	_anim.add_animation("walk", walk)
+	
+	_anim.play("idle")
+
+
+func _anim_key_pos(anim: Animation, bone: int, time: float, pos: Vector3) -> void:
+	var idx := anim.find_track("Skeleton:" + str(bone), Animation.TYPE_POSITION_3D)
+	if idx < 0:
+		idx = anim.add_track(Animation.TYPE_POSITION_3D)
+		anim.track_set_path(idx, "Skeleton:" + str(bone))
+	anim.track_insert_key(idx, time, pos)
+
+
+func _anim_key_rot(anim: Animation, bone: int, time: float, rot: Vector3) -> void:
+	var idx := anim.find_track("Skeleton:" + str(bone), Animation.TYPE_ROTATION_3D)
+	if idx < 0:
+		idx = anim.add_track(Animation.TYPE_ROTATION_3D)
+		anim.track_set_path(idx, "Skeleton:" + str(bone))
+	anim.track_insert_key(idx, time, rot)
 
 
 func _make_mat(color: Color) -> StandardMaterial3D:
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = color
-	mat.roughness = 0.8
+	mat.roughness = 0.75
 	return mat
 
 
-func _rig_body() -> void:
-	# Create skeleton
-	_skeleton = Skeleton3D.new()
-	_skeleton.name = "Skeleton"
-	add_child(_skeleton)
-	
-	# Bone hierarchy
-	var bones := {
-		"root": -1,
-		"spine": 0, "chest": 1, "neck": 2, "head": 3,
-		"upper_arm_l": 2, "lower_arm_l": 5, "hand_l": 6,
-		"upper_arm_r": 2, "lower_arm_r": 8, "hand_r": 9,
-		"upper_leg_l": 0, "lower_leg_l": 11, "foot_l": 12,
-		"upper_leg_r": 0, "lower_leg_r": 14, "foot_r": 15,
-	}
-	
-	var positions := {
-		0: Vector3(0, 0.9, 0),   # root (hips)
-		1: Vector3(0, 1.1, 0),   # spine
-		2: Vector3(0, 1.3, 0),   # chest
-		3: Vector3(0, 1.5, 0),   # neck
-		4: Vector3(0, 1.6, 0),   # head
-		5: Vector3(-0.12, 0.0, 0),  # upper_arm_l
-		6: Vector3(0, -0.16, 0),    # lower_arm_l
-		7: Vector3(0, -0.16, 0),    # hand_l
-		8: Vector3(0.12, 0.0, 0),   # upper_arm_r
-		9: Vector3(0, -0.16, 0),    # lower_arm_r
-		10: Vector3(0, -0.16, 0),   # hand_r
-		11: Vector3(-0.04, -0.2, 0),  # upper_leg_l
-		12: Vector3(0, -0.2, 0),      # lower_leg_l
-		13: Vector3(0, -0.2, 0),      # foot_l
-		14: Vector3(0.04, -0.2, 0),   # upper_leg_r
-		15: Vector3(0, -0.2, 0),      # lower_leg_r
-		16: Vector3(0, -0.2, 0),      # foot_r
-	}
-	
-	for i in range(17):
-		_skeleton.add_bone(str(i))
-		var parent := -1
-		for bn in bones:
-			if bones[bn] == i - 1:
-				parent = _skeleton.find_bone(str(bones[bn]))
-				break
-		if parent >= 0:
-			_skeleton.set_bone_parent(i, parent)
-		var rest := Transform3D(Basis(), positions.get(i, Vector3.ZERO))
-		_skeleton.set_bone_rest(i, rest)
-		_skeleton.set_bone_pose_position(i, positions.get(i, Vector3.ZERO))
-	
-	# Animation player
-	_anim = AnimationPlayer.new()
-	_anim.name = "AnimationPlayer"
-	add_child(_anim)
-	_build_idle_anim()
+func play_walk() -> void:
+	if _anim and _anim.has_animation("walk"):
+		_anim.play("walk", 0.2)
 
 
-func _build_idle_anim() -> void:
-	var anim := _anim.get_animation("idle")
-	if not anim:
-		anim = Animation.new()
-		anim.length = 2.0
-		anim.loop_mode = Animation.LOOP_LINEAR
-		_anim.add_animation("idle", anim)
-	
-	# Gentle breathing sway on spine
-	var t := _anim.get_animation("idle")
-	var track := t.add_track(Animation.TYPE_POSITION_3D)
-	t.track_set_path(track, "Skeleton:1")  # spine bone
-	t.track_insert_key(track, 0.0, Vector3(0, 1.1, 0))
-	t.track_insert_key(track, 1.0, Vector3(0, 1.105, 0.02))
-	t.track_insert_key(track, 2.0, Vector3(0, 1.1, 0))
-	
-	# Arm sway
-	var arm_track := t.add_track(Animation.TYPE_ROTATION_3D)
-	t.track_set_path(arm_track, "Skeleton:5")  # upper_arm_l
-	t.track_insert_key(arm_track, 0.0, Vector3(0, 0, 0))
-	t.track_insert_key(arm_track, 1.0, Vector3(0.1, 0, 0.05))
-	t.track_insert_key(arm_track, 2.0, Vector3(0, 0, 0))
-	
-	_anim.play("idle")
+func play_idle() -> void:
+	if _anim and _anim.has_animation("idle"):
+		_anim.play("idle", 0.2)
