@@ -6,7 +6,7 @@ const VIEWPORT_WIDTH: int = 640
 const VIEWPORT_HEIGHT: int = 360
 
 # Voxel: the visible cube. Sub-voxel: internal division for destruction detail.
-const VOXEL_SIZE: float = 0.2
+const VOXEL_SIZE: float = 1.0
 const SUB_VOXELS_PER_AXIS: int = 100
 const SUB_VOXEL_SIZE: float = VOXEL_SIZE / float(SUB_VOXELS_PER_AXIS)
 const SUB_VOXEL_HEALTH: int = SUB_VOXELS_PER_AXIS
