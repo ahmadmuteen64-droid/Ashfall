@@ -17,12 +17,19 @@ func _ready() -> void:
 			codex.node_understood.connect(_on_understood)
 
 
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("journal"):
-		_visible = not _visible
-		_panel.visible = _visible
-		if _visible:
-			_refresh()
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		print("JOURNAL_KEY: kc=" + str(event.keycode) + " phys=" + str(event.physical_keycode))
+	if event is InputEventKey and event.pressed and (event.keycode == KEY_J or event.physical_keycode == KEY_J):
+		toggle()
+
+
+func toggle() -> void:
+	_visible = not _visible
+	_panel.visible = _visible
+	print("JOURNAL_TOGGLE: " + str(_visible))
+	if _visible:
+		_refresh()
 
 
 func _on_observed(_id: String) -> void:

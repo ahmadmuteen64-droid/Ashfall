@@ -21,6 +21,12 @@ func _ready() -> void:
 	_load_voxel_types()
 	_spawn_all_chunks()
 	_build_world()
+	var timer := Timer.new()
+	timer.wait_time = 0.05
+	timer.one_shot = true
+	timer.timeout.connect(spawn_interactables)
+	add_child(timer)
+	timer.start()
 	_create_floor()
 	_rebuild_all()
 	print("VOXEL_WORLD_OK  types:%d  chunks:%d  voxels_per_unit:%d" % [type_table.size() - 1, chunks_x * chunks_z, VOXELS_PER_UNIT])
@@ -159,6 +165,62 @@ func _build_world() -> void:
 	_build_crystal_cavern()
 	_build_desert()
 	_build_volcanic()
+
+
+func spawn_interactables() -> void:
+	## Place interactable objects on world surface after terrain generation.
+	
+	for _i in range(4):
+		_spawn_interactable(
+			Vector3(randf_range(1, 14), 1.5, randf_range(2, 30)),
+			"herb_cluster", Interactable.InteractType.COLLECT, "herb_cluster",
+			{"type": "flora"}
+		)
+	for _i in range(3):
+		_spawn_interactable(
+			Vector3(randf_range(7.5, 11.5), 1.5, randf_range(7.5, 11.5)),
+			"ancient_stone", Interactable.InteractType.EXAMINE, "ancient_stone",
+			{"type": "ruins"}
+		)
+	for _i in range(3):
+		_spawn_interactable(
+			Vector3(randf_range(0.8, 2.4), 1.2, randf_range(7.6, 12.0)),
+			"crystal_shard", Interactable.InteractType.EXAMINE, "crystal_shard",
+			{"type": "mineral"}
+		)
+	for _i in range(2):
+		_spawn_interactable(
+			Vector3(randf_range(10.0, 12.4), 1.5, randf_range(1, 5)),
+			"sand_tablet", Interactable.InteractType.ACTIVATE, "sand_tablet",
+			{"type": "artifact"}
+		)
+	for _i in range(2):
+		_spawn_interactable(
+			Vector3(randf_range(6.8, 9.2), 1.5, randf_range(1, 5)),
+			"ash_fragment", Interactable.InteractType.EXAMINE, "ash_fragment",
+			{"type": "volcanic"}
+		)
+	print("VoxelWorld: spawned interactables")
+
+
+func _spawn_interactable(pos: Vector3, id: String, itype: int, obs_id: String, props: Dictionary) -> void:
+	var inter: Interactable = Interactable.new()
+	inter.name = "Interactable_" + id
+	inter.interactable_id = id
+	inter.interact_type = itype as Interactable.InteractType
+	inter.position = pos
+	var col: CollisionShape3D = CollisionShape3D.new()
+	var sphere: SphereShape3D = SphereShape3D.new()
+	sphere.radius = 0.4
+	col.shape = sphere
+	inter.add_child(col)
+	var obs: Node = Node.new()
+	obs.set_script(load("res://scripts/components/observable.gd"))
+	obs.observable_id = obs_id
+	obs.properties = props
+	inter.add_child(obs)
+	add_child(inter)
+	inter.add_to_group("interactable")
 
 
 func _rebuild_all() -> void:

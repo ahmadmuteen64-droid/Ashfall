@@ -12,7 +12,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("journal"):
+	if event.is_action_pressed("inventory"):
 		_panel.visible = not _panel.visible
 		if _panel.visible:
 			_refresh()

@@ -43,6 +43,7 @@ script = ExtResource("5_pibea")
 follow_target = NodePath("../Player/CameraTarget")
 
 [node name="JournalUI" parent="." unique_id=376284766 instance=ExtResource("12_journal")]
+process_mode = 1
 
 [node name="InventoryUI" parent="." unique_id=1025053704 instance=ExtResource("13_inv")]
 visible = false

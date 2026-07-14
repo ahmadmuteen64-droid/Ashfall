@@ -1,0 +1,16 @@
+[gd_resource type="Theme" format=3 uid="uid://drxcmkf1okbfl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wpxse"]
+bg_color = Color(0.101960786, 0.101960786, 0.18039216, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2901961, 0.2901961, 0.41568628, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[resource]
+Panel/styles/panel = SubResource("StyleBoxFlat_wpxse")

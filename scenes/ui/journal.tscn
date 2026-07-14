@@ -1,22 +1,19 @@
 [gd_scene format=3 uid="uid://by0px4bx70g7i"]
 
 [ext_resource type="Script" uid="uid://phbai8vsuiac" path="res://scripts/ui/journal.gd" id="1_6tv0q"]
+[ext_resource type="Theme" uid="uid://drxcmkf1okbfl" path="res://scenes/ui/journal_theme.tres" id="2_qmpw5"]
 
 [node name="JournalUI" type="CanvasLayer" unique_id=376284766]
 script = ExtResource("1_6tv0q")
 
 [node name="Panel" type="Panel" parent="." unique_id=1359819593]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -1142.0
-offset_top = -638.0
-offset_right = -842.0
-offset_bottom = -238.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 340.0
+offset_bottom = 320.0
 grow_horizontal = 0
 grow_vertical = 0
+theme = ExtResource("2_qmpw5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=784085654]
 layout_mode = 0

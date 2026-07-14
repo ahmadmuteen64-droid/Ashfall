@@ -109,23 +109,19 @@ func _physics_process(delta: float) -> void:
 
 
 func _apply_facing(delta: float, move_dir: Vector3) -> void:
-	## Rotates the player smoothly toward:
-	##  - Movement direction when actively moving
-	##  - Camera forward when standing still
-	var target_dir: Vector3
-	if move_dir.length() > 0.01:
-		target_dir = move_dir
-	else:
-		var cam: Camera3D = get_viewport().get_camera_3d()
-		if cam:
-			target_dir = -cam.global_transform.basis.z
-			target_dir.y = 0.0
-		else:
-			return
-	if target_dir.length_squared() < 0.001:
+	## FPS mode: player body faces the camera yaw.
+	## When actively moving, blends slightly toward movement direction.
+	var cam: Camera3D = get_viewport().get_camera_3d()
+	if not cam:
 		return
-	var target_angle: float = atan2(target_dir.x, target_dir.z)
-	rotation.y = rotate_toward(rotation.y, target_angle, rotation_speed * delta)
+	# CameraRig = parent of SpringArm3D = parent of Camera3D
+	var cam_rig: Node = cam.get_parent().get_parent()
+	if cam_rig and cam_rig.has_method("get_yaw"):
+		var target_yaw: float = deg_to_rad(cam_rig.get_yaw())
+		if move_dir.length() > 0.01:
+			var move_yaw: float = atan2(move_dir.x, move_dir.z)
+			target_yaw = move_yaw
+		rotation.y = rotate_toward(rotation.y, target_yaw, rotation_speed * delta)
 
 
 func _get_camera_basis() -> Basis:
