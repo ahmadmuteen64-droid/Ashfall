@@ -4,7 +4,7 @@ extends Node
 ##
 ## Standing Rule: All non-ground voxels are destructible.
 
-@export var damage_per_hit: float = 5.0
+@export var damage_per_hit: int = 25  ## Sub-voxels removed per hit (100 = full voxel)
 @export var ray_length: float = 10.0
 @export var tool_name: String = ""  ## "pickaxe", "axe", or "" for hands
 
@@ -52,6 +52,6 @@ func _try_destroy_voxel() -> void:
 	# Offset slightly into the voxel from the hit face
 	var normal: Vector3 = result.normal
 	var target: Vector3 = hit_pos + normal * 0.1
-	var damage_result: Dictionary = _voxel_world.damage_voxel_at(target, damage_per_hit, tool_name)
+	var damage_result: Dictionary = _voxel_world.damage_voxel_at(target, damage_per_hit)
 	if damage_result.get("destroyed", false):
 		print("VOXEL_DESTROYED at ", target)

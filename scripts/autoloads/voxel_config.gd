@@ -13,9 +13,12 @@ const VIEWPORT_HEIGHT: int = 360
 
 # ── Voxel constants ─────────────────────────────────────────────────
 const VOXEL_SIZE: float = 1.0
+## Sub-voxel resolution: each voxel contains 100³ logical sub-voxels.
+## Health = 100 per voxel. Debris = sub-voxel scale. Grid stays at voxel resolution.
+const SUB_VOXELS_PER_AXIS: int = 100
+const SUB_VOXEL_SIZE: float = VOXEL_SIZE / float(SUB_VOXELS_PER_AXIS)  ## 0.01
+const SUB_VOXEL_HEALTH: int = SUB_VOXELS_PER_AXIS  ## 100 hits to destroy
 const HALF_VOXEL: float = 0.5
-const PLAYER_VOXEL_HEIGHT: int = 16
-const PLAYER_VOXEL_RADIUS: int = 6
 
 # ── Camera constants ────────────────────────────────────────────────
 const ORTHO_SIZE: float = float(VIEWPORT_HEIGHT) / 2.0
