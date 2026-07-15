@@ -12,3 +12,7 @@ health = 40.0
 required_tool = "pickaxe"
 hardness = 3.0
 description = "Volcanic glass. Razor-sharp edges."
+melting_point = 1600.0
+thermal_conductivity = 0.2
+density = 3.0
+state_on_melt = "lava"

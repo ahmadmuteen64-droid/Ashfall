@@ -12,3 +12,5 @@ health = 99999.0
 hardness = 999.0
 is_ground = true
 description = "The unbreakable foundation of the Ark."
+thermal_conductivity = 0.0
+density = 999.0

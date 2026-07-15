@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cvuh68m480ii7" path="res://scripts/systems/unlocks.gd" id="15_unlocks"]
 [ext_resource type="Script" uid="uid://3cuyes1yrw0l" path="res://scripts/systems/ecology.gd" id="16_ecology"]
 [ext_resource type="PackedScene" uid="uid://do22yradc4tjt" path="res://scenes/world/voxel_world.tscn" id="17_5bu78"]
+[ext_resource type="PackedScene" path="res://scenes/ui/material_sim.tscn" id="18_sim"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_85j56"]
 sky_top_color = Color(0.38, 0.45, 0.55, 1)
@@ -52,6 +53,8 @@ visible = false
 
 [node name="ExperimentStationUI" parent="." unique_id=1965425684 instance=ExtResource("14_station")]
 visible = false
+
+[node name="MaterialSimUI" parent="." instance=ExtResource("18_sim")]
 
 [node name="Unlocks" type="Node" parent="." unique_id=2130920562]
 script = ExtResource("15_unlocks")

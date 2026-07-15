@@ -10,3 +10,7 @@ display_name = "Gravel"
 material = ExtResource("1_5e5y7")
 hardness = 0.7
 description = "Loose rock fragments. Unstable footing."
+melting_point = 1300.0
+thermal_conductivity = 0.35
+density = 1.7
+state_on_melt = "lava"

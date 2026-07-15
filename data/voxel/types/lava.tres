@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="VoxelType" format=3]
+
+[ext_resource type="Material" path="res://data/voxel/materials/lava.tres" id="1_mat"]
+[ext_resource type="Script" path="res://scripts/resources/voxel_type.gd" id="2_script"]
+
+[resource]
+script = ExtResource("2_script")
+id = "lava"
+display_name = "Lava"
+material = ExtResource("1_mat")
+health = 20.0
+hardness = 1.5
+description = "Molten rock. Extremely hot and viscous."
+phase_state = 1
+freezing_point = 700.0
+thermal_conductivity = 0.7
+density = 2.8
+state_on_freeze = "volcanic"
+default_temperature = 1000.0

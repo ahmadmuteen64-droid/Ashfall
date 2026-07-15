@@ -12,3 +12,7 @@ health = 20.0
 required_tool = "pickaxe"
 hardness = 1.5
 description = "Common grey stone. The bones of the Ark."
+melting_point = 1200.0
+thermal_conductivity = 0.6
+density = 2.5
+state_on_melt = "lava"

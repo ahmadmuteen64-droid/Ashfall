@@ -10,3 +10,6 @@ display_name = "Grass Block"
 material = ExtResource("1_e25k3")
 hardness = 0.8
 description = "Living topsoil. Root systems hold it together."
+thermal_conductivity = 0.2
+density = 0.9
+is_flammable = true

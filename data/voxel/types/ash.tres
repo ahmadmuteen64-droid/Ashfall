@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="VoxelType" format=3]
+
+[ext_resource type="Material" path="res://data/voxel/materials/ash.tres" id="1_mat"]
+[ext_resource type="Script" path="res://scripts/resources/voxel_type.gd" id="2_script"]
+
+[resource]
+script = ExtResource("2_script")
+id = "ash"
+display_name = "Ash"
+material = ExtResource("1_mat")
+health = 2.0
+hardness = 0.2
+description = "Burnt remains. Light and powdery."
+phase_state = 0
+thermal_conductivity = 0.15
+density = 0.4
+default_temperature = 20.0

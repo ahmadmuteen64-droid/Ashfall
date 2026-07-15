@@ -11,3 +11,5 @@ material = ExtResource("1_e6fgd")
 health = 6.0
 hardness = 0.4
 description = "Fine golden grains. Shifts underfoot."
+thermal_conductivity = 0.25
+density = 1.5

@@ -11,3 +11,5 @@ material = ExtResource("1_exlbv")
 health = 8.0
 hardness = 0.6
 description = "Loose earth. Breaks easily by hand."
+thermal_conductivity = 0.3
+density = 1.3

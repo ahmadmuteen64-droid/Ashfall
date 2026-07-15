@@ -12,3 +12,6 @@ health = 30.0
 required_tool = "pickaxe"
 hardness = 2.5
 description = "Resonant crystal. Humming with ancient energy."
+melting_point = 800.0
+thermal_conductivity = 0.8
+density = 2.2

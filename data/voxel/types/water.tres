@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="VoxelType" format=3]
+
+[ext_resource type="Material" path="res://data/voxel/materials/water.tres" id="1_mat"]
+[ext_resource type="Script" path="res://scripts/resources/voxel_type.gd" id="2_script"]
+
+[resource]
+script = ExtResource("2_script")
+id = "water"
+display_name = "Water"
+material = ExtResource("1_mat")
+health = 1.0
+hardness = 0.1
+description = "Clear liquid. Essential for life."
+phase_state = 1
+melting_point = 0.0
+boiling_point = 100.0
+freezing_point = 0.0
+thermal_conductivity = 0.8
+density = 1.0
+state_on_boil = "steam"
+state_on_freeze = "ice"
+default_temperature = 15.0

@@ -12,3 +12,7 @@ health = 25.0
 required_tool = "pickaxe"
 hardness = 2.0
 description = "Fired clay brick. Echo of a lost civilization."
+melting_point = 1500.0
+thermal_conductivity = 0.4
+density = 2.0
+state_on_melt = "lava"

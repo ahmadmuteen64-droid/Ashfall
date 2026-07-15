@@ -12,3 +12,7 @@ health = 15.0
 required_tool = "pickaxe"
 hardness = 1.2
 description = "Weathered stone. Crumbling but dignified."
+melting_point = 1100.0
+thermal_conductivity = 0.5
+density = 2.3
+state_on_melt = "lava"

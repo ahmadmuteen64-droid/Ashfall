@@ -11,3 +11,6 @@ material = ExtResource("1_bl8v8")
 health = 5.0
 hardness = 0.3
 description = "Ancient moss. Soft and absorbent."
+thermal_conductivity = 0.1
+density = 0.5
+is_flammable = true
